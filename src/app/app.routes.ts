@@ -1,5 +1,13 @@
 import { Routes } from '@angular/router';
 import { DefaultLayoutComponent } from './layout';
+import {ProfileViewComponent} from "./views/OurComponents/profile/profile-view/profile-view.component";
+import {EmployesListComponent} from "./views/OurComponents/employes/employes-list/employes-list.component";
+import {
+  DemandesCongeListComponent
+} from "./views/OurComponents/demandesConge/demandes-conge-list/demandes-conge-list.component";
+import {
+  DemandesAttestationListComponent
+} from "./views/OurComponents/demandesAttestation/demandes-attestation-list/demandes-attestation-list.component";
 
 export const routes: Routes = [
   {
@@ -17,6 +25,22 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         loadChildren: () => import('./views/dashboard/routes').then((m) => m.routes)
+      },
+      {
+        path: 'profile',
+        component:ProfileViewComponent
+      },
+      {
+        path: 'employee-list',
+        component: EmployesListComponent
+      },
+      {
+        path: 'demande/conge',
+        component:DemandesCongeListComponent
+      },
+      {
+        path: 'demande/attestation',
+        component:DemandesAttestationListComponent
       },
       {
         path: 'theme',
