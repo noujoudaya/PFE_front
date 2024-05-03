@@ -1,41 +1,34 @@
-<div class="bg-light dark:bg-transparent min-vh-100 d-flex flex-row align-items-center">
-  <c-container>
-    <c-row class="justify-content-center">
-      <c-col lg="7" md="9" xl="6">
-        <c-card class="mx-4">
-          <c-card-body class="p-4">
-            <form cForm>
-              <h1>Register</h1>
-              <p class="text-body-secondary">Create your account</p>
-              <c-input-group class="mb-3">
-                <span cInputGroupText>
-                  <svg cIcon name="cilUser"></svg>
-                </span>
-                <input autoComplete="name" cFormControl placeholder="Username" />
-              </c-input-group>
-              <c-input-group class="mb-3">
-                <span cInputGroupText>&#64;</span>
-                <input autoComplete="email" cFormControl placeholder="Email" />
-              </c-input-group>
-              <c-input-group class="mb-3">
-                <span cInputGroupText>
-                  <svg cIcon name="cilLockLocked"></svg>
-                </span>
-                <input autoComplete="new-password" cFormControl placeholder="Password" type="password" />
-              </c-input-group>
-              <c-input-group class="mb-4">
-                <span cInputGroupText>
-                  <svg cIcon name="cilLockLocked"></svg>
-                </span>
-                <input autoComplete="new-password" cFormControl placeholder="Repeat password" type="password" />
-              </c-input-group>
-              <div class="d-grid">
-                <button cButton color="success">Create Account</button>
-              </div>
-            </form>
-          </c-card-body>
-        </c-card>
-      </c-col>
-    </c-row>
-  </c-container>
+<div class="container-fluid d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+  <div class="card login-container p-4" style="width: 50%; max-width: 900px; max-height: 100%;"> <!-- Ajouter une largeur maximale pour une meilleure présentation -->
+    <div *ngIf="userCreated" class="alert alert-success" role="alert">
+      L'utilisateur a été créé avec succès.
+    </div>
+    <h3 class="text-center">Créer un nouveau compte</h3>
+    <hr>
+    <div class="alert alert-danger" role="alert" *ngIf="errorMsg.length">
+      <p *ngFor="let msg of errorMsg">{{msg}}</p>
+    </div>
+    <div class="mb-3">
+      <label for="firstname" class="form-label">Prénom</label>
+      <input [(ngModel)]="registerRequest.firstname" type="text" class="form-control" id="firstname" placeholder="John">
+    </div>
+    <div class="mb-3">
+      <label for="lastname" class="form-label">Nom</label>
+      <input [(ngModel)]="registerRequest.lastname" type="text" class="form-control" id="lastname" placeholder="Doe">
+    </div>
+    <div class="mb-3">
+      <label for="login" class="form-label">Adresse email</label>
+      <input [(ngModel)]="registerRequest.email" type="email" class="form-control" id="login" placeholder="exemple@gmail.com">
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Mot de passe</label>
+      <input [(ngModel)]="registerRequest.password" type="password" class="form-control" id="password" placeholder="mot de passe">
+    </div>
+    <div class="d-flex justify-content-between mb-3">
+      <button (click)="register()" type="button" class="btn btn-primary d-flex align-items-center">
+        <i class="fas fa-sign-in-alt"></i>
+        <span style="margin-left: 4px;">Enregistrer</span>
+      </button>
+    </div>
+  </div>
 </div>

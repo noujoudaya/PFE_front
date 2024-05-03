@@ -10,7 +10,7 @@ import {
   CardComponent,
   CardFooterComponent,
   CardHeaderComponent,
-  ColComponent, DropdownComponent,
+  ColComponent, DropdownComponent, DropdownItemDirective, DropdownMenuDirective, DropdownToggleDirective,
   FormCheckLabelDirective,
   GutterDirective,
   ProgressBarDirective,
@@ -39,13 +39,14 @@ interface IUser {
   avatar: string;
   status: string;
   color: string;
+  statusAbsence: String;
 }
 
 @Component({
   templateUrl: 'dashboard.component.html',
   styleUrls: ['dashboard.component.scss'],
   standalone: true,
-  imports: [WidgetsDropdownComponent, TextColorDirective, CardComponent, CardBodyComponent, RowComponent, ColComponent, ButtonDirective, IconDirective, ReactiveFormsModule, ButtonGroupComponent, FormCheckLabelDirective, ChartjsComponent, NgStyle, CardFooterComponent, GutterDirective, ProgressBarDirective, ProgressComponent, WidgetsBrandComponent, CardHeaderComponent, TableDirective, AvatarComponent, DropdownComponent, RouterLink]
+  imports: [WidgetsDropdownComponent, TextColorDirective, CardComponent, CardBodyComponent, RowComponent, ColComponent, ButtonDirective, IconDirective, ReactiveFormsModule, ButtonGroupComponent, FormCheckLabelDirective, ChartjsComponent, NgStyle, CardFooterComponent, GutterDirective, ProgressBarDirective, ProgressComponent, WidgetsBrandComponent, CardHeaderComponent, TableDirective, AvatarComponent, DropdownComponent, RouterLink, DropdownItemDirective, DropdownMenuDirective, DropdownToggleDirective]
 })
 export class DashboardComponent implements OnInit {
 
@@ -66,7 +67,8 @@ export class DashboardComponent implements OnInit {
       activity: '10 sec ago',
       avatar: './assets/images/avatars/1.jpg',
       status: 'success',
-      color: 'success'
+      color: 'success',
+      statusAbsence: 'Non Justifiée'
     },
     {
       name: 'Avram Tarasios',
@@ -79,7 +81,8 @@ export class DashboardComponent implements OnInit {
       activity: '5 minutes ago',
       avatar: './assets/images/avatars/2.jpg',
       status: 'danger',
-      color: 'info'
+      color: 'info',
+      statusAbsence: 'Non justifié'
     },
     {
       name: 'Quintin Ed',
@@ -92,7 +95,8 @@ export class DashboardComponent implements OnInit {
       activity: '1 hour ago',
       avatar: './assets/images/avatars/3.jpg',
       status: 'warning',
-      color: 'warning'
+      color: 'warning',
+      statusAbsence: 'Justifié'
     },
     {
       name: 'Enéas Kwadwo',
@@ -105,7 +109,8 @@ export class DashboardComponent implements OnInit {
       activity: 'Last month',
       avatar: './assets/images/avatars/4.jpg',
       status: 'secondary',
-      color: 'danger'
+      color: 'danger',
+      statusAbsence: 'Justifié'
     },
     {
       name: 'Agapetus Tadeáš',
@@ -118,7 +123,8 @@ export class DashboardComponent implements OnInit {
       activity: 'Last week',
       avatar: './assets/images/avatars/5.jpg',
       status: 'success',
-      color: 'primary'
+      color: 'primary',
+      statusAbsence: 'Non justifié'
     },
     {
       name: 'Friderik Dávid',
@@ -131,7 +137,9 @@ export class DashboardComponent implements OnInit {
       activity: 'Yesterday',
       avatar: './assets/images/avatars/6.jpg',
       status: 'info',
-      color: 'dark'
+      color: 'dark',
+      statusAbsence: 'Justifié'
+
     }
   ];
 
