@@ -87,6 +87,11 @@ export const navItems: INavData[] = [
 
   },
   {
+    name: 'Paramètres',
+    url: '/parametres',
+    iconComponent: { name: 'cil-animal'},
+  },
+  {
     title: true,
     name: 'Theme'
   },
