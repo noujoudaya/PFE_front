@@ -84,5 +84,12 @@ export const routes: Routes = [
       title: 'Register Page'
     }
   },
+  {
+    path: 'activate-account',
+    loadComponent: () => import('./views/pages/activate-account/activate-account.component').then(m => m.ActivateAccountComponent),
+    data: {
+      title: 'Activate Account Page'
+    }
+  },
   { path: '**', redirectTo: 'dashboard' }
 ];

@@ -87,6 +87,19 @@ export const navItems: INavData[] = [
 
   },
   {
+    name: 'Users',
+    url: 'users',
+    iconComponent: { name: 'cil-user' },
+    children: [
+      {
+        name: 'Ajouter',
+        url: '/register',
+        icon: 'nav-icon-bullet'
+      }
+    ]
+
+  },
+  {
     title: true,
     name: 'Theme'
   },
