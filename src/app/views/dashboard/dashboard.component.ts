@@ -1,7 +1,7 @@
-import { DOCUMENT, NgStyle } from '@angular/common';
-import { Component, DestroyRef, effect, inject, OnInit, Renderer2, signal, WritableSignal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ChartOptions } from 'chart.js';
+import {DOCUMENT, NgStyle} from '@angular/common';
+import {Component, DestroyRef, effect, inject, OnInit, Renderer2, signal, WritableSignal} from '@angular/core';
+import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {ChartOptions} from 'chart.js';
 import {
   AvatarComponent,
   ButtonDirective,
@@ -10,7 +10,11 @@ import {
   CardComponent,
   CardFooterComponent,
   CardHeaderComponent,
-  ColComponent, DropdownComponent,
+  ColComponent,
+  DropdownComponent,
+  DropdownItemDirective,
+  DropdownMenuDirective,
+  DropdownToggleDirective,
   FormCheckLabelDirective,
   GutterDirective,
   ProgressBarDirective,
@@ -19,12 +23,12 @@ import {
   TableDirective,
   TextColorDirective
 } from '@coreui/angular';
-import { ChartjsComponent } from '@coreui/angular-chartjs';
-import { IconDirective } from '@coreui/icons-angular';
+import {ChartjsComponent} from '@coreui/angular-chartjs';
+import {IconDirective} from '@coreui/icons-angular';
 
-import { WidgetsBrandComponent } from '../widgets/widgets-brand/widgets-brand.component';
-import { WidgetsDropdownComponent } from '../widgets/widgets-dropdown/widgets-dropdown.component';
-import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
+import {WidgetsBrandComponent} from '../widgets/widgets-brand/widgets-brand.component';
+import {WidgetsDropdownComponent} from '../widgets/widgets-dropdown/widgets-dropdown.component';
+import {DashboardChartsData, IChartProps} from './dashboard-charts-data';
 import {RouterLink} from "@angular/router";
 
 interface IUser {
@@ -45,7 +49,7 @@ interface IUser {
   templateUrl: 'dashboard.component.html',
   styleUrls: ['dashboard.component.scss'],
   standalone: true,
-  imports: [WidgetsDropdownComponent, TextColorDirective, CardComponent, CardBodyComponent, RowComponent, ColComponent, ButtonDirective, IconDirective, ReactiveFormsModule, ButtonGroupComponent, FormCheckLabelDirective, ChartjsComponent, NgStyle, CardFooterComponent, GutterDirective, ProgressBarDirective, ProgressComponent, WidgetsBrandComponent, CardHeaderComponent, TableDirective, AvatarComponent, DropdownComponent, RouterLink]
+  imports: [WidgetsDropdownComponent, TextColorDirective, CardComponent, CardBodyComponent, RowComponent, ColComponent, ButtonDirective, IconDirective, ReactiveFormsModule, ButtonGroupComponent, FormCheckLabelDirective, ChartjsComponent, NgStyle, CardFooterComponent, GutterDirective, ProgressBarDirective, ProgressComponent, WidgetsBrandComponent, CardHeaderComponent, TableDirective, AvatarComponent, DropdownComponent, RouterLink, DropdownToggleDirective, DropdownItemDirective, DropdownMenuDirective]
 })
 export class DashboardComponent implements OnInit {
 
