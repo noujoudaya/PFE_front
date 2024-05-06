@@ -8,6 +8,8 @@ import {
 import {
   DemandesAttestationListComponent
 } from "./views/OurComponents/demandesAttestation/demandes-attestation-list/demandes-attestation-list.component";
+import {AbsenceListComponent} from "./views/OurComponents/absence/absence-list/absence-list.component";
+import {RetardListComponent} from "./views/OurComponents/retard/retard-list/retard-list.component";
 
 export const routes: Routes = [
   {
@@ -41,6 +43,14 @@ export const routes: Routes = [
       {
         path: 'demande/attestation',
         component:DemandesAttestationListComponent
+      },
+      {
+        path: 'absence',
+        component:AbsenceListComponent
+      },
+      {
+        path: 'retard',
+        component:RetardListComponent
       },
       {
         path: 'theme',

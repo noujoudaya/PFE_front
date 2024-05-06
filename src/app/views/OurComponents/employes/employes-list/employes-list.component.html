@@ -1,20 +1,195 @@
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-success text-white" data-bs-toggle="modal" data-bs-target="#exampleModalll">
+  <i class="fa-plus fa-lg"></i>
+  Ajouter
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalll" tabindex="-1" aria-labelledby="exampleModalLabelll" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabelll">Nouveau employé :</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Onglets nav -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Informations personnelles</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Informations professionnelles</button>
+          </li>
+        </ul>
+        <!-- Onglets contenu -->
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <!-- Contenu de l'onglet Accueil -->
+            <div class="row mt-2">
+              <div class="col-md-4"> <!-- Chaque colonne prend 4 unités sur 12, donc trois colonnes par ligne -->
+                <label for="Nom" class="form-label">Nom :</label>
+                <input type="text" class="form-control form-control-sm" id="Nom" [(ngModel)]="employe.nom">
+              </div>
+              <div class="col-md-4">
+                <label for="prenom" class="form-label">Prénom :</label>
+                <input type="text" class="form-control form-control-sm" id="prenom" [(ngModel)]="employe.prenom">
+              </div>
+              <div class="col-md-4">
+                <label for="genre" class="form-label">Genre :</label>
+                <select class="form-control form-control-sm" id="genre" [(ngModel)]="employe.genre">
+                  <option value="" disabled selected>Sélectionner le genre</option>
+                  <option *ngFor="let genre of genres" [value]="genre">{{ genre }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="telephone" class="form-label">Téléphone :</label>
+                <input type="text" class="form-control form-control-sm" id="telephone" [(ngModel)]="employe.telephone">
+              </div>
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="adresse" class="form-label">Adresse :</label>
+                <input type="text" class="form-control form-control-sm" id="adresse" [(ngModel)]="employe.adresse">
+              </div>
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="cin" class="form-label">CIN :</label>
+                <input type="text" class="form-control form-control-sm" id="cin" [(ngModel)]="employe.cin">
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="ville" class="form-label">Ville :</label>
+                <input type="text" class="form-control form-control-sm" id="ville" [(ngModel)]="employe.ville">
+              </div>
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="dateNaissance" class="form-label">Date de naissance :</label>
+                <input type="date" class="form-control form-control-sm" id="dateNaissance" [(ngModel)]="employe.dateNaissance">
+              </div>
+              <div class="col-md-4">
+                <label for="situation" class="form-label">Situation Familiale :</label>
+                <select class="form-control form-control-sm" id="situation" [(ngModel)]="employe.situationFamiliale">
+                  <option value="" disabled selected>Sélectionner la sit.Familiale</option>
+                  <option *ngFor="let situation of situations" [value]="situation">{{ situation }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="email" class="form-label">Email :</label>
+                <input type="text" class="form-control form-control-sm" id="email" [(ngModel)]="employe.email">
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <!-- Contenu de l'onglet Profil -->
+            <div class="row mt-2">
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="dateEmbauche" class="form-label">Date d'embauche :</label>
+                <input type="date" class="form-control form-control-sm" id="dateEmbauche" [(ngModel)]="employe.dateEmbauche">
+              </div>
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="dateEntre" class="form-label">Date d'entrée :</label>
+                <input type="date" class="form-control form-control-sm" id="dateEntre" [(ngModel)]="employe.dateEntree">
+              </div>
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="dateFinContrat" class="form-label">Date fin contrat :</label>
+                <input type="date" class="form-control form-control-sm" id="dateFinContrat" [(ngModel)]="employe.dateFinContrat">
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="salaire" class="form-label">Salaire :</label>
+                <input type="number" class="form-control form-control-sm" id="salaire" [(ngModel)]="employe.salaire">
+              </div>
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="numeroCB" class="form-label">Numéro compte bancaire :</label>
+                <input type="text" class="form-control form-control-sm" id="numeroCB" [(ngModel)]="employe.numeroCompteBancaire">
+              </div>
+              <div class="col-md-4">
+                <label for="statut" class="form-label">Statut :</label>
+                <select class="form-control form-control-sm" id="statut" [(ngModel)]="employe.statutEmploye">
+                  <option value="" disabled selected>Sélectionner le statut</option>
+                  <option *ngFor="let statut of statuts" [value]="statut">{{ statut }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <label for="designation" class="form-label">Designation :</label>
+                <select class="form-control form-control-sm" id="designation" [(ngModel)]="employe.designation">
+                  <option value="" disabled selected>Sélectionner la designation</option>
+                  <option *ngFor="let designation of designations" [value]="designation">{{ designation }}</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label for="typeContrat" class="form-label">Type Contrat :</label>
+                <select class="form-control form-control-sm" id="typeContrat" [(ngModel)]="employe.typeContrat">
+                  <option value="" disabled selected>Sélectionner le type</option>
+                  <option *ngFor="let designation of designations" [value]="designation">{{ designation }}</option>
+                </select>
+              </div>
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="soldeConge" class="form-label">Solde congé :</label>
+                <input type="number" class="form-control form-control-sm" id="soldeConge" [(ngModel)]="employe.soldeConge">
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <label for="departement" class="form-label">Département :</label>
+                <select class="form-control form-control-sm" id="departement" [(ngModel)]="employe.departement">
+                  <option value="" disabled selected>Sélectionner le département</option>
+                  <option *ngFor="let designation of designations" [value]="designation">{{ designation }}</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label for="service" class="form-label">Service :</label>
+                <select class="form-control form-control-sm" id="service" [(ngModel)]="employe.service">
+                  <option value="" disabled selected>Sélectionner le service</option>
+                  <option *ngFor="let designation of designations" [value]="designation">{{ designation }}</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label for="fonction" class="form-label">Fonction :</label>
+                <select class="form-control form-control-sm" id="fonction" [(ngModel)]="employe.fonction">
+                  <option value="" disabled selected>Sélectionner la fonction</option>
+                  <option *ngFor="let designation of designations" [value]="designation">{{ designation }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" (click)="save()" class="btn btn-primary text-white">Sauvegarder</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br><br>
 <table class="table table-bordered">
   <thead>
   <th>Id</th>
   <th>Nom</th>
   <th>Prenom</th>
-  <th>Departement</th>
+  <th>CIN</th>
   <th>Actions</th>
   </thead>
   <tbody>
-  <tr >
-    <td>hehe</td>
-    <td>hehe</td>
-    <td>hehe</td>
-    <td>hehe</td>
-    <td><button class="btn"><i class="fa-solid fa-trash"></i></button>
-      <button class="btn"><i class="fa-solid fa-pen-to-square"></i></button>
+  <tr *ngFor="let c of employes; index as i">
+    <td>{{ c.id }}</td>
+    <td>{{ c.nom }}</td>
+    <td>{{ c.prenom }}</td>
+    <td>{{ c.cin }}</td>
+    <td>
+      <button class="btn" (click)="deleteByCin(c,i)"><i class="fa-solid fa-trash" style="color: #ff0026;"></i></button>
+      <button class="btn"><i class="fa-solid fa-pen-to-square" style="color: #4c79c8;"></i></button>
     </td>
   </tr>
+
   </tbody>
 </table>
+
+

@@ -7,6 +7,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {RegistrationRequest} from "../../../services/models/registration-request";
 import {AuthenticationService} from "../../../services/services/authentication.service";
 import {Router} from "@angular/router";
+import {Role} from "../../../services/models/role.model";
 
 @Component({
   selector: 'app-register',
@@ -32,7 +33,7 @@ import {Router} from "@angular/router";
 })
 export class RegisterComponent {
 
-  registerRequest : RegistrationRequest = {email:'',firstname:'',lastname:'',password:''};
+  registerRequest : RegistrationRequest = {email:'',firstname:'',lastname:'',password:'',role: {} as Role};
   errorMsg: Array<string> = [];
   userCreated: boolean = false;
 
