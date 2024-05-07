@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {EmployeService} from "../../../../services/services/employe.service";
 import {Employe} from "../../../../services/models/employe.model";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {Genre} from "../../../../services/enums/genre.enum";
 import {FormsModule} from "@angular/forms";
 import {SituationFamiliale} from "../../../../services/enums/situationFamiliale.enum";
@@ -21,12 +21,35 @@ import {FonctionService} from "../../../../services/services/fonction.service";
   standalone: true,
   imports: [
     NgForOf,
-    FormsModule
+    FormsModule,
+    NgIf
   ],
   templateUrl: './employes-list.component.html',
   styleUrl: './employes-list.component.scss'
 })
 export class EmployesListComponent implements OnInit {
+
+  private _selectedEmployee: Employe | null = null;
+
+  get selectedEmployee(): Employe {
+    // Retourne un employé vide par défaut si _selectedEmployee est nul
+    return this._selectedEmployee ?? new Employe();
+  }
+
+  set selectedEmployee(value: Employe | null) {
+    this._selectedEmployee = value;
+  }
+
+  showEmployeeDetails(employe: Employe) {
+    console.log(employe);
+    this.selectedEmployee = employe;
+  }
+
+
+  // Méthode pour fermer le modal de vue
+  closeViewModal() {
+    this.selectedEmployee = null;
+  }
 
   //les enums
   genres = Object.values(Genre);
@@ -89,7 +112,9 @@ export class EmployesListComponent implements OnInit {
     });
   }
 
-
+  getDesignationsReadable() {
+    return Object.entries(Designation).map(([key, value]) => ({ key, value }));
+  }
   public findAll(): void {
     this.service.findAll().subscribe(data => {
         console.log(data);
