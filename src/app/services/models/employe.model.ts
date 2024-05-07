@@ -1,11 +1,12 @@
 import {Designation} from "../enums/designation.enum";
 import {Genre} from "../enums/genre.enum";
 import {SituationFamiliale} from "../enums/situationFamiliale.enum";
-import {TypeContrat} from "./type-contrat.model";
 import {StatutEmploye} from "../enums/statutEmploye.enum";
 import {Departement} from "./departement.model";
 import {Service} from "./service.model";
 import {Fonction} from "./fonction.model";
+import {TypeSalaire} from "../enums/typeSalaire.enum";
+import {TypeContrat} from "../enums/typeContrat.enum";
 
 export class Employe {
 
@@ -52,6 +53,8 @@ export class Employe {
   statutEmploye: StatutEmploye;
   // @ts-ignore
   typeContrat: TypeContrat;
+  // @ts-ignore
+  typeSalaire: TypeSalaire;
   // @ts-ignore
   departement: Departement;
   // @ts-ignore
