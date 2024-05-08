@@ -196,7 +196,7 @@
     <td>{{ c.departement.libelle }}</td>
     <td>
       <button class="btn" (click)="showEmployeeDetails(c)" data-bs-toggle="modal" data-bs-target="#view"><i class="fa-solid fa-eye" style="color: #2a2924;"></i></button>
-      <button class="btn"><i class="fa-solid fa-pen-to-square" style="color: #303136;"></i></button>
+      <button class="btn" (click)="showEmployeeDetails(c)" data-bs-toggle="modal" data-bs-target="#edit"><i class="fa-solid fa-pen-to-square" style="color: #303136;"></i></button>
       <button class="btn" (click)="deleteByCin(c,i)"><i class="fa-solid fa-trash" style="color: #ff0026;"></i></button>
     </td>
   </tr>
@@ -349,6 +349,185 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal edit  -->
+<div class="modal fade" id="edit" tabindex="-1" aria-labelledby="edit-label" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="edit-label">Modifier l'employé :</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="nav nav-tabs" id="Tabb" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="hometabb" data-bs-toggle="tab" data-bs-target="#homeEdit" type="button" role="tab" aria-controls="homeEdit" aria-selected="true">Informations personnelles</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profiletabb" data-bs-toggle="tab" data-bs-target="#profileEdit" type="button" role="tab" aria-controls="profileEdit" aria-selected="false">Informations professionnelles</button>
+          </li>
+        </ul>
+        <!-- Onglets contenu -->
+        <div class="tab-content" id="TabbContent">
+          <div class="tab-pane fade show active" id="homeEdit" role="tabpanel" aria-labelledby="hometabb">
+            <!-- Contenu de l'onglet Accueil -->
+            <div class="row mt-2">
+              <div class="col-md-4"> <!-- Chaque colonne prend 4 unités sur 12, donc trois colonnes par ligne -->
+                <label for="Nomedit" class="form-label">Nom :</label>
+                <input type="text" class="form-control form-control-sm" id="Nomedit" [(ngModel)]="selectedEmployee.nom">
+              </div>
+              <div class="col-md-4">
+                <label for="prenomedit" class="form-label">Prénom :</label>
+                <input type="text" class="form-control form-control-sm" id="prenomedit" [(ngModel)]="selectedEmployee.prenom">
+              </div>
+              <div class="col-md-4">
+                <label for="genreedit" class="form-label">Genre :</label>
+                <select class="form-control form-control-sm" id="genreedit" [(ngModel)]="selectedEmployee.genre">
+                  <option [ngValue]="null" disabled>Sélectionner le type</option>
+                  <option *ngFor="let genre of genres" [ngValue]="genre">{{ genre }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="telephoneedit" class="form-label">Téléphone :</label>
+                <input  type="text" class="form-control form-control-sm" id="telephoneedit" [(ngModel)]="selectedEmployee.telephone">
+              </div>
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="adresseedit" class="form-label">Adresse :</label>
+                <input type="text" class="form-control form-control-sm" id="adresseedit" [(ngModel)]="selectedEmployee.adresse">
+              </div>
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="cinedit" class="form-label">CIN :</label>
+                <input  type="text" class="form-control form-control-sm" id="cinedit" [(ngModel)]="selectedEmployee.cin">
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="villeedit" class="form-label">Ville :</label>
+                <input type="text" class="form-control form-control-sm" id="villeedit" [(ngModel)]="selectedEmployee.ville">
+              </div>
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="dateNaissanceedit" class="form-label">Date de naissance :</label>
+                <input type="date" class="form-control form-control-sm" id="dateNaissanceedit" [(ngModel)]="selectedEmployee.dateNaissance">
+              </div>
+              <div class="col-md-4">
+                <label for="situationedit" class="form-label">Situation Familiale :</label>
+                <select class="form-control form-control-sm" id="situationedit" [(ngModel)]="selectedEmployee.situationFamiliale">
+                  <option [ngValue]="null" disabled>Sélectionner le type</option>
+                  <option *ngFor="let situation of situations" [ngValue]="situation">{{ situation }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="emailedit" class="form-label">Email :</label>
+                <input type="text" class="form-control form-control-sm" id="emailedit" [(ngModel)]="selectedEmployee.email">
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="profileEdit" role="tabpanel" aria-labelledby="profiletabb">
+            <!-- Contenu de l'onglet Profil -->
+            <div class="row mt-2">
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="dateEmbaucheedit" class="form-label">Date d'embauche :</label>
+                <input type="date" class="form-control form-control-sm" id="dateEmbaucheedit" [(ngModel)]="selectedEmployee.dateEmbauche">
+              </div>
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="dateEntreedit" class="form-label">Date d'entrée :</label>
+                <input  type="date" class="form-control form-control-sm" id="dateEntreedit" [(ngModel)]="selectedEmployee.dateEntree">
+              </div>
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="dateFinContratedit" class="form-label">Date fin contrat :</label>
+                <input  type="date" class="form-control form-control-sm" id="dateFinContratedit" [(ngModel)]="selectedEmployee.dateFinContrat">
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="salairedit" class="form-label">Salaire :</label>
+                <input type="number" class="form-control form-control-sm" id="salairedit" [(ngModel)]="selectedEmployee.salaire">
+              </div>
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="numeroedit" class="form-label">Numéro compte bancaire :</label>
+                <input  type="text" class="form-control form-control-sm" id="numeroedit" [(ngModel)]="selectedEmployee.numeroCompteBancaire">
+              </div>
+              <div class="col-md-4">
+                <label for="statutedit" class="form-label">Statut :</label>
+                <select class="form-control form-control-sm" id="statutedit" [(ngModel)]="selectedEmployee.statutEmploye">
+                  <option [ngValue]="null" disabled>Sélectionner le type</option>
+                  <option *ngFor="let statut of statuts" [ngValue]="statut">{{ statut }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <label for="designationedit" class="form-label">Designation :</label>
+                <select class="form-control form-control-sm" id="designationedit" [(ngModel)]="selectedEmployee.designation">
+                  <option [ngValue]="null" disabled>Sélectionner la designation</option>
+                  <option *ngFor="let designation of designations" [ngValue]="designation">{{ designation }}</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label for="typeContratedit" class="form-label">Type Contrat :</label>
+                <select class="form-control form-control-sm" id="typecontratedit" [(ngModel)]="selectedEmployee.typeContrat">
+                  <option [ngValue]="null" disabled>Sélectionner le type</option>
+                  <option *ngFor="let type of typesContrats" [ngValue]="type">{{ type }}</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label for="typeSaledit" class="form-label">Type salaire :</label>
+                <select class="form-control form-control-sm" id="typeSaledit" [(ngModel)]="selectedEmployee.typeSalaire">
+                  <option [ngValue]="null" disabled>Sélectionner le type</option>
+                  <option *ngFor="let type of typesSalaire" [ngValue]="type">{{ type }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <label for="departementedit" class="form-label">Département :</label>
+                <select class="form-control form-control-sm" id="departementedit"
+                        [(ngModel)]="selectedEmployee.departement"
+                        [compareWith]="compareDepartments">
+                  <option *ngFor="let departement of departements" [ngValue]="departement">
+                    {{ departement.libelle }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label for="serviceedit" class="form-label">Service :</label>
+                <select class="form-control form-control-sm" id="serviceedit"
+                        [(ngModel)]="selectedEmployee.service" [compareWith]="compareServices">
+                  <option *ngFor="let service of services" [ngValue]="service">
+                    {{ service.libelle }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label for="fonctionedit" class="form-label">Fonction :</label>
+                <select class="form-control form-control-sm" id="fonctionedit"
+                        [(ngModel)]="selectedEmployee.fonction" [compareWith]="compareFonctions">
+                  <option *ngFor="let fonction of fonctions" [ngValue]="fonction">
+                    {{ fonction.libelle }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="soldeCongedit" class="form-label">Solde congé :</label>
+                <input type="number" class="form-control form-control-sm" id="soldeCongedit" [(ngModel)]="selectedEmployee.soldeConge">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" (click)="update()" class="btn btn-primary text-white">Sauvegarder</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
       </div>
     </div>
   </div>

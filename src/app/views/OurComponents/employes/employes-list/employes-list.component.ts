@@ -31,6 +31,18 @@ export class EmployesListComponent implements OnInit {
 
   private _selectedEmployee: Employe | null = null;
 
+  compareDepartments(d1: any, d2: any): boolean {
+    return d1 && d2 ? d1.id === d2.id : d1 === d2;
+  }
+
+  compareServices(s1: any, s2: any): boolean {
+    return s1 && s2 ? s1.id === s2.id : s1 === s2;
+  }
+
+  compareFonctions(f1: any, f2: any): boolean {
+    return f1 && f2 ? f1.id === f2.id : f1 === f2;
+  }
+
   get selectedEmployee(): Employe {
     // Retourne un employé vide par défaut si _selectedEmployee est nul
     return this._selectedEmployee ?? new Employe();
@@ -62,6 +74,7 @@ export class EmployesListComponent implements OnInit {
   departements: Departement[] = [];
   services: Service[] = [];
   fonctions: Fonction[] = [];
+
 
   ngOnInit(): void {
     this.findAll();
@@ -112,9 +125,6 @@ export class EmployesListComponent implements OnInit {
     });
   }
 
-  getDesignationsReadable() {
-    return Object.entries(Designation).map(([key, value]) => ({ key, value }));
-  }
   public findAll(): void {
     this.service.findAll().subscribe(data => {
         console.log(data);
@@ -131,6 +141,19 @@ export class EmployesListComponent implements OnInit {
         alert("Employé enregisté avec succès");
       } else {
         alert("Erreur");
+      }
+    })
+  }
+
+  public update(): void {
+    this.employe = this.selectedEmployee;
+    this.service.update().subscribe(data=>{
+      if (data > 0){
+        alert("Employé modifié");
+        this.employe = new Employe();
+      }
+      else {
+        alert("erreur")
       }
     })
   }
@@ -163,4 +186,5 @@ export class EmployesListComponent implements OnInit {
   set employes(value: Employe[]) {
     this.service.employes = value;
   }
+
 }

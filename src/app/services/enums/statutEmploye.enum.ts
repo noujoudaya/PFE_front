@@ -1,8 +1,8 @@
 export enum StatutEmploye{
 
-  PERMANENT = "Permanent",
-  STAGIAIRE = "Stagiaire",
-  OCCASIONNEL = "Occasionnel",
-  VACATAIRE = "Vacataire",
-  TAHFIZ = "Tahfiz"
+  PERMANENT = "PERMANENT",
+  STAGIAIRE = "STAGIAIRE",
+  OCCASIONNEL = "OCCASIONNEL",
+  VACATAIRE = "VACATAIRE",
+  TAHFIZ = "TAHFIZ"
 }
