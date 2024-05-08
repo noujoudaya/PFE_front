@@ -1,7 +1,7 @@
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-success text-white" data-bs-toggle="modal" data-bs-target="#exampleModalll">
+<button type="button" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#exampleModalll">
   <i class="fa-plus fa-lg"></i>
-  Ajouter
+  Nouveau Employé
 </button>
 
 <!-- Modal -->
@@ -185,6 +185,7 @@
   <th>Prenom</th>
   <th>CIN</th>
   <th>Département</th>
+  <th>Fonction</th>
   <th>Actions</th>
   </thead>
   <tbody>
@@ -194,10 +195,11 @@
     <td>{{ c.prenom }}</td>
     <td>{{ c.cin }}</td>
     <td>{{ c.departement.libelle }}</td>
+    <td>{{ c.fonction.libelle }}</td>
     <td>
-      <button class="btn" (click)="showEmployeeDetails(c)" data-bs-toggle="modal" data-bs-target="#view"><i class="fa-solid fa-eye" style="color: #2a2924;"></i></button>
-      <button class="btn" (click)="showEmployeeDetails(c)" data-bs-toggle="modal" data-bs-target="#edit"><i class="fa-solid fa-pen-to-square" style="color: #303136;"></i></button>
-      <button class="btn" (click)="deleteByCin(c,i)"><i class="fa-solid fa-trash" style="color: #ff0026;"></i></button>
+      <button class="btn btn-warning btn-sm m-1" (click)="showEmployeeDetails(c)" data-bs-toggle="modal" data-bs-target="#view"><i class="fa-solid fa-eye" style="color: #ffffff;"></i></button>
+      <button class="btn btn-info btn-sm m-1" (click)="showEmployeeDetails(c)" data-bs-toggle="modal" data-bs-target="#edit"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></button>
+      <button class="btn btn-danger btn-sm m-1" (click)="deleteByCin(c,i)"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
     </td>
   </tr>
 
