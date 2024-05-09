@@ -53,7 +53,12 @@ export class DepartementListComponent  implements OnInit {
           } else {
             alert('Department not found');
           }
-        } else {
+        }
+        else if(data === 0){
+          alert("Ce département existe déjà. Veuillez saisir un nouveau département");
+          this.updatedLibelle = '';
+        }
+        else {
           alert('Error occurred');
         }
         this.departementService.departement = new Departement();

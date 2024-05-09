@@ -96,7 +96,7 @@ public save(): void {
   }
 
 public confirmDelete(service: Service, index: number): void {
-    if (confirm('Are you sure you want to delete this service?')) {
+    if (confirm('La suppression de ce département supprimera tous les services associés. Confirmez-vous la suppression ?')) {
     this.deleteByCode(service, index);
   }
 }

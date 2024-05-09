@@ -3,39 +3,63 @@ import {HttpClient} from "@angular/common/http";
 import {Fonction} from "../models/fonction.model";
 import {Observable} from "rxjs";
 import {Service} from "../models/service.model";
+import {Router} from "@angular/router";
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class FonctionService {
+  private _fonction :Fonction = new Fonction();
+  private _fonctions :Fonction[] = [];
+  private url: string="http://localhost:8088/api/v1/fonction/";
 
-  private _fonction: Fonction = new Fonction();
-  private _fonctions: Fonction[] = [];
-  private url = "http://localhost:8088/api/v1/fonctions/"
+  constructor(private http : HttpClient, private router: Router) { }
+  public save() : Observable<number>{
+    return this.http.post<number>(this.url,this.fonction);
 
-  constructor(private http: HttpClient) {
   }
+  public update() : Observable<number>{
+    return this.http.put<number>(this.url,this.fonction);
 
-  public findAll(): Observable<Array<Fonction>> {
+  }
+  public findAll() : Observable<Array<Fonction>>{
     return this.http.get<Array<Fonction>>(this.url);
   }
-
-  public findByService(service: Service): Observable<Array<Fonction>> {
-    return this.http.post<Array<Fonction>>(this.url+'service',service);
+  public findByCode(code: string) : Observable<Fonction>{
+    return this.http.get<Fonction>(this.url+'code/'+code);
   }
+  public findByServiceCode(code: string) : Observable<Array<Fonction>>{
+    return this.http.get<Array<Fonction>>(this.url+'/service/code/'+code);
+  }
+  public findByLibelle(libelle: string) : Observable<Fonction>{
+    return this.http.get<Fonction>(this.url+'libelle/'+libelle);
+  }
+  public deleteByCode(code: string) : Observable<number>{
+    return this.http.delete<number>(this.url+'code/'+code);
+  }
+  public deleteByServiceCode(code: string) : Observable<number>{
+    return this.http.delete<number>(this.url+'/service/code/'+code);
+  }
+
 
   get fonction(): Fonction {
+    if (this._fonction.service == null) {
+      this._fonction.service = new Service();
+    }
     return this._fonction;
   }
-
   set fonction(value: Fonction) {
     this._fonction = value;
   }
-
-  get fonctions(): Fonction[] {
+  get fonctions(): Array<Fonction> {
+    for (let fonction of this._fonctions) {
+      if (fonction.service == null) {
+        fonction.service = new Service();
+      }
+    }
     return this._fonctions;
   }
-
   set fonctions(value: Fonction[]) {
     this._fonctions = value;
   }
