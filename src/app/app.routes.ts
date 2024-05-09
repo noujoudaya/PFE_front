@@ -53,6 +53,14 @@ export const routes: Routes = [
         component:RetardListComponent
       },
       {
+        path: 'departement',
+        loadChildren: () => import('./views/OurComponents/departement/departement-list/routes').then((m) => m.routes)
+      },
+      {
+        path: 'service',
+        loadChildren: () => import('./views/OurComponents/service/service-list/routes').then((m) => m.routes)
+      },
+      {
         path: 'theme',
         loadChildren: () => import('./views/theme/routes').then((m) => m.routes)
       },

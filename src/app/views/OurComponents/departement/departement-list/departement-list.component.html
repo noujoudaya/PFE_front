@@ -1,1 +1,80 @@
-<p>departement-list works!</p>
+<button type="button" class="btn btn-success text-white" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  <i class="fa-plus fa-lg"></i>
+  Ajouter
+</button>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nouveau département :</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row mt-2">
+          <div class="col-md-4">
+            <label for="libelle" class="form-label">Nom:</label>
+            <input type="text" class="form-control form-control-sm" id="libelle" [(ngModel)]="departement.libelle">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-primary text-white" (click)="save()">Sauvegarder</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<br><br>
+<table class="table">
+  <thead>
+  <tr>
+    <th>Nom du Département</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+  <tbody>
+    @for (deparetement of departements; track deparetement; let i = $index) {
+
+      <tr >
+        <td>{{deparetement.libelle}}</td>
+        <td>
+          <button class="btn" data-bs-toggle="modal" [attr.data-bs-target]="'#exampleModal' + i" >
+            <i class="fas fa-pen-to-square" style="color: #4c79c8;"></i> Modifier
+          </button>
+          <div class="modal fade" [id]="'exampleModal' + i" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabell">Nouveau département :</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row mt-2">
+                    <div class="col-md-4">
+                      <label for="libelleee" class="form-label">old:</label>
+                      <p id="libelleee">{{ deparetement.libelle }}</p>
+                      <label for="libellee" class="form-label">new:</label>
+                      <input type="text" class="form-control form-control-sm" id="libellee" [(ngModel)]="updatedLibelle">
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                  <button type="button" class="btn btn-primary text-white" (click)="update(deparetement)">Sauvegarder</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn" (click)="confirmDelete(deparetement, i)">
+            <i class="fas fa-trash" style="color: #ff0026;"></i> Supprimer
+          </button>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
+

@@ -1,11 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {DepartementService} from "../../../../services/services/departement.service";
 import {Departement} from "../../../../services/models/departement.model";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-departement-list',
   standalone: true,
-  imports: [],
+  imports: [
+    FormsModule
+  ],
   templateUrl: './departement-list.component.html',
   styleUrl: './departement-list.component.scss'
 })
@@ -20,7 +23,7 @@ export class DepartementListComponent  implements OnInit {
   }
 
   public findAll(): void {
-    this.departementService.findall().subscribe(data => this.departements = data);
+    this.departementService.findAll().subscribe(data => this.departements = data);
   }
 
   public deleteByCode(departement: Departement, index: number): void {

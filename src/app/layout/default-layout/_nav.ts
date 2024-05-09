@@ -60,42 +60,19 @@ export const navItems: INavData[] = [
     ]
   },
   {
-    name: 'Departements',
-    url: 'departement',
+    name: 'departement',
     iconComponent: { name: 'cil-building' },
-    children: [
-      {
-        name: 'Marketing',
-        url: '/departement/marketing',
-        icon: 'nav-icon-bullet'
-      }
-  ]
-
+    url: '/departement',
   },
   {
-    name: 'Services',
-    url: 'service',
+    name: 'service',
     iconComponent: { name: 'cil-briefcase' },
-    children: [
-      {
-        name: 'Digital Marketing',
-        url: '/service/digital-marketing',
-        icon: 'nav-icon-bullet'
-      }
-    ]
-
+    url: '/service',
   },
   {
-    name: 'Fonctions',
-    url: 'fonction',
+    name: 'fonction',
     iconComponent: { name: 'cil-list-rich' },
-    children: [
-      {
-        name: ' Email Marketing',
-        url: '/fonction/ email-marketing',
-        icon: 'nav-icon-bullet'
-      }
-    ]
+    url: '/fonction'
 
   },
   {
