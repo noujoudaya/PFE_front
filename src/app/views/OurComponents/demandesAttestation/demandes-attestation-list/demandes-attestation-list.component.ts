@@ -33,7 +33,7 @@ export class DemandesAttestationListComponent implements OnInit {
     this.selectedDemandeAttest = demande;
     this.demandeAttestService.preparerDemande(this.selectedDemandeAttest).subscribe(data => {
       console.log(data);
-      alert("Demande en cours de prépaartion");
+      alert("Demande en cours de préparation");
     })
   }
 
@@ -42,6 +42,7 @@ export class DemandesAttestationListComponent implements OnInit {
     this.demandeAttestService.validerDemande(this.selectedDemandeAttest).subscribe(data => {
       console.log(data);
       alert("Demande prête");
+      this.selectedDemandeAttest = new DemandeAttestation();
     })
   }
 
