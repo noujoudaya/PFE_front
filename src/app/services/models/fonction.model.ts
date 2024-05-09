@@ -1,3 +1,5 @@
+import {Service} from "./service.model";
+
 export class Fonction {
   // @ts-ignore
   id:number;
@@ -5,4 +7,6 @@ export class Fonction {
   libelle:string;
   // @ts-ignore
   code:string;
+  // @ts-ignore
+  service:Service;
 }

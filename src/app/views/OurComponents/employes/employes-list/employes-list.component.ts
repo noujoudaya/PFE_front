@@ -1,35 +1,128 @@
 import {Component, OnInit} from '@angular/core';
 import {EmployeService} from "../../../../services/services/employe.service";
 import {Employe} from "../../../../services/models/employe.model";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {Genre} from "../../../../services/enums/genre.enum";
 import {FormsModule} from "@angular/forms";
 import {SituationFamiliale} from "../../../../services/enums/situationFamiliale.enum";
 import {StatutEmploye} from "../../../../services/enums/statutEmploye.enum";
 import {Designation} from "../../../../services/enums/designation.enum";
+import {TypeSalaire} from "../../../../services/enums/typeSalaire.enum";
+import {TypeContrat} from "../../../../services/enums/typeContrat.enum";
+import {Departement} from "../../../../services/models/departement.model";
+import {DepartementService} from "../../../../services/services/departement.service";
+import {Service} from "../../../../services/models/service.model";
+import {ServiceService} from "../../../../services/services/service.service";
+import {Fonction} from "../../../../services/models/fonction.model";
+import {FonctionService} from "../../../../services/services/fonction.service";
 
 @Component({
   selector: 'app-employes-list',
   standalone: true,
   imports: [
     NgForOf,
-    FormsModule
+    FormsModule,
+    NgIf
   ],
   templateUrl: './employes-list.component.html',
   styleUrl: './employes-list.component.scss'
 })
 export class EmployesListComponent implements OnInit {
 
+  private _selectedEmployee: Employe | null = null;
+
+  compareDepartments(d1: any, d2: any): boolean {
+    return d1 && d2 ? d1.id === d2.id : d1 === d2;
+  }
+
+  compareServices(s1: any, s2: any): boolean {
+    return s1 && s2 ? s1.id === s2.id : s1 === s2;
+  }
+
+  compareFonctions(f1: any, f2: any): boolean {
+    return f1 && f2 ? f1.id === f2.id : f1 === f2;
+  }
+
+  get selectedEmployee(): Employe {
+    // Retourne un employé vide par défaut si _selectedEmployee est nul
+    return this._selectedEmployee ?? new Employe();
+  }
+
+  set selectedEmployee(value: Employe | null) {
+    this._selectedEmployee = value;
+  }
+
+  showEmployeeDetails(employe: Employe) {
+    console.log(employe);
+    this.selectedEmployee = employe;
+  }
+
+
+  // Méthode pour fermer le modal de vue
+  closeViewModal() {
+    this.selectedEmployee = null;
+  }
+
+  //les enums
   genres = Object.values(Genre);
   situations = Object.values(SituationFamiliale);
   statuts = Object.values(StatutEmploye)
   designations = Object.values(Designation)
+  typesSalaire = Object.values(TypeSalaire);
+  typesContrats = Object.values(TypeContrat);
+
+  departements: Departement[] = [];
+  services: Service[] = [];
+  fonctions: Fonction[] = [];
+
 
   ngOnInit(): void {
     this.findAll();
+    this.loadDepartements();
+    this.loadServices();
+    this.loadFonctions();
   }
 
-  constructor(private service: EmployeService) {
+  constructor(private service: EmployeService,
+              private departementService: DepartementService,
+              private serviceService: ServiceService,
+              private fonctionService: FonctionService) {
+  }
+
+  private loadDepartements(): void {
+    this.departementService.findAll().subscribe({
+      next: (departements) => {
+        this.departements = departements;
+        console.log('Départements chargés:', this.departements);
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des départements:', error);
+      }
+    });
+  }
+
+  private loadServices(): void {
+    this.serviceService.findAll().subscribe({
+      next: (services) => {
+        this.services = services;
+        console.log('Services chargés:', this.services);
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des services:', error);
+      }
+    });
+  }
+
+  private loadFonctions(): void {
+    this.fonctionService.findAll().subscribe({
+      next: (fonctions) => {
+        this.fonctions = fonctions;
+        console.log('Fonctions chargés:', this.fonctions);
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des fonctions:', error);
+      }
+    });
   }
 
   public findAll(): void {
@@ -48,6 +141,19 @@ export class EmployesListComponent implements OnInit {
         alert("Employé enregisté avec succès");
       } else {
         alert("Erreur");
+      }
+    })
+  }
+
+  public update(): void {
+    this.employe = this.selectedEmployee;
+    this.service.update().subscribe(data=>{
+      if (data > 0){
+        alert("Employé modifié");
+        this.employe = new Employe();
+      }
+      else {
+        alert("erreur")
       }
     })
   }
@@ -80,4 +186,5 @@ export class EmployesListComponent implements OnInit {
   set employes(value: Employe[]) {
     this.service.employes = value;
   }
+
 }

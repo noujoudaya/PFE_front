@@ -15,9 +15,12 @@ export class EmployeService {
   constructor(private http:HttpClient) { }
 
   public save() : Observable<number>{
-    return this.http.post<number>(this.url,this.employe);
+    return this.http.post<number>(this.url+'save',this.employe);
   }
 
+  public update(): Observable<number>{
+    return this.http.post<number>(this.url+'update',this.employe)
+  }
   public findAll() :Observable<Array<Employe>>{
     return this.http.get <Array<Employe>>(this.url);
   }

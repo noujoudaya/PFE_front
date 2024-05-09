@@ -2,6 +2,7 @@
   <thead>
   <th>Id</th>
   <th>Employé</th>
+  <th>Date demande</th>
   <th>Date début</th>
   <th>Date fin</th>
   <th>Type Congé</th>
@@ -9,16 +10,17 @@
   <th>Actions</th>
   </thead>
   <tbody>
-  <tr>
-    <td>test</td>
-    <td>test</td>
-    <td>test</td>
-    <td>test</td>
-    <td>test</td>
-    <td>test</td>
+  <tr *ngFor="let c of demandes; index as i">
+    <td>{{ c.id }}</td>
+    <td>{{ c.employe.nom }} {{ c.employe.prenom }}</td>
+    <td>{{ c.dateDemande }}</td>
+    <td>{{ c.dateDebut }}</td>
+    <td>{{ c.dateFin }}</td>
+    <td>{{ c.typeConge.libelle }}</td>
+    <td>{{ c.statutConge }}</td>
     <td>
-      <button class="btn btn-success text-white m-1"> Accepter</button>
-      <button class="btn btn-danger text-white">Refuser</button>
+      <button class="btn btn-success text-white m-1" (click)="accepter(c)"> Accepter</button>
+      <button class="btn btn-danger text-white" (click)="refuser(c)">Refuser</button>
     </td>
   </tr>
   </tbody>
