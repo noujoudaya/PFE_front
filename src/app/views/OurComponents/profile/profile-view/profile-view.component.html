@@ -1,28 +1,49 @@
-<div class="container mt-5 d-flex justify-content-center">
-  <div class="card">
-    <img src="assets/80eb662b63e8671b0efb94dc4087ac25.jpg" class="card-img-top profile-img mx-auto mt-3" alt="Photo de profil">
-    <div class="card-body">
-      <form>
-        <div class="mb-3">
-          <label for="nom" class="form-label">Nom</label>
-          <input type="text" class="form-control" id="nom">
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-10"> <!-- Ajustez ici pour contrôler la largeur de la carte -->
+      <div class="card">
+        <img src="assets/80eb662b63e8671b0efb94dc4087ac25.jpg" class="card-img-top profile-img mx-auto mt-3" alt="Photo de profil">
+        <div class="card-body">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="personal-info-tab" data-bs-toggle="tab" data-bs-target="#personalInfo" type="button" role="tab" aria-controls="personalInfo" aria-selected="true">Informations Personnelles</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="dept-info-tab" data-bs-toggle="tab" data-bs-target="#deptInfo" type="button" role="tab" aria-controls="deptInfo" aria-selected="false">Département</button>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="personalInfo" role="tabpanel" aria-labelledby="personal-info-tab">
+              <div class="row">
+                <div class="col-4">
+                  <div class="mb-3">
+                    <label for="nom" class="form-label">Nom</label>
+                    <input type="text" class="form-control" id="nom">
+                  </div>
+                  <div class="mb-3">
+                    <label for="prenom" class="form-label">Prénom</label>
+                    <input type="text" class="form-control" id="prenom">
+                  </div>
+                  <div class="mb-3">
+                    <label for="userCIN" class="form-label">CIN</label>
+                    <input type="text" class="form-control" id="userCIN">
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="tab-pane fade" id="deptInfo" role="tabpanel" aria-labelledby="dept-info-tab">
+              <div class="mb-3">
+                <label for="userDept" class="form-label">Département</label>
+                <input type="text" class="form-control" id="userDept">
+              </div>
+              <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary">Modifier</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="mb-3">
-          <label for="prenom" class="form-label">Prénom</label>
-          <input type="text" class="form-control" id="prenom">
-        </div>
-        <div class="mb-3">
-          <label for="userCIN" class="form-label">CIN</label>
-          <input type="text" class="form-control" id="userCIN">
-        </div>
-        <div class="mb-3">
-          <label for="userDept" class="form-label">Département</label>
-          <input type="text" class="form-control" id="userDept">
-        </div>
-        <div class=" d-flex justify-content-center">
-          <button type="submit" class="btn btn-primary">Modifier</button>
-        </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>
