@@ -36,8 +36,8 @@ export const navItems: INavData[] = [
   },
   {
     name: 'Absences',
-    url: '/absence',
     iconComponent: { name: 'cil-user-unfollow' },
+    url: '/absence',
 
   },
   {
@@ -60,17 +60,17 @@ export const navItems: INavData[] = [
     ]
   },
   {
-    name: 'departement',
+    name: 'Départements',
     iconComponent: { name: 'cil-building' },
     url: '/departement',
   },
   {
-    name: 'service',
+    name: 'Services',
     iconComponent: { name: 'cil-briefcase' },
     url: '/service',
   },
   {
-    name: 'fonction',
+    name: 'Fonctions',
     iconComponent: { name: 'cil-list-rich' },
     url: '/fonction'
 
