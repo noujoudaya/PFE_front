@@ -2,12 +2,17 @@ import {Component, OnInit} from '@angular/core';
 import {ServiceService} from "../../../../services/services/service.service";
 import {Service} from "../../../../services/models/service.model";
 import {FormsModule} from "@angular/forms";
+import {NgForOf} from "@angular/common";
+import {EmployesListComponent} from "../../employes/employes-list/employes-list.component";
+import {Departement} from "../../../../services/models/departement.model";
+import {DepartementService} from "../../../../services/services/departement.service";
 
 @Component({
   selector: 'app-service-list',
   standalone: true,
   imports: [
-    FormsModule
+    FormsModule,
+    NgForOf
   ],
   templateUrl: './service-list.component.html',
   styleUrl: './service-list.component.scss'
@@ -15,14 +20,28 @@ import {FormsModule} from "@angular/forms";
 export class ServiceListComponent implements OnInit {
 
   updatedLibelle!: string;
+  departements: Departement[] = [];
 
-  constructor(private serviceService: ServiceService) {
+  constructor(private serviceService: ServiceService,
+              private departementService: DepartementService) {
   }
 
   ngOnInit(): void {
     this.findAll();
+    this.loadDepartements();
   }
 
+  private loadDepartements(): void {
+    this.departementService.findAll().subscribe({
+      next: (departements) => {
+        this.departements = departements;
+        console.log('Départements chargés:', this.departements);
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des départements:', error);
+      }
+    });
+  }
 public findAll(): void {
     this.serviceService.findAll().subscribe(data => this.services = data);
   }

@@ -1,5 +1,4 @@
-
-<button type="button" class="btn btn-primary text-white"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+<button type="button" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#exampleModal">
   <i class="fa-plus fa-lg"></i>
   Nouveau Service
 </button>
@@ -17,8 +16,11 @@
             <label for="libel" class="form-label">Nom du service:</label>
             <input type="text" class="form-control form-control-sm" id="libel" [(ngModel)]="service.libelle">
             <label for="libell" class="form-label">Nom du département:</label>
-            <input type="text" class="form-control form-control-sm" id="libell" [(ngModel)]="service.departement.libelle">
-          </div>
+            <select class="form-control form-control-sm" id="libell" [(ngModel)]="service.departement">
+              <option *ngFor="let departement of departements" [ngValue]="departement">
+                {{ departement.libelle }}
+              </option>
+            </select></div>
         </div>
       </div>
       <div class="modal-footer justify-content-center">
@@ -28,7 +30,6 @@
     </div>
   </div>
 </div>
-
 
 
 <br><br>
@@ -44,12 +45,14 @@
   <tbody>
     @for (service of services; track service; let i = $index) {
 
-      <tr >
-        <td>{{service.libelle}}</td>
-        <td>{{service.departement.libelle}}</td>
+      <tr>
+        <td>{{ service.libelle }}</td>
+        <td>{{ service.departement.libelle }}</td>
         <td>
-          <button class="btn btn-info btn-sm m-1" data-bs-toggle="modal" [attr.data-bs-target]="'#exampleModal' + i"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></button>
-          <div class="modal fade" [id]="'exampleModal' + i" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <button class="btn btn-info btn-sm m-1" data-bs-toggle="modal" [attr.data-bs-target]="'#exampleModal' + i"><i
+            class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></button>
+          <div class="modal fade" [id]="'exampleModal' + i" tabindex="-1" aria-labelledby="exampleModalLabel"
+               aria-hidden="true">
             <div class="modal-dialog modal-lg">
               <div class="modal-content">
                 <div class="modal-header">
@@ -62,18 +65,22 @@
                       <label for="libelleee" class="form-label">Ancien Service:</label>
                       <p id="libelleee">{{ service.libelle }}</p>
                       <label for="libellee" class="form-label">Nouveau Service:</label>
-                      <input type="text" class="form-control form-control-sm" id="libellee" [(ngModel)]="updatedLibelle">
+                      <input type="text" class="form-control form-control-sm" id="libellee"
+                             [(ngModel)]="updatedLibelle">
                     </div>
                   </div>
                 </div>
                 <div class="modal-footer justify-content-center">
-                  <button type="button" class="btn btn-primary text-white" (click)="update(service)">Sauvegarder</button>
+                  <button type="button" class="btn btn-primary text-white" (click)="update(service)">Sauvegarder
+                  </button>
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                 </div>
               </div>
             </div>
           </div>
-          <button class="btn btn-danger btn-sm m-1" (click)="confirmDelete(service, i)" ><i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
+          <button class="btn btn-danger btn-sm m-1" (click)="confirmDelete(service, i)"><i class="fa-solid fa-trash"
+                                                                                           style="color: #ffffff;"></i>
+          </button>
         </td>
       </tr>
     }
