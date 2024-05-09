@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Departement} from "../models/departement.model";
 import {Observable} from "rxjs";
 import {Router} from "@angular/router";
+import {Fonction} from "../models/fonction.model";
 
 
 @Injectable({
@@ -10,8 +11,8 @@ import {Router} from "@angular/router";
 })
 export class DepartementService {
 
-  private _departement !: Departement;
-  private _departements !: Array<Departement>;
+  private _departement :Departement = new Departement();
+  private _departements :Departement[]=[];
   private url: string = "http://localhost:8088/api/v1/departement/";
 
   constructor(private http: HttpClient, private router: Router) {
@@ -44,18 +45,12 @@ export class DepartementService {
   }
 
   get departement(): Departement {
-    if (this._departement == null) {
-      this._departement = new Departement();
-    }
     return this._departement;
   }
   set departement(value: Departement) {
     this._departement = value;
   }
   get departements(): Array<Departement> {
-    if (this._departements == null) {
-      this._departements = new Array<Departement>();
-    }
     return this._departements;
   }
 

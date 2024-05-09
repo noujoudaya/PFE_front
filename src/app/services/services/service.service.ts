@@ -9,8 +9,8 @@ import {Router} from "@angular/router";
   providedIn: 'root'
 })
 export class ServiceService {
-  private _service !: Service;
-  private _services !: Array<Service>;
+  private _service :Service = new Service();
+  private _services :Service[] = [];
   private url: string="http://localhost:8088/api/v1/service/";
 
   constructor(private http : HttpClient, private router: Router) { }
@@ -43,9 +43,6 @@ export class ServiceService {
 
 
   get service(): Service {
-    if (this._service == null) {
-      this._service = new Service();
-    }
     if (this._service.departement == null) {
       this._service.departement = new Departement();
     }
@@ -55,9 +52,6 @@ export class ServiceService {
     this._service = value;
   }
   get services(): Array<Service> {
-    if (this._services == null) {
-      this._services = new Array<Service>();
-    }
     for (let service of this._services) {
       if (service.departement == null) {
         service.departement = new Departement();
