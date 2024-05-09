@@ -7,13 +7,13 @@
   <th>Actions</th>
   </thead>
   <tbody>
-  <tr>
-    <td>test</td>
-    <td>test</td>
-    <td>test</td>
-    <td>test</td>
+  <tr *ngFor="let c of absences;index as i">
+    <td>{{ c.id }}</td>
+    <td>{{c.employe.nom}} {{c.employe.prenom}}</td>
+    <td>{{c.dateAbsence}}</td>
+    <td>{{c.statutAbsence}}</td>
     <td>
-      <button class="btn btn-warning text-white m-1"> Justifier</button>
+      <button (click)="justifier(c)" class="btn btn-warning text-white m-1"> Justifier</button>
     </td>
   </tr>
   </tbody>

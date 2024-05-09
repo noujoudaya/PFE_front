@@ -3,16 +3,18 @@
   <th>Id</th>
   <th>Employé</th>
   <th>Date retard</th>
+  <th>Heure Début travail</th>
   <th>Heure Arrivée</th>
   <th>Durée retard</th>
   </thead>
   <tbody>
-  <tr>
-    <td>test</td>
-    <td>test</td>
-    <td>test</td>
-    <td>test</td>
-    <td>test</td>
+  <tr *ngFor="let c of retards;index as i">
+    <td>{{c.id}}</td>
+    <td>{{c.employe.nom}} {{c.employe.prenom}}</td>
+    <td>{{c.dateRetard}}</td>
+    <td>{{c.heureDebutTravail}}</td>
+    <td>{{c.heureArrivee}}</td>
+    <td>{{ calculerDureeRetard(c.heureDebutTravail, c.heureArrivee) }}</td>
   </tr>
   </tbody>
 </table>

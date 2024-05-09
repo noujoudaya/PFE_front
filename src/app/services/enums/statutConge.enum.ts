@@ -1,5 +1,5 @@
 export enum StatutConge{
-  EnAttente,
+  En_Attente,
   Acceptée,
   Refusée
 }

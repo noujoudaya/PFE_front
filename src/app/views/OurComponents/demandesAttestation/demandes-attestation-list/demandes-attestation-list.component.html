@@ -8,15 +8,15 @@
   <th>Actions</th>
   </thead>
   <tbody>
-  <tr>
-    <td>test</td>
-    <td>test</td>
-    <td>test</td>
-    <td>test</td>
-    <td>test</td>
+  <tr *ngFor="let c of demandesAttestation; index as i" >
+    <td>{{c.id}}</td>
+    <td>{{c.employe.nom}} {{c.employe.prenom}}</td>
+    <td>{{c.dateDemande}}</td>
+    <td>{{c.typeAttestation}}</td>
+    <td>{{c.statutAttestation}}</td>
     <td>
-      <button class="btn btn-info text-white m-1"> Préparer</button>
-      <button class="btn btn-success text-white">Prête</button>
+      <button (click)="preparer(c)" class="btn btn-info text-white m-1"> Préparer</button>
+      <button (click)="valider(c)" class="btn btn-success text-white">Prête</button>
     </td>
   </tr>
   </tbody>
