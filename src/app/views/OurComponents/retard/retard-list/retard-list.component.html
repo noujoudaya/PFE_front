@@ -1,3 +1,11 @@
+<div class="input-group w-25">
+  <input type="text" class="form-control" placeholder="Rechercher retard..." (input)="search($any($event.target).value)">
+  <span class="input-group-text">
+      <i class="fa fa-search"></i>
+    </span>
+</div>
+<br>
+
 <table class="table table-bordered">
   <thead>
   <th>Id</th>

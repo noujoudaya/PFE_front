@@ -10,7 +10,7 @@ export class DepartementService {
 
   private _departement: Departement = new Departement();
   private _departements: Departement[] = [];
-  private url = "http://localhost:8088/api/v1/departements/";
+  private url = "http://localhost:8088/api/v1/departement/";
 
   constructor(private http:HttpClient) { }
 

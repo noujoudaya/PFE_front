@@ -15,6 +15,8 @@ import {Service} from "../../../../services/models/service.model";
 import {ServiceService} from "../../../../services/services/service.service";
 import {Fonction} from "../../../../services/models/fonction.model";
 import {FonctionService} from "../../../../services/services/fonction.service";
+import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
+
 
 @Component({
   selector: 'app-employes-list',
@@ -30,6 +32,9 @@ import {FonctionService} from "../../../../services/services/fonction.service";
 export class EmployesListComponent implements OnInit {
 
   private _selectedEmployee: Employe | null = null;
+
+  private searchTerms = new Subject<string>();
+
 
   compareDepartments(d1: any, d2: any): boolean {
     return d1 && d2 ? d1.id === d2.id : d1 === d2;
@@ -81,6 +86,13 @@ export class EmployesListComponent implements OnInit {
     this.loadDepartements();
     this.loadServices();
     this.loadFonctions();
+    this.searchTerms.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((term: string) => this.service.searchEmployes(term))
+    ).subscribe(employes => {
+      this.employes = employes;
+    });
   }
 
   constructor(private service: EmployeService,
@@ -131,6 +143,10 @@ export class EmployesListComponent implements OnInit {
         this.employes = data;
       }
     );
+  }
+
+  search(term: string): void {
+    this.searchTerms.next(term);
   }
 
   public save(): void {

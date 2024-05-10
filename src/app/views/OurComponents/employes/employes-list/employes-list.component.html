@@ -1,8 +1,19 @@
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#exampleModalll">
-  <i class="fa-plus fa-lg"></i>
-  Nouveau Employé
-</button>
+<div class="d-flex justify-content-between align-items-center">
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#exampleModalll">
+    <i class="fa fa-plus fa-lg"></i> Nouveau Employé
+  </button>
+
+  <!-- Search Input -->
+  <div class="input-group w-25">
+    <input type="text" class="form-control" placeholder="Rechercher employé..." (input)="search($any($event.target).value)">
+    <span class="input-group-text">
+      <i class="fa fa-search"></i>
+    </span>
+  </div>
+</div>
+
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModalll" tabindex="-1" aria-labelledby="exampleModalLabelll" aria-hidden="true">

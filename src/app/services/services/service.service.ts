@@ -11,7 +11,7 @@ export class ServiceService {
 
   private _service: Service = new Service();
   private _services: Service[] = [];
-  private url = "http://localhost:8088/api/v1/services/";
+  private url = "http://localhost:8088/api/v1/service/";
   constructor(private http:HttpClient) { }
 
   public findAll():Observable<Array<Service>>{

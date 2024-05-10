@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Retard} from "../models/retard.model";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {Absence} from "../models/absence.model";
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,9 @@ export class RetardService {
     return this.http.get<Array<Retard>>(this.url);
   }
 
+  public searchRetards(term: string): Observable<Array<Retard>> {
+    return this.http.get<Array<Retard>>(this.url + 'search', {params: {search: term}});
+  }
   get retard(): Retard {
     return this._retard;
   }
