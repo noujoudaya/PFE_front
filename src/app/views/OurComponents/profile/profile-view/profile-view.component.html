@@ -1,46 +1,139 @@
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-12 col-md-10"> <!-- Ajustez ici pour contrôler la largeur de la carte -->
-      <div class="card">
-        <img src="assets/80eb662b63e8671b0efb94dc4087ac25.jpg" class="card-img-top profile-img mx-auto mt-3" alt="Photo de profil">
-        <div class="card-body">
-          <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="personal-info-tab" data-bs-toggle="tab" data-bs-target="#personalInfo" type="button" role="tab" aria-controls="personalInfo" aria-selected="true">Informations Personnelles</button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="dept-info-tab" data-bs-toggle="tab" data-bs-target="#deptInfo" type="button" role="tab" aria-controls="deptInfo" aria-selected="false">Département</button>
-            </li>
-          </ul>
-          <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="personalInfo" role="tabpanel" aria-labelledby="personal-info-tab">
-              <div class="row">
-                <div class="col-4">
-                  <div class="mb-3">
-                    <label for="nom" class="form-label">Nom</label>
-                    <input type="text" class="form-control" id="nom">
-                  </div>
-                  <div class="mb-3">
-                    <label for="prenom" class="form-label">Prénom</label>
-                    <input type="text" class="form-control" id="prenom">
-                  </div>
-                  <div class="mb-3">
-                    <label for="userCIN" class="form-label">CIN</label>
-                    <input type="text" class="form-control" id="userCIN">
-                  </div>
-                </div>
-
-              </div>
-            </div>
-            <div class="tab-pane fade" id="deptInfo" role="tabpanel" aria-labelledby="dept-info-tab">
-              <div class="mb-3">
-                <label for="userDept" class="form-label">Département</label>
-                <input type="text" class="form-control" id="userDept">
-              </div>
-              <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-primary">Modifier</button>
-              </div>
-            </div>
+<div class="card">
+  <div class="card-body">
+    <ul class="nav nav-tabs" id="Tab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="onglet1" data-bs-toggle="tab" data-bs-target="#onglet" type="button"
+                role="tab" aria-controls="onglet" aria-selected="true">Informations personnelles
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="profil" data-bs-toggle="tab" data-bs-target="#profi" type="button" role="tab"
+                aria-controls="profi" aria-selected="false">Informations professionnelles
+        </button>
+      </li>
+    </ul>
+    <!-- Onglets contenu -->
+    <div class="tab-content" id="TabContent">
+      <div class="tab-pane fade show active" id="onglet" role="tabpanel" aria-labelledby="onglet1">
+        <!-- Contenu de l'onglet Informations personnelles -->
+        <div class="row mt-2">
+          <div class="col-md-4"> <!-- Chaque colonne prend 4 unités sur 12, donc trois colonnes par ligne -->
+            <label for="No" class="form-label">Nom :</label>
+            <input disabled type="text" class="form-control form-control-sm" id="No">
+          </div>
+          <div class="col-md-4">
+            <label for="prenomm" class="form-label">Prénom :</label>
+            <input disabled type="text" class="form-control form-control-sm" id="prenomm">
+          </div>
+          <div class="col-md-4">
+            <label for="gender" class="form-label">Genre :</label>
+            <input disabled type="text" class="form-control form-control-sm" id="gender">
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+            <label for="telephonne" class="form-label">Téléphone :</label>
+            <input disabled type="text" class="form-control form-control-sm" id="telephonne">
+          </div>
+          <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+            <label for="adressse" class="form-label">Adresse :</label>
+            <input disabled type="text" class="form-control form-control-sm" id="adressse">
+          </div>
+          <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+            <label for="cinn" class="form-label">CIN :</label>
+            <input disabled type="text" class="form-control form-control-sm" id="cinn">
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+            <label for="villle" class="form-label">Ville :</label>
+            <input disabled type="text" class="form-control form-control-sm" id="villle">
+          </div>
+          <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+            <label for="dateNaisssance" class="form-label">Date de naissance :</label>
+            <input disabled type="date" class="form-control form-control-sm" id="dateNaisssance">
+          </div>
+          <div class="col-md-4">
+            <label for="situationn" class="form-label">Situation Familiale :</label>
+            <input disabled type="text" class="form-control form-control-sm" id="situationn">
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+            <label for="emaill" class="form-label">Email :</label>
+            <input disabled type="text" class="form-control form-control-sm" id="emaill">
+          </div>
+        </div><br>
+        <div class="d-flex justify-content-center">
+          <button type="button" class="btn btn-primary text-white">Modifier</button>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="profi" role="tabpanel" aria-labelledby="profil">
+        <!-- Contenu de l'onglet Informations professionnelles -->
+        <div class="row mt-2">
+          <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+            <label for="dateEmbauch" class="form-label">Date d'embauche :</label>
+            <input disabled type="date" class="form-control form-control-sm" id="dateEmbauch">
+          </div>
+          <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+            <label for="dateEntree" class="form-label">Date d'entrée :</label>
+            <input disabled type="date" class="form-control form-control-sm" id="dateEntree">
+          </div>
+          <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+            <label for="dateFinContratt" class="form-label">Date fin contrat :</label>
+            <input disabled type="date" class="form-control form-control-sm" id="dateFinContratt">
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+            <label for="salairee" class="form-label">Salaire :</label>
+            <input disabled type="number" class="form-control form-control-sm" id="salairee">
+          </div>
+          <div class="col-md-4">
+            <label for="statutt" class="form-label">Statut :</label>
+            <input disabled type="text" class="form-control form-control-sm" id="statutt">
+          </div>
+          <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+            <label for="numeroo" class="form-label">Numéro compte bancaire :</label>
+            <input disabled type="text" class="form-control form-control-sm" id="numeroo">
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-4">
+            <label for="designationn" class="form-label">Designation :</label>
+            <input disabled type="text" class="form-control form-control-sm" id="designationn">
+          </div>
+          <div class="col-md-4">
+            <label for="typeContrattt" class="form-label">Type Contrat :</label>
+            <input disabled type="text" class="form-control form-control-sm" id="typeContrattt">
+          </div>
+          <div class="col-md-4">
+            <label for="typeSall" class="form-label">Type salaire :</label>
+            <input disabled type="text" class="form-control form-control-sm" id="typeSall">
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-4">
+            <label for="departementt" class="form-label">Département :</label>
+            <input disabled type="text" class="form-control form-control-sm" id="departementt">
+          </div>
+          <div class="col-md-4">
+            <label for="servicee" class="form-label">Service :</label>
+            <input disabled type="text" class="form-control form-control-sm" id="servicee">
+          </div>
+          <div class="col-md-4">
+            <label for="fonctionn" class="form-label">Fonction :</label>
+            <input disabled type="text" class="form-control form-control-sm" id="fonctionn">
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+            <label for="numeroCNSSS" class="form-label">Numéro CNSS :</label>
+            <input disabled type="number" class="form-control form-control-sm" id="numeroCNSSS">
+          </div>
+          <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+            <label for="soldeCongee" class="form-label">Solde congé :</label>
+            <input disabled type="number" class="form-control form-control-sm" id="soldeCongee">
           </div>
         </div>
       </div>
