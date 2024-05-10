@@ -11,7 +11,7 @@ export class FonctionService {
 
   private _fonction: Fonction = new Fonction();
   private _fonctions: Fonction[] = [];
-  private url = "http://localhost:8088/api/v1/fonctions/"
+  private url = "http://localhost:8088/api/v1/fonction/"
 
   constructor(private http: HttpClient) {
   }

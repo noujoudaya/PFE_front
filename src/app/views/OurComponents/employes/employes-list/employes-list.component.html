@@ -162,6 +162,10 @@
             </div>
             <div class="row mt-2">
               <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="numeroCNSS" class="form-label">Numéro CNSS :</label>
+                <input type="number" class="form-control form-control-sm" id="numeroCNSS" [(ngModel)]="employe.numeroCNSS">
+              </div>
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
                 <label for="soldeConge" class="form-label">Solde congé :</label>
                 <input type="number" class="form-control form-control-sm" id="soldeConge" [(ngModel)]="employe.soldeConge">
               </div>
@@ -184,6 +188,7 @@
   <th>Nom</th>
   <th>Prenom</th>
   <th>CIN</th>
+  <th>Num CNSS</th>
   <th>Département</th>
   <th>Fonction</th>
   <th>Actions</th>
@@ -194,6 +199,7 @@
     <td>{{ c.nom }}</td>
     <td>{{ c.prenom }}</td>
     <td>{{ c.cin }}</td>
+    <td>{{ c.numeroCNSS }}</td>
     <td>{{ c.departement.libelle }}</td>
     <td>{{ c.fonction.libelle }}</td>
     <td>
@@ -344,6 +350,10 @@
               </div>
             </div>
             <div class="row mt-2">
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="numeroCNSSview" class="form-label">Numéro CNSS :</label>
+                <input disabled type="number" class="form-control form-control-sm" id="numeroCNSSview" [(ngModel)]="selectedEmployee.numeroCNSS">
+              </div>
               <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
                 <label for="soldeCong" class="form-label">Solde congé :</label>
                 <input disabled type="number" class="form-control form-control-sm" id="soldeCong" [(ngModel)]="selectedEmployee.soldeConge">
@@ -519,6 +529,10 @@
               </div>
             </div>
             <div class="row mt-2">
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="numeroCNSSedit" class="form-label">Numéro CNSS :</label>
+                <input type="number" class="form-control form-control-sm" id="numeroCNSSedit" [(ngModel)]="selectedEmployee.numeroCNSS">
+              </div>
               <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
                 <label for="soldeCongedit" class="form-label">Solde congé :</label>
                 <input type="number" class="form-control form-control-sm" id="soldeCongedit" [(ngModel)]="selectedEmployee.soldeConge">

@@ -30,6 +30,9 @@ export class Employe {
   numeroCompteBancaire:string;
 
   // @ts-ignore
+  numeroCNSS:number;
+
+  // @ts-ignore
   dateNaissance:string;
   // @ts-ignore
   dateEmbauche:string;
