@@ -17,7 +17,11 @@
             <label for="libel" class="form-label">Nom du fonction:</label>
             <input type="text" class="form-control form-control-sm" id="libel" [(ngModel)]="fonction.libelle">
             <label for="libell" class="form-label">Nom du service:</label>
-            <input type="text" class="form-control form-control-sm" id="libell" [(ngModel)]="fonction.service.libelle">
+            <select class="form-control form-control-sm" id="libell" [(ngModel)]="fonction.service">
+              <option *ngFor="let service of services" [ngValue]="service">
+                {{ service.libelle }}
+              </option>
+            </select>
           </div>
         </div>
       </div>

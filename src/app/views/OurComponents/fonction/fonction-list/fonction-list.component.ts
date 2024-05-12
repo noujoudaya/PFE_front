@@ -3,29 +3,48 @@ import {Service} from "../../../../services/models/service.model";
 import {FonctionService} from "../../../../services/services/fonction.service";
 import {Fonction} from "../../../../services/models/fonction.model";
 import {FormsModule} from "@angular/forms";
+import {NgForOf} from "@angular/common";
+import {Departement} from "../../../../services/models/departement.model";
+import {ServiceService} from "../../../../services/services/service.service";
 
 @Component({
   selector: 'app-fonction-list',
   standalone: true,
-  imports: [
-    FormsModule
-  ],
+    imports: [
+        FormsModule,
+        NgForOf
+    ],
   templateUrl: './fonction-list.component.html',
   styleUrl: './fonction-list.component.scss'
 })
 export class FonctionListComponent implements OnInit {
 
   updatedLibelle!: string;
+  services: Service[] = [];
 
-  constructor(private fonctionService: FonctionService) {
+  constructor(private fonctionService: FonctionService,
+              private serviceService: ServiceService) {
   }
 
   ngOnInit(): void {
     this.findAll();
+    this.loadServices();
   }
 
   public findAll(): void {
     this.fonctionService.findAll().subscribe(data => this.fonctions = data);
+  }
+
+  private loadServices(): void {
+    this.serviceService.findAll().subscribe({
+      next: (services) => {
+        this.services = services;
+        console.log('Services chargés:', this.services);
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des services:', error);
+      }
+    });
   }
 
   public deleteByCode(fonction: Fonction, index: number): void {
