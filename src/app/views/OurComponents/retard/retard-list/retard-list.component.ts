@@ -40,7 +40,7 @@ export class RetardListComponent implements OnInit {
     this.searchTerms.next(term);
   }
 
-  calculerDureeRetard(heureDebutTravail: string, heureArrive: string): string {
+  public calculerDureeRetard(heureDebutTravail: string, heureArrive: string): string {
     const [heureDebut, minuteDebut] = heureDebutTravail.split(':').map(Number);
     const [heureArrivee, minuteArrivee] = heureArrive.split(':').map(Number);
 

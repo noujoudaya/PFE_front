@@ -9,7 +9,6 @@
 
 <table class="table table-bordered">
   <thead>
-  <th>Id</th>
   <th>Employé</th>
   <th>Date Absence</th>
   <th>Statut Absence</th>
@@ -17,7 +16,6 @@
   </thead>
   <tbody>
   <tr *ngFor="let c of absences;index as i">
-    <td>{{ c.id }}</td>
     <td>{{c.employe.nom}} {{c.employe.prenom}}</td>
     <td>{{c.dateAbsence}}</td>
     <td>{{c.statutAbsence}}</td>

@@ -58,6 +58,10 @@ export const routes: Routes = [
         loadChildren: () => import('./views/OurComponents/retard/retard-list/routes').then((m) => m.routes)
       },
       {
+        path: 'secretaire/retard',
+        loadChildren: () => import('./views/OurComponents/retard/retard-secretaire/routes').then((m) => m.routes)
+      },
+      {
         path: 'departement',
         loadChildren: () => import('./views/OurComponents/departement/departement-list/routes').then((m) => m.routes)
       },

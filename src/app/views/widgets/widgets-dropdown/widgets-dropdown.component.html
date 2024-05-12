@@ -2,24 +2,52 @@
 
 <c-row class="g-4">
   <c-col sm="6" xl="3">
-    <c-widget-stat-a color="primary" title="users" class="widget-stat-a-custom">
-      9k
+    <c-widget-stat-a
+      color="primary"
+      [title]="'Users'"
+      class="widget-stat-a-custom"
+    >
+      <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
+        <i class="fas fa-users"></i>
+        {{usersCount}}
+      </ng-template>
     </c-widget-stat-a>
   </c-col>
 
   <c-col sm="6" xl="3">
-    <c-widget-stat-a color="info" title="employees" class="widget-stat-a-custom">
-      10k
+    <c-widget-stat-a
+      color="info"
+      [title]="'Employés'"
+      class="widget-stat-a-custom"
+    >
+      <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
+        <i class="fas fa-users"></i>
+        {{ employeesCount }}
+      </ng-template>
     </c-widget-stat-a>
   </c-col>
   <c-col sm="6" xl="3">
-    <c-widget-stat-a color="warning" title="Demande de congés" class="widget-stat-a-custom">
-      4
+    <c-widget-stat-a
+      color="warning"
+      [title]="'Demandes congé en attente'"
+      class="widget-stat-a-custom"
+    >
+      <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
+        <i class="fas fa-calendar-alt"></i>
+        {{demandesCongeCount}}
+      </ng-template>
     </c-widget-stat-a>
   </c-col>
   <c-col sm="6" xl="3">
-    <c-widget-stat-a color="danger" title="Demande d'attestations" class="widget-stat-a-custom">
-      5
+    <c-widget-stat-a
+      color="danger"
+      [title]="'Demandes d\'attestation en attente'"
+      class="widget-stat-a-custom"
+    >
+      <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
+        <i class="fas fa-file-alt"></i>
+        {{demandesAttestations}}
+      </ng-template>
     </c-widget-stat-a>
   </c-col>
 </c-row>

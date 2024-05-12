@@ -28,6 +28,9 @@ export class EmployeService {
     return this.http.get<Array<Employe>>(this.url + 'search', { params: { search: term } });
   }
 
+  public getEmployeeCount(): Observable<number> {
+    return this.http.get<number>(this.url + 'count');
+  }
   public deleteByCin(cin:string): Observable<number>{
     return this.http.delete<number>(this.url+'cin/'+cin);
   }
