@@ -24,6 +24,9 @@ export class EmployeService {
   public findAll() :Observable<Array<Employe>>{
     return this.http.get <Array<Employe>>(this.url);
   }
+  public searchEmployes(term: string): Observable<Array<Employe>> {
+    return this.http.get<Array<Employe>>(this.url + 'search', { params: { search: term } });
+  }
 
   public deleteByCin(cin:string): Observable<number>{
     return this.http.delete<number>(this.url+'cin/'+cin);

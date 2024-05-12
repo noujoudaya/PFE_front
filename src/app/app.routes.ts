@@ -1,15 +1,8 @@
-import { Routes } from '@angular/router';
-import { DefaultLayoutComponent } from './layout';
-import {ProfileViewComponent} from "./views/OurComponents/profile/profile-view/profile-view.component";
-import {EmployesListComponent} from "./views/OurComponents/employes/employes-list/employes-list.component";
-import {
-  DemandesCongeListComponent
-} from "./views/OurComponents/demandesConge/demandes-conge-list/demandes-conge-list.component";
+import {Routes} from '@angular/router';
+import {DefaultLayoutComponent} from './layout';
 import {
   DemandesAttestationListComponent
 } from "./views/OurComponents/demandesAttestation/demandes-attestation-list/demandes-attestation-list.component";
-import {AbsenceListComponent} from "./views/OurComponents/absence/absence-list/absence-list.component";
-import {RetardListComponent} from "./views/OurComponents/retard/retard-list/retard-list.component";
 
 export const routes: Routes = [
   {
@@ -30,27 +23,39 @@ export const routes: Routes = [
       },
       {
         path: 'profile',
-        component:ProfileViewComponent
+        loadChildren: () => import('./views/OurComponents/profile/profile-view/routes').then((m) => m.routes)
       },
       {
         path: 'employee-list',
-        component: EmployesListComponent
+        loadChildren: () => import('./views/OurComponents/employes/employes-list/routes').then((m) => m.routes)
       },
       {
         path: 'demande/conge',
-        component:DemandesCongeListComponent
+        loadChildren: () => import('./views/OurComponents/demandesConge/demandes-conge-list/routes').then((m) => m.routes)
+      },
+      {
+        path: 'employe/demande/conge',
+        loadChildren: () => import('./views/OurComponents/demandesConge/demande-conge-emp-sec/routes').then((m) => m.routes)
       },
       {
         path: 'demande/attestation',
-        component:DemandesAttestationListComponent
+        loadChildren: () => import('./views/OurComponents/demandesAttestation/demandes-attestation-list/routes').then((m) => m.routes)
+      },
+      {
+        path: 'employe/demande/attestation',
+        loadChildren: () => import('./views/OurComponents/demandesAttestation/demande-attestation-emp-sec/routes').then((m) => m.routes)
       },
       {
         path: 'absence',
-        component:AbsenceListComponent
+        loadChildren: () => import('./views/OurComponents/absence/absence-list/routes').then((m) => m.routes)
+      },
+      {
+        path: 'secretaire/absence',
+        loadChildren: () => import('./views/OurComponents/absence/absence-secretaire/routes').then((m) => m.routes)
       },
       {
         path: 'retard',
-        component:RetardListComponent
+        loadChildren: () => import('./views/OurComponents/retard/retard-list/routes').then((m) => m.routes)
       },
       {
         path: 'departement',

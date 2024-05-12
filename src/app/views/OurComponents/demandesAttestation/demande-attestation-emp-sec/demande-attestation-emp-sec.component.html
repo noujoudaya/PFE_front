@@ -1,0 +1,102 @@
+<button type="button" class="btn btn-primary text-white ml" data-bs-toggle="modal" data-bs-target="#demandeAttestation">
+  <i class="fa fa-plus fa-lg"></i> Nouvelle demande
+</button><br><br><br>
+
+<div class="modal fade" id="demandeAttestation" tabindex="-1" aria-labelledby="exampleAttest" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleAttest">Nouvelle Demande</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-4">
+            <label for="dateDemande" class="form-label">Date demande :</label>
+            <input type="date" class="form-control form-control-sm" id="dateDemande" [(ngModel)]="demandeEmploye.dateDemande">
+          </div>
+          <div class="col-md-4">
+            <label for="dateDebut" class="form-label">Type d'attestation :</label>
+            <select class="form-control form-control-sm" id="dateDebut" [(ngModel)]="demandeEmploye.typeAttestation">
+              <option value="" disabled selected>Sélectionner le type</option>
+              <option *ngFor="let type of typesAttest" [value]="type">{{ type }}</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label for="employe" class="form-label">Employé :</label>
+            <select class="form-control form-control-sm" id="employe" [(ngModel)]="demandeEmploye.employe">
+              <option value="" disabled selected>Sélectionner l'employe</option>
+              <option *ngFor="let employe of employes" [ngValue]="employe">{{ employe.nom }} {{ employe.prenom }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button (click)="save(demandeEmploye)" type="button" class="btn btn-primary">Enregistrer</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<table class="table table-bordered">
+  <thead>
+  <th>Date demande</th>
+  <th>Type demande</th>
+  <th>Statut demande</th>
+  <th>Actions</th>
+  </thead>
+  <tbody>
+  <tr>
+    <td>test</td>
+    <td>test</td>
+    <td>test</td>
+    <td>
+      <button class="btn btn-info btn-sm m-1" data-bs-toggle="modal" data-bs-target="#edit"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></button>
+      <button class="btn btn-danger btn-sm m-1"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<!-- Modal edit-->
+<div class="modal fade" id="edit" tabindex="-1" aria-labelledby="editModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="editModal">Modifier la demande</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-4">
+            <label for="dateDemandeview" class="form-label">Date demande :</label>
+            <input type="date" class="form-control form-control-sm" id="dateDemandeview">
+          </div>
+          <div class="col-md-4">
+            <label for="dateDebutview" class="form-label">Type d'attestation :</label>
+            <select class="form-control form-control-sm" id="dateDebutview">
+              <option value="" disabled selected>Sélectionner le type</option>
+              <option *ngFor="let type of typesAttest" [value]="type">{{ type }}</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label for="dateFinview" class="form-label">Date fin :</label>
+            <select class="form-control form-control-sm" id="dateFinview">
+              <option value="" disabled selected>Sélectionner l'employe</option>
+              <option *ngFor="let employe of employes" [ngValue]="employe">{{ employe.nom }} {{ employe.prenom }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-primary text-white">Sauvegarder</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+

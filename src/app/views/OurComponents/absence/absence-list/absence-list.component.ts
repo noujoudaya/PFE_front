@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Absence} from "../../../../services/models/absence.model";
 import {AbsenceService} from "../../../../services/services/absence.service";
 import {NgForOf} from "@angular/common";
+import {debounceTime, distinctUntilChanged, Subject, switchMap} from "rxjs";
 
 @Component({
   selector: 'app-absence-list',
@@ -16,11 +17,20 @@ export class AbsenceListComponent implements OnInit {
 
   selectedAbsence : Absence | null = null;
 
+  private searchTerms = new Subject<string>();
+
   constructor(private absenceService: AbsenceService) {
   }
 
   ngOnInit(): void {
     this.findAll();
+    this.searchTerms.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((term: string) => this.absenceService.searchAbsences(term))
+    ).subscribe(demands => {
+      this.absences = demands;
+    });
   }
 
   public findAll(): void {
@@ -36,6 +46,10 @@ export class AbsenceListComponent implements OnInit {
       alert("Absence justifiée");
       this.selectedAbsence = new Absence();
     })
+  }
+
+  search(term: string): void {
+    this.searchTerms.next(term);
   }
 
   get absence(): Absence {

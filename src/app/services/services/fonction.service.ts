@@ -6,6 +6,8 @@ import {Service} from "../models/service.model";
 import {Router} from "@angular/router";
 
 
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,6 +15,7 @@ export class FonctionService {
   private _fonction :Fonction = new Fonction();
   private _fonctions :Fonction[] = [];
   private url: string="http://localhost:8088/api/v1/fonction/";
+
 
   constructor(private http : HttpClient, private router: Router) { }
   public save() : Observable<number>{
@@ -26,6 +29,7 @@ export class FonctionService {
   public findAll() : Observable<Array<Fonction>>{
     return this.http.get<Array<Fonction>>(this.url);
   }
+
   public findByCode(code: string) : Observable<Fonction>{
     return this.http.get<Fonction>(this.url+'code/'+code);
   }
@@ -40,6 +44,7 @@ export class FonctionService {
   }
   public deleteByServiceCode(code: string) : Observable<number>{
     return this.http.delete<number>(this.url+'/service/code/'+code);
+
   }
 
 

@@ -13,9 +13,11 @@ export class ServiceService {
   private _services :Service[] = [];
   private url: string="http://localhost:8088/api/v1/service/";
 
+
   constructor(private http : HttpClient, private router: Router) { }
   public save() : Observable<number>{
     return this.http.post<number>(this.url,this.service);
+
 
   }
   public update() : Observable<number>{

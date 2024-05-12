@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {DemandeAttestationService} from "../../../../services/services/demande-attestation.service";
 import {DemandeAttestation} from "../../../../services/models/demande-attestation.model";
 import {NgForOf} from "@angular/common";
+import {debounceTime, distinctUntilChanged, Subject, switchMap} from "rxjs";
 
 @Component({
   selector: 'app-demandes-attestation-list',
@@ -16,8 +17,17 @@ export class DemandesAttestationListComponent implements OnInit {
 
   selectedDemandeAttest: DemandeAttestation = new DemandeAttestation();
 
+  private searchTerms = new Subject<string>();
+
   ngOnInit(): void {
     this.findAll();
+    this.searchTerms.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((term: string) => this.demandeAttestService.searchDemandes(term))
+    ).subscribe(demands => {
+      this.demandesAttestation = demands;
+    });
   }
 
   constructor(private demandeAttestService: DemandeAttestationService) {
@@ -44,6 +54,10 @@ export class DemandesAttestationListComponent implements OnInit {
       alert("Demande prête");
       this.selectedDemandeAttest = new DemandeAttestation();
     })
+  }
+
+  search(term: string): void {
+    this.searchTerms.next(term);
   }
 
   get demandeAttestation(): DemandeAttestation {

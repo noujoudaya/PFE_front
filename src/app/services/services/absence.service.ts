@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Absence} from "../models/absence.model";
 import {Observable} from "rxjs";
+import {DemandeAttestation} from "../models/demande-attestation.model";
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,9 @@ export class AbsenceService {
   public justifier(absence: Absence): Observable<string>{
     return this.http.post<string>(this.url+'justifier',absence,{ responseType: 'text' as 'json' })
   }
-
+  public searchAbsences(term: string): Observable<Array<Absence>> {
+    return this.http.get<Array<Absence>>(this.url + 'search', {params: {search: term}});
+  }
   get absence(): Absence {
     return this._absence;
   }

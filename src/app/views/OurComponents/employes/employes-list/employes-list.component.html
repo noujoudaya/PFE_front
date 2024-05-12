@@ -1,8 +1,19 @@
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#exampleModalll">
-  <i class="fa-plus fa-lg"></i>
-  Nouveau Employé
-</button>
+<div class="d-flex justify-content-between align-items-center">
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#exampleModalll">
+    <i class="fa fa-plus fa-lg"></i> Nouveau Employé
+  </button>
+
+  <!-- Search Input -->
+  <div class="input-group w-25">
+    <input type="text" class="form-control" placeholder="Rechercher employé..." (input)="search($any($event.target).value)">
+    <span class="input-group-text">
+      <i class="fa fa-search"></i>
+    </span>
+  </div>
+</div>
+
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModalll" tabindex="-1" aria-labelledby="exampleModalLabelll" aria-hidden="true">
@@ -162,6 +173,10 @@
             </div>
             <div class="row mt-2">
               <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="numeroCNSS" class="form-label">Numéro CNSS :</label>
+                <input type="number" class="form-control form-control-sm" id="numeroCNSS" [(ngModel)]="employe.numeroCNSS">
+              </div>
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
                 <label for="soldeConge" class="form-label">Solde congé :</label>
                 <input type="number" class="form-control form-control-sm" id="soldeConge" [(ngModel)]="employe.soldeConge">
               </div>
@@ -184,6 +199,7 @@
   <th>Nom</th>
   <th>Prenom</th>
   <th>CIN</th>
+  <th>Num CNSS</th>
   <th>Département</th>
   <th>Fonction</th>
   <th>Actions</th>
@@ -194,6 +210,7 @@
     <td>{{ c.nom }}</td>
     <td>{{ c.prenom }}</td>
     <td>{{ c.cin }}</td>
+    <td>{{ c.numeroCNSS }}</td>
     <td>{{ c.departement.libelle }}</td>
     <td>{{ c.fonction.libelle }}</td>
     <td>
@@ -239,7 +256,6 @@
               <div class="col-md-4">
                 <label for="gere" class="form-label">Genre :</label>
                 <input disabled type="text" class="form-control form-control-sm" id="gere" [(ngModel)]="selectedEmployee.genre">
-
               </div>
             </div>
             <div class="row mt-1">
@@ -268,7 +284,6 @@
               <div class="col-md-4">
                 <label for="situatin" class="form-label">Situation Familiale :</label>
                 <input disabled type="text" class="form-control form-control-sm" id="situatin" [(ngModel)]="selectedEmployee.situationFamiliale">
-
               </div>
             </div>
             <div class="row mt-1">
@@ -344,6 +359,10 @@
               </div>
             </div>
             <div class="row mt-2">
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="numeroCNSSview" class="form-label">Numéro CNSS :</label>
+                <input disabled type="number" class="form-control form-control-sm" id="numeroCNSSview" [(ngModel)]="selectedEmployee.numeroCNSS">
+              </div>
               <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
                 <label for="soldeCong" class="form-label">Solde congé :</label>
                 <input disabled type="number" class="form-control form-control-sm" id="soldeCong" [(ngModel)]="selectedEmployee.soldeConge">
@@ -519,6 +538,10 @@
               </div>
             </div>
             <div class="row mt-2">
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="numeroCNSSedit" class="form-label">Numéro CNSS :</label>
+                <input type="number" class="form-control form-control-sm" id="numeroCNSSedit" [(ngModel)]="selectedEmployee.numeroCNSS">
+              </div>
               <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
                 <label for="soldeCongedit" class="form-label">Solde congé :</label>
                 <input type="number" class="form-control form-control-sm" id="soldeCongedit" [(ngModel)]="selectedEmployee.soldeConge">

@@ -3,13 +3,18 @@ import {DemandeCongeService} from "../../../../services/services/demande-conge.s
 import {DemandeConge} from "../../../../services/models/demande-conge.model";
 import {NgClass, NgForOf} from "@angular/common";
 import {StatutConge} from "../../../../services/enums/statutConge.enum";
+import {debounceTime, distinctUntilChanged, Subject, switchMap} from "rxjs";
+import {FormsModule} from "@angular/forms";
+import {EnumToStringPipe} from "../../../../services/enums/enum-to-string.pipe";
 
 @Component({
   selector: 'app-demandes-conge-list',
   standalone: true,
   imports: [
     NgForOf,
-    NgClass
+    NgClass,
+    FormsModule,
+    EnumToStringPipe
   ],
   templateUrl: './demandes-conge-list.component.html',
   styleUrl: './demandes-conge-list.component.scss'
@@ -21,10 +26,18 @@ export class DemandesCongeListComponent implements OnInit{
 
   private selectedDemande : DemandeConge | null = null;
 
-  statutConge = StatutConge;
+  private searchTerms = new Subject<string>();
+
 
   ngOnInit(): void {
     this.findAll();
+    this.searchTerms.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((term: string) => this.demandeService.searchDemandes(term))
+    ).subscribe(demands => {
+      this.demandes = demands;
+    });
   }
 
   public findAll():void{
@@ -53,6 +66,9 @@ export class DemandesCongeListComponent implements OnInit{
     )
   }
 
+  search(term: string): void {
+    this.searchTerms.next(term);
+  }
 
   get demande(): DemandeConge {
     return this.demandeService.demande;
