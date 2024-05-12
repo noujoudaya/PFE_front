@@ -64,5 +64,6 @@ export class Employe {
   service: Service;
   // @ts-ignore
   fonction: Fonction;
+  image : any;
 
 }
