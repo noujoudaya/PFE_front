@@ -12,6 +12,10 @@ import { ChartjsComponent } from '@coreui/angular-chartjs';
 import { RouterLink } from '@angular/router';
 import { IconDirective } from '@coreui/icons-angular';
 import { RowComponent, ColComponent, WidgetStatAComponent, TemplateIdDirective, ThemeDirective, DropdownComponent, ButtonDirective, DropdownToggleDirective, DropdownMenuDirective, DropdownItemDirective, DropdownDividerDirective } from '@coreui/angular';
+import {EmployeService} from "../../../services/services/employe.service";
+import {DemandeCongeService} from "../../../services/services/demande-conge.service";
+import {DemandeAttestationService} from "../../../services/services/demande-attestation.service";
+import {UserServiceService} from "../../../services/services/user-service.service";
 
 @Component({
     selector: 'app-widgets-dropdown',
@@ -23,9 +27,21 @@ import { RowComponent, ColComponent, WidgetStatAComponent, TemplateIdDirective, 
 })
 export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
 
+  // @ts-ignore
+  usersCount: number;
+  // @ts-ignore
+  employeesCount: number;
+  // @ts-ignore
+  demandesCongeCount:number;
+  // @ts-ignore
+  demandesAttestations:number;
+
   constructor(
-    private changeDetectorRef: ChangeDetectorRef
-  ) {}
+    private changeDetectorRef: ChangeDetectorRef,
+    private employeService:EmployeService,
+    private demandeCongeService: DemandeCongeService,
+    private demandeAttestationService:DemandeAttestationService,
+    private usersService:UserServiceService) {}
 
   data: any[] = [];
   options: any[] = [];
@@ -125,6 +141,17 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
 
   ngOnInit(): void {
     this.setData();
+    this.employeService.getEmployeeCount().subscribe(count => {
+      this.employeesCount = count;});
+    this.demandeCongeService.countByStatutConge().subscribe(count=>{
+      this.demandesCongeCount=count;
+    });
+    this.demandeAttestationService.countByStatutAttestation().subscribe(count=> {
+      this.demandesAttestations=count;
+    });
+    this.usersService.countUsers().subscribe(count=>{
+      this.usersCount=count;
+    });
   }
 
   ngAfterContentInit(): void {

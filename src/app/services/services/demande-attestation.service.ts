@@ -36,6 +36,10 @@ export class DemandeAttestationService {
     return this.http.get<Array<DemandeAttestation>>(this.url + 'search', {params: {search: term}});
   }
 
+  public countByStatutAttestation():Observable<number>{
+    return this.http.get<number>(this.url+'countByStatutDemande');
+  }
+
   public save(demande:DemandeAttestation):Observable<number>{
     return this.http.post<number>(this.url+'save',demande);
   }

@@ -44,6 +44,10 @@ export class DemandeCongeService {
     return this.http.post<number>(this.url + 'save', demandeConge);
   }
 
+  public countByStatutConge():Observable<number>{
+    return this.http.get<number>(this.url+'countByStatutConge');
+  }
+
   get demande(): DemandeConge {
     return this._demande;
   }
