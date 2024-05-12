@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Employe} from "../models/employe.model";
 import {StatutConge} from "../enums/statutConge.enum";
+import value from "*.json";
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,8 @@ export class DemandeCongeService {
 
   private _demande: DemandeConge = new DemandeConge();
   private _demandes: DemandeConge[] = [];
+  private _demandeEmploye: DemandeConge = new DemandeConge();
+  private _demandesEmploye: DemandeConge[] = [];
   private url = 'http://localhost:8088/api/v1/demandesConge/';
 
   constructor(private http: HttpClient) {
@@ -37,6 +40,10 @@ export class DemandeCongeService {
     return this.http.get<Array<DemandeConge>>(this.url + '/statutConge/' + statut);
   }
 
+  public save(demandeConge: DemandeConge): Observable<number> {
+    return this.http.post<number>(this.url + 'save', demandeConge);
+  }
+
   get demande(): DemandeConge {
     return this._demande;
   }
@@ -51,5 +58,22 @@ export class DemandeCongeService {
 
   set demandes(value: DemandeConge[]) {
     this._demandes = value;
+  }
+
+
+  get demandeEmploye(): DemandeConge {
+    return this._demandeEmploye;
+  }
+
+  set demandeEmploye(value: DemandeConge) {
+    this._demandeEmploye = value;
+  }
+
+  get demandesEmploye(): DemandeConge[] {
+    return this._demandesEmploye;
+  }
+
+  set demandesEmploye(value: DemandeConge[]) {
+    this._demandesEmploye = value;
   }
 }

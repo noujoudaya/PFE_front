@@ -34,12 +34,24 @@ export const routes: Routes = [
         loadChildren: () => import('./views/OurComponents/demandesConge/demandes-conge-list/routes').then((m) => m.routes)
       },
       {
+        path: 'employe/demande/conge',
+        loadChildren: () => import('./views/OurComponents/demandesConge/demande-conge-emp-sec/routes').then((m) => m.routes)
+      },
+      {
         path: 'demande/attestation',
         loadChildren: () => import('./views/OurComponents/demandesAttestation/demandes-attestation-list/routes').then((m) => m.routes)
       },
       {
+        path: 'employe/demande/attestation',
+        loadChildren: () => import('./views/OurComponents/demandesAttestation/demande-attestation-emp-sec/routes').then((m) => m.routes)
+      },
+      {
         path: 'absence',
         loadChildren: () => import('./views/OurComponents/absence/absence-list/routes').then((m) => m.routes)
+      },
+      {
+        path: 'secretaire/absence',
+        loadChildren: () => import('./views/OurComponents/absence/absence-secretaire/routes').then((m) => m.routes)
       },
       {
         path: 'retard',

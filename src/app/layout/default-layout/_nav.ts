@@ -1,26 +1,26 @@
-import { INavData } from '@coreui/angular';
+import {INavData} from '@coreui/angular';
 
 export const navItems: INavData[] = [
   {
     name: 'Dashboard',
     url: '/dashboard',
-    iconComponent: { name: 'cil-speedometer' },
+    iconComponent: {name: 'cil-speedometer'},
   },
   {
     name: 'Profile',
     url: '/profile',
-    iconComponent: { name: 'cil-user'}
+    iconComponent: {name: 'cil-user'}
   },
   {
     name: 'Employees',
     url: '/employee-list',
-    iconComponent: { name: 'cil-people' },
+    iconComponent: {name: 'cil-people'},
 
   },
   {
     name: 'Demandes',
     url: '/demande',
-    iconComponent: { name: 'cil-notes' },
+    iconComponent: {name: 'cil-notes'},
     children: [
       {
         name: 'Congé',
@@ -37,19 +37,19 @@ export const navItems: INavData[] = [
   {
     name: 'Absences',
     url: '/absence',
-    iconComponent: { name: 'cil-user-unfollow' },
+    iconComponent: {name: 'cil-user-unfollow'},
 
   },
   {
     name: 'Retards',
     url: '/retard',
-    iconComponent: { name: 'cil-calendar' },
+    iconComponent: {name: 'cil-calendar'},
 
   },
   {
     name: "Paie",
     url: "/paie",
-    iconComponent: { name: 'cilMoney' },
+    iconComponent: {name: 'cilMoney'},
     children: [
       {
         name: 'Bulletin de paie',
@@ -62,20 +62,20 @@ export const navItems: INavData[] = [
   {
     name: 'Departements',
     url: 'departement',
-    iconComponent: { name: 'cil-building' },
+    iconComponent: {name: 'cil-building'},
     children: [
       {
         name: 'Marketing',
         url: '/departement/marketing',
         icon: 'nav-icon-bullet'
       }
-  ]
+    ]
 
   },
   {
     name: 'Services',
     url: 'service',
-    iconComponent: { name: 'cil-briefcase' },
+    iconComponent: {name: 'cil-briefcase'},
     children: [
       {
         name: 'Digital Marketing',
@@ -88,7 +88,7 @@ export const navItems: INavData[] = [
   {
     name: 'Fonctions',
     url: 'fonction',
-    iconComponent: { name: 'cil-list-rich' },
+    iconComponent: {name: 'cil-list-rich'},
     children: [
       {
         name: ' Email Marketing',
@@ -101,7 +101,7 @@ export const navItems: INavData[] = [
   {
     name: 'Users',
     url: 'users',
-    iconComponent: { name: 'cil-user' },
+    iconComponent: {name: 'cil-user'},
     children: [
       {
         name: 'Ajouter',
@@ -118,13 +118,13 @@ export const navItems: INavData[] = [
   {
     name: 'Colors',
     url: '/theme/colors',
-    iconComponent: { name: 'cil-drop' }
+    iconComponent: {name: 'cil-drop'}
   },
   {
     name: 'Typography',
     url: '/theme/typography',
-    linkProps: { fragment: 'headings' },
-    iconComponent: { name: 'cil-pencil' }
+    linkProps: {fragment: 'headings'},
+    iconComponent: {name: 'cil-pencil'}
   },
   {
     name: 'Components',
@@ -133,7 +133,7 @@ export const navItems: INavData[] = [
   {
     name: 'Base',
     url: '/base',
-    iconComponent: { name: 'cil-puzzle' },
+    iconComponent: {name: 'cil-puzzle'},
     children: [
       {
         name: 'Accordion',
@@ -215,7 +215,7 @@ export const navItems: INavData[] = [
   {
     name: 'Buttons',
     url: '/buttons',
-    iconComponent: { name: 'cil-cursor' },
+    iconComponent: {name: 'cil-cursor'},
     children: [
       {
         name: 'Buttons',
@@ -237,7 +237,7 @@ export const navItems: INavData[] = [
   {
     name: 'Forms',
     url: '/forms',
-    iconComponent: { name: 'cil-notes' },
+    iconComponent: {name: 'cil-notes'},
     children: [
       {
         name: 'Form Control',
@@ -283,12 +283,12 @@ export const navItems: INavData[] = [
   },
   {
     name: 'Charts',
-    iconComponent: { name: 'cil-chart-pie' },
+    iconComponent: {name: 'cil-chart-pie'},
     url: '/charts'
   },
   {
     name: 'Icons',
-    iconComponent: { name: 'cil-star' },
+    iconComponent: {name: 'cil-star'},
     url: '/icons',
     children: [
       {
@@ -315,7 +315,7 @@ export const navItems: INavData[] = [
   {
     name: 'Notifications',
     url: '/notifications',
-    iconComponent: { name: 'cil-bell' },
+    iconComponent: {name: 'cil-bell'},
     children: [
       {
         name: 'Alerts',
@@ -342,7 +342,7 @@ export const navItems: INavData[] = [
   {
     name: 'Widgets',
     url: '/widgets',
-    iconComponent: { name: 'cil-calculator' },
+    iconComponent: {name: 'cil-calculator'},
     badge: {
       color: 'info',
       text: 'NEW'
@@ -355,7 +355,7 @@ export const navItems: INavData[] = [
   {
     name: 'Pages',
     url: '/login',
-    iconComponent: { name: 'cil-star' },
+    iconComponent: {name: 'cil-star'},
     children: [
       {
         name: 'Login',
@@ -387,7 +387,162 @@ export const navItems: INavData[] = [
   {
     name: 'Docs',
     url: 'https://coreui.io/angular/docs/5.x/',
-    iconComponent: { name: 'cil-description' },
-    attributes: { target: '_blank' }
+    iconComponent: {name: 'cil-description'},
+    attributes: {target: '_blank'}
   }
+];
+
+export const EmpNavItems: INavData[] = [
+  {
+    name: 'Dashboard',
+    url: '/dashboard',
+    iconComponent: {name: 'cil-speedometer'},
+  },
+  {
+    name: 'Profile',
+    url: '/profile',
+    iconComponent: {name: 'cil-user'}
+  },
+  {
+    name: 'Demandes',
+    url: '/demande',
+    iconComponent: {name: 'cil-notes'},
+    children: [
+      {
+        name: 'Congé',
+        url: '/demande/conge',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Attestation',
+        url: '/demande/attestation',
+        icon: 'nav-icon-bullet'
+      }
+    ]
+  },
+  {
+    name: 'Departements',
+    url: 'departement',
+    iconComponent: {name: 'cil-building'},
+    children: [
+      {
+        name: 'Marketing',
+        url: '/departement/marketing',
+        icon: 'nav-icon-bullet'
+      }
+    ]
+
+  },
+  {
+    name: 'Services',
+    url: 'service',
+    iconComponent: {name: 'cil-briefcase'},
+    children: [
+      {
+        name: 'Digital Marketing',
+        url: '/service/digital-marketing',
+        icon: 'nav-icon-bullet'
+      }
+    ]
+
+  },
+  {
+    name: 'Fonctions',
+    url: 'fonction',
+    iconComponent: {name: 'cil-list-rich'},
+    children: [
+      {
+        name: ' Email Marketing',
+        url: '/fonction/ email-marketing',
+        icon: 'nav-icon-bullet'
+      }
+    ]
+
+  }
+
+
+];
+
+export const SecNavItems: INavData[] = [
+  {
+    name: 'Dashboard',
+    url: '/dashboard',
+    iconComponent: {name: 'cil-speedometer'},
+  },
+  {
+    name: 'Profile',
+    url: '/profile',
+    iconComponent: {name: 'cil-user'}
+  },
+  {
+    name: 'Demandes',
+    url: '/demande',
+    iconComponent: {name: 'cil-notes'},
+    children: [
+      {
+        name: 'Congé',
+        url: '/demande/conge',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Attestation',
+        url: '/demande/attestation',
+        icon: 'nav-icon-bullet'
+      }
+    ]
+  },
+  {
+    name: 'Absences',
+    url: '/absence',
+    iconComponent: {name: 'cil-user-unfollow'},
+
+  },
+  {
+    name: 'Retards',
+    url: '/retard',
+    iconComponent: {name: 'cil-calendar'},
+
+  },
+  {
+    name: 'Departements',
+    url: 'departement',
+    iconComponent: {name: 'cil-building'},
+    children: [
+      {
+        name: 'Marketing',
+        url: '/departement/marketing',
+        icon: 'nav-icon-bullet'
+      }
+    ]
+
+  },
+  {
+    name: 'Services',
+    url: 'service',
+    iconComponent: {name: 'cil-briefcase'},
+    children: [
+      {
+        name: 'Digital Marketing',
+        url: '/service/digital-marketing',
+        icon: 'nav-icon-bullet'
+      }
+    ]
+
+  },
+  {
+    name: 'Fonctions',
+    url: 'fonction',
+    iconComponent: {name: 'cil-list-rich'},
+    children: [
+      {
+        name: ' Email Marketing',
+        url: '/fonction/ email-marketing',
+        icon: 'nav-icon-bullet'
+      }
+    ]
+
+  }
+
+
+
 ];
