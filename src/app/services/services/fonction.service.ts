@@ -9,15 +9,12 @@ import {Router} from "@angular/router";
   providedIn: 'root'
 })
 export class FonctionService {
-
-  private _fonction: Fonction = new Fonction();
-  private _fonctions: Fonction[] = [];
-  private url: string = "http://localhost:8088/api/v1/fonction/";
-
+  private _fonction :Fonction = new Fonction();
+  private _fonctions :Fonction[] = [];
+  private url: string="http://localhost:8088/api/v1/fonction/";
 
   constructor(private http: HttpClient, private router: Router) {
   }
-
   public save(): Observable<number> {
     return this.http.post<number>(this.url, this.fonction);
   }
@@ -25,26 +22,22 @@ export class FonctionService {
   public findAll(): Observable<Array<Fonction>> {
     return this.http.get<Array<Fonction>>(this.url);
   }
-
   public findByCode(code: string): Observable<Fonction> {
     return this.http.get<Fonction>(this.url + 'code/' + code);
   }
-
   public findByServiceCode(code: string): Observable<Array<Fonction>> {
     return this.http.get<Array<Fonction>>(this.url + '/service/code/' + code);
   }
-
   public findByLibelle(libelle: string): Observable<Fonction> {
     return this.http.get<Fonction>(this.url + 'libelle/' + libelle);
   }
-
   public deleteByCode(code: string): Observable<number> {
     return this.http.delete<number>(this.url + 'code/' + code);
   }
-
   public deleteByServiceCode(code: string): Observable<number> {
     return this.http.delete<number>(this.url + '/service/code/' + code);
   }
+
 
   get fonction(): Fonction {
     if (this._fonction.service == null) {
@@ -52,11 +45,9 @@ export class FonctionService {
     }
     return this._fonction;
   }
-
   set fonction(value: Fonction) {
     this._fonction = value;
   }
-
   get fonctions(): Array<Fonction> {
     for (let fonction of this._fonctions) {
       if (fonction.service == null) {
@@ -65,7 +56,6 @@ export class FonctionService {
     }
     return this._fonctions;
   }
-
   set fonctions(value: Fonction[]) {
     this._fonctions = value;
   }
