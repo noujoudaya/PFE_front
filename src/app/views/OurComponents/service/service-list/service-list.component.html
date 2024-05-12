@@ -1,0 +1,90 @@
+<button type="button" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  <i class="fa-plus fa-lg"></i>
+  Nouveau Service
+</button>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nouveau Service :</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row mt-2">
+          <div class="col-md-4">
+            <label for="libel" class="form-label">Nom du service:</label>
+            <input type="text" class="form-control form-control-sm" id="libel" [(ngModel)]="service.libelle">
+            <label for="libell" class="form-label">Nom du département:</label>
+            <select class="form-control form-control-sm" id="libell" [(ngModel)]="service.departement">
+              <option *ngFor="let departement of departements" [ngValue]="departement">
+                {{ departement.libelle }}
+              </option>
+            </select></div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-primary text-white" (click)="save()">Sauvegarder</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<br><br>
+
+<table class="table table-bordered table-hover">
+  <thead>
+  <tr>
+    <th>Nom du Service</th>
+    <th>Nom du departement</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+    @for (service of services; track service; let i = $index) {
+
+      <tr>
+        <td>{{ service.libelle }}</td>
+        <td>{{ service.departement.libelle }}</td>
+        <td>
+          <button class="btn btn-info btn-sm m-1" data-bs-toggle="modal" [attr.data-bs-target]="'#exampleModal' + i"><i
+            class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></button>
+          <div class="modal fade" [id]="'exampleModal' + i" tabindex="-1" aria-labelledby="exampleModalLabel"
+               aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabell">Modifier Service :</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row mt-2">
+                    <div class="col-md-4">
+                      <label for="libelleee" class="form-label">Ancien Service:</label>
+                      <p id="libelleee">{{ service.libelle }}</p>
+                      <label for="libellee" class="form-label">Nouveau Service:</label>
+                      <input type="text" class="form-control form-control-sm" id="libellee"
+                             [(ngModel)]="updatedLibelle">
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                  <button type="button" class="btn btn-primary text-white" (click)="update(service)">Sauvegarder
+                  </button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-danger btn-sm m-1" (click)="confirmDelete(service, i)"><i class="fa-solid fa-trash"
+                                                                                           style="color: #ffffff;"></i>
+          </button>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
+
+

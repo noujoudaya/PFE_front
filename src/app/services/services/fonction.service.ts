@@ -5,6 +5,9 @@ import {Observable} from "rxjs";
 import {Service} from "../models/service.model";
 import {Router} from "@angular/router";
 
+
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,29 +16,35 @@ export class FonctionService {
   private _fonctions :Fonction[] = [];
   private url: string="http://localhost:8088/api/v1/fonction/";
 
-  constructor(private http: HttpClient, private router: Router) {
-  }
-  public save(): Observable<number> {
-    return this.http.post<number>(this.url, this.fonction);
-  }
 
-  public findAll(): Observable<Array<Fonction>> {
+  constructor(private http : HttpClient, private router: Router) { }
+  public save() : Observable<number>{
+    return this.http.post<number>(this.url,this.fonction);
+
+  }
+  public update() : Observable<number>{
+    return this.http.put<number>(this.url,this.fonction);
+
+  }
+  public findAll() : Observable<Array<Fonction>>{
     return this.http.get<Array<Fonction>>(this.url);
   }
-  public findByCode(code: string): Observable<Fonction> {
-    return this.http.get<Fonction>(this.url + 'code/' + code);
+
+  public findByCode(code: string) : Observable<Fonction>{
+    return this.http.get<Fonction>(this.url+'code/'+code);
   }
-  public findByServiceCode(code: string): Observable<Array<Fonction>> {
-    return this.http.get<Array<Fonction>>(this.url + '/service/code/' + code);
+  public findByServiceCode(code: string) : Observable<Array<Fonction>>{
+    return this.http.get<Array<Fonction>>(this.url+'/service/code/'+code);
   }
-  public findByLibelle(libelle: string): Observable<Fonction> {
-    return this.http.get<Fonction>(this.url + 'libelle/' + libelle);
+  public findByLibelle(libelle: string) : Observable<Fonction>{
+    return this.http.get<Fonction>(this.url+'libelle/'+libelle);
   }
-  public deleteByCode(code: string): Observable<number> {
-    return this.http.delete<number>(this.url + 'code/' + code);
+  public deleteByCode(code: string) : Observable<number>{
+    return this.http.delete<number>(this.url+'code/'+code);
   }
-  public deleteByServiceCode(code: string): Observable<number> {
-    return this.http.delete<number>(this.url + '/service/code/' + code);
+  public deleteByServiceCode(code: string) : Observable<number>{
+    return this.http.delete<number>(this.url+'/service/code/'+code);
+
   }
 
 
