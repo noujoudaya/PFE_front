@@ -7,6 +7,7 @@ import {Service} from "./service.model";
 import {Fonction} from "./fonction.model";
 import {TypeSalaire} from "../enums/typeSalaire.enum";
 import {TypeContrat} from "../enums/typeContrat.enum";
+import {Image} from "./image.model";
 
 export class Employe {
 
@@ -64,6 +65,7 @@ export class Employe {
   service: Service;
   // @ts-ignore
   fonction: Fonction;
+  // @ts-ignore
   image : any;
 
 }

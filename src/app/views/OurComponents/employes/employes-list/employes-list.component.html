@@ -195,7 +195,7 @@
 <br><br>
 <table class="table table-bordered table-hover">
   <thead>
-  <th>Id</th>
+  <th>Profile</th>
   <th>Nom</th>
   <th>Prenom</th>
   <th>CIN</th>
@@ -206,7 +206,21 @@
   </thead>
   <tbody>
   <tr *ngFor="let c of employes; index as i">
-    <td>{{ c.id }}</td>
+    <td>
+      <div class="image-container">
+        <label class="hoverable" for="fileInput">
+          <img [src]="c.image ? c.image : 'https://www.w3schools.com/howto/img_avatar.png'"  alt="add picture"/>
+          <div class="background"></div>
+        </label>
+        <br />
+        <input
+          id="fileInput"
+          type="file"
+          class="select-profile-picture"
+          (change)="onFileChanged($event,c)"
+        />
+      </div>
+    </td>
     <td>{{ c.nom }}</td>
     <td>{{ c.prenom }}</td>
     <td>{{ c.cin }}</td>
