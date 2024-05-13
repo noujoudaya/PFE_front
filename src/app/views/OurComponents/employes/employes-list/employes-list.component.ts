@@ -16,6 +16,7 @@ import {ServiceService} from "../../../../services/services/service.service";
 import {Fonction} from "../../../../services/models/fonction.model";
 import {FonctionService} from "../../../../services/services/fonction.service";
 import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
+import {HttpClient} from "@angular/common/http";
 
 
 @Component({
@@ -34,7 +35,10 @@ export class EmployesListComponent implements OnInit {
   private _selectedEmployee: Employe | null = null;
 
   private searchTerms = new Subject<string>();
-
+  selectedFile!: File;
+  retrievedImage: any;
+  base64Data: any;
+  retrieveResponse: any;
 
   compareDepartments(d1: any, d2: any): boolean {
     return d1 && d2 ? d1.id === d2.id : d1 === d2;
@@ -96,6 +100,7 @@ export class EmployesListComponent implements OnInit {
   }
 
   constructor(private service: EmployeService,
+              private httpClient: HttpClient,
               private departementService: DepartementService,
               private serviceService: ServiceService,
               private fonctionService: FonctionService) {
@@ -136,14 +141,54 @@ export class EmployesListComponent implements OnInit {
       }
     });
   }
+  public onFileChanged(event: any,employe: Employe) {
+    // Select File
+    this.selectedFile = event.target.files[0];
+    this.onUpload(employe);
+
+
+  }
 
   public findAll(): void {
     this.service.findAll().subscribe(data => {
-        console.log(data);
         this.employes = data;
+        for (let employe of this.employes ){
+          this.base64Data = employe.image.picByte;
+          employe.image = 'data:image/jpeg;base64,' + this.base64Data;
+
+        }
       }
     );
   }
+  onUpload(employe: Employe) {
+    const uploadImageData = new FormData();
+    uploadImageData.append('imageFile', this.selectedFile, this.selectedFile.name);
+    uploadImageData.append('cin', employe.cin)
+    this.httpClient.post('http://localhost:8088/api/v1/image/upload', uploadImageData, {
+      observe: 'response',
+      responseType: 'text' // Specify the response type as text
+    })
+      .subscribe((response) => {
+        if (response.status === 200) {
+          alert('Image uploaded successfully');
+
+        } else {
+          alert('Image not uploaded successfully');
+        }
+      });
+  }
+  getImage() {
+    //Make a call to Sprinf Boot to get the Image Bytes.
+    this.httpClient.get('http://localhost:8088/api/v1/image/get/' + this.selectedFile.name)
+      .subscribe(
+        res => {
+          this.retrieveResponse = res;
+          this.base64Data = this.retrieveResponse.picByte;
+          this.retrievedImage = 'data:image/jpeg;base64,' + this.base64Data;
+        }
+      );
+  }
+
 
   search(term: string): void {
     this.searchTerms.next(term);

@@ -19,7 +19,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'dashboard',
-        loadChildren: () => import('./views/dashboard/routes').then((m) => m.routes)
+        loadChildren: () => import('./views/dashboard/admin/routes').then((m) => m.routes)
       },
       {
         path: 'profile',
