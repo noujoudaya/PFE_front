@@ -27,6 +27,8 @@ export class RetardListComponent implements OnInit {
 
   private searchTerms = new Subject<string>();
 
+  selectedRetard: Retard | null = null;
+
   constructor(private retardService: RetardService) {
   }
 
@@ -52,6 +54,18 @@ export class RetardListComponent implements OnInit {
 
     return minutesRetard > 0 ? `${minutesRetard} minutes` : 'Aucun retard';
   }
+
+  public justifier(retard: Retard): void {
+    this.selectedRetard = retard;
+    this.retardService.justifier(this.selectedRetard).subscribe(data => {
+      if (data != null)
+        console.log(data);
+      alert("retard justifié!");
+      this.findAll();
+      this.selectedRetard = new Retard();
+    });
+  }
+
   get retard(): Retard {
     return this.retardService.retard;
   }

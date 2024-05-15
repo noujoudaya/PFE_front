@@ -43,6 +43,7 @@ export class RetardSecretaireComponent implements OnInit {
   }
 
   public save(retard: Retard): void {
+    retard.dateRetard=new Date().toISOString().split('T')[0]; // Initialise avec la date actuelle
     this.retardService.save(retard).subscribe(data => {
       if (data > 0) {
         this.retardsSec.push({...this.retardSec});

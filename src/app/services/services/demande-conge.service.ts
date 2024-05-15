@@ -48,6 +48,13 @@ export class DemandeCongeService {
     return this.http.get<number>(this.url+'countByStatutConge');
   }
 
+  public findByEmploye(employe:Employe):Observable<Array<DemandeConge>>{
+    return this.http.post<Array<DemandeConge>>(this.url+'employe',employe);
+  }
+
+  public deleteConge(dateDemande:string,employeId:number,typeConge:string):Observable<number>{
+    return this.http.post<number>(`${this.url}deleteConge/${dateDemande}/${employeId}/${typeConge}`, null);  }
+
   get demande(): DemandeConge {
     return this._demande;
   }

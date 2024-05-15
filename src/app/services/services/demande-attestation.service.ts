@@ -4,6 +4,7 @@ import {DemandeAttestation} from "../models/demande-attestation.model";
 import {Observable} from "rxjs";
 import {DemandeConge} from "../models/demande-conge.model";
 import value from "*.json";
+import {Employe} from "../models/employe.model";
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,14 @@ export class DemandeAttestationService {
   public save(demande:DemandeAttestation):Observable<number>{
     return this.http.post<number>(this.url+'save',demande);
   }
+
+  public deleteAttest(employeId:number,dateDemande:string):Observable<number>{
+    return this.http.delete<number>(`${this.url}deleteAttest/${employeId}/${dateDemande}`);
+  }
+  public findByEmploye(employe:Employe):Observable<Array<DemandeAttestation>>{
+    return this.http.post<Array<DemandeAttestation>>(this.url+'employe',employe);
+  }
+
   get demandeAttestation(): DemandeAttestation {
     return this._demandeAttestation;
   }

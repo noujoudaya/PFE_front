@@ -8,7 +8,6 @@
 
 <table class="table table-bordered">
   <thead>
-  <th>Id</th>
   <th>Employé</th>
   <th>Date demande</th>
   <th>Type Attestation</th>
@@ -17,7 +16,6 @@
   </thead>
   <tbody>
   <tr *ngFor="let c of demandesAttestation; index as i" >
-    <td>{{c.id}}</td>
     <td>{{c.employe.nom}} {{c.employe.prenom}}</td>
     <td>{{c.dateDemande}}</td>
     <td>{{c.typeAttestation}}</td>
@@ -25,6 +23,8 @@
     <td>
       <button (click)="preparer(c)" class="btn btn-info text-white m-1"> Préparer</button>
       <button (click)="valider(c)" class="btn btn-success text-white">Prête</button>
+      <button (click)="delete(c,i)" class="btn btn-danger m-1"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
+
     </td>
   </tr>
   </tbody>

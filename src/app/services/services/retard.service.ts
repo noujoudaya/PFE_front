@@ -26,17 +26,22 @@ export class RetardService {
     return this.http.get<Array<Retard>>(this.url);
   }
 
-  public save(retard:Retard):Observable<number>{
-    return this.http.post<number>(this.url+'save',retard);
+  public save(retard: Retard): Observable<number> {
+    return this.http.post<number>(this.url + 'save', retard);
   }
 
   public deleteByDateRetardAndEmploye(dateRetard: string, employe: Employe): Observable<number> {
-    return this.http.delete<number>(`${this.url}dateRetard/${dateRetard}/employe`, { body: employe });
+    return this.http.delete<number>(`${this.url}dateRetard/${dateRetard}/employe`, {body: employe});
   }
 
   public searchRetards(term: string): Observable<Array<Retard>> {
     return this.http.get<Array<Retard>>(this.url + 'search', {params: {search: term}});
   }
+
+  public justifier(retard: Retard): Observable<string> {
+    return this.http.post<string>(this.url + 'justifier', retard,{ responseType: 'text' as 'json' });
+  }
+
   get retard(): Retard {
     return this._retard;
   }

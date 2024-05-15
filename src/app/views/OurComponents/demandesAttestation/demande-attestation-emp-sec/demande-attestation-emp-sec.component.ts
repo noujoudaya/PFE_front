@@ -19,8 +19,18 @@ import {DemandeAttestation} from "../../../../services/models/demande-attestatio
   styleUrl: './demande-attestation-emp-sec.component.scss'
 })
 export class DemandeAttestationEmpSecComponent implements OnInit {
+
+  // @ts-ignore
+  authenticatedEmploye: Employe;
+  authenticatedEmpAttest: DemandeAttestation[] = [];
+
   ngOnInit(): void {
     this.loadEmployes();
+    const storedEmployee = localStorage.getItem('authenticatedEmploye');
+    if (storedEmployee) {
+      this.authenticatedEmploye = JSON.parse(storedEmployee);
+    }
+    this.findByEmploye();
   }
 
   constructor(private employeService: EmployeService,
@@ -44,15 +54,50 @@ export class DemandeAttestationEmpSecComponent implements OnInit {
   }
 
   public save(demande: DemandeAttestation): void {
+    demande.employe=this.authenticatedEmploye;
     this.demandeService.save(demande).subscribe(data => {
       if (data > 0) {
         alert("Demande enregistrée");
+        this.findByEmploye();
         this.demandeEmploye = new DemandeAttestation();
-      }
-      else {
+      } else {
         alert("Erreur");
       }
     });
+  }
+
+  public findByEmploye(): void {
+    this.demandeService.findByEmploye(this.authenticatedEmploye).subscribe(data => {
+      this.authenticatedEmpAttest = data;
+      console.log('Demandes attesta de l\'employé:', this.authenticatedEmpAttest);
+    })
+  }
+
+  public deleteAttest(demande: DemandeAttestation, index: number): void {
+    if (demande.statutAttestation.toString() == 'En_Cours') {
+      alert("Cette demande est au cours de traitement. Vous ne pouvez pas la supprimer.");
+      return; // Quitter la fonction car l'utilisateur ne peut pas supprimer une demande acceptée
+    } else if (demande.statutAttestation.toString() == 'Prête') {
+      alert("Cette demande est déja traitée. Vous ne pouvez pas la supprimer.");
+      return;
+    }
+    const confirmation = confirm("Voulez-vous vraiment supprimer cette demande d'attestation ?");
+
+    // Vérifier la réponse de l'utilisateur
+    if (confirmation) {
+      this.demandeService.deleteAttest(demande.employe.id, demande.dateDemande).subscribe(data => {
+        if (data > 0) {
+          this.authenticatedEmpAttest.splice(index, 1);
+        }
+        else {
+          alert("Erreur suppression");
+        }
+      });
+    }
+    else {
+      // Si l'utilisateur clique sur "Annuler", ne rien faire
+      console.log("Suppression annulée.");
+    }
   }
 
   get demandeEmploye(): DemandeAttestation {

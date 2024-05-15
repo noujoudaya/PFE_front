@@ -44,6 +44,7 @@ export class AbsenceListComponent implements OnInit {
     this.absenceService.justifier(this.selectedAbsence).subscribe(data=>{
       console.log(data);
       alert("Absence justifiée");
+      this.findAll();
       this.selectedAbsence = new Absence();
     })
   }
