@@ -45,10 +45,12 @@ export class AbsenceSecretaireComponent implements OnInit {
   }
 
   public save(absence: Absence): void {
+    absence.dateAbsence=new Date().toISOString().split('T')[0];
     this.absenceService.save(absence).subscribe(data => {
       if (data > 0) {
         this.absencesSec.push({...this.absenceSec});
         alert("Absence enregistrée !");
+        this.findAll();
         this.absenceSec = new Absence();
       } else {
         alert("Erreur");
@@ -61,6 +63,7 @@ export class AbsenceSecretaireComponent implements OnInit {
       if (data > 0){
         this.absencesSec.splice(index, 1);
         alert("Absence supprimée !");
+        this.findAll();
       }
       else {
         alert("Erreur");

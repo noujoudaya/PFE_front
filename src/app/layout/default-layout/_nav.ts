@@ -24,7 +24,7 @@ export const navItems: INavData[] = [
     children: [
       {
         name: 'Congé',
-        url: '/demande/conge',
+        url: 'employe/demande/conge',
         icon: 'nav-icon-bullet'
       },
       {

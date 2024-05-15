@@ -44,6 +44,7 @@ export class DemandesAttestationListComponent implements OnInit {
     this.demandeAttestService.preparerDemande(this.selectedDemandeAttest).subscribe(data => {
       console.log(data);
       alert("Demande en cours de préparation");
+      this.findAll();
     })
   }
 
@@ -52,8 +53,36 @@ export class DemandesAttestationListComponent implements OnInit {
     this.demandeAttestService.validerDemande(this.selectedDemandeAttest).subscribe(data => {
       console.log(data);
       alert("Demande prête");
+      this.findAll();
       this.selectedDemandeAttest = new DemandeAttestation();
     })
+  }
+
+  public delete(demande: DemandeAttestation, index: number):void{
+    if (demande.statutAttestation.toString() == 'En_Cours') {
+      alert("Cette demande est au cours de traitement. Vous ne pouvez pas la supprimer.");
+      return; // Quitter la fonction car l'utilisateur ne peut pas supprimer une demande acceptée
+    } else if (demande.statutAttestation.toString() == 'Prête') {
+      alert("Cette demande est déja traitée. Vous ne pouvez pas la supprimer.");
+      return;
+    }
+    const confirmation = confirm("Voulez-vous vraiment supprimer cette demande d'attestation ?");
+
+    // Vérifier la réponse de l'utilisateur
+    if (confirmation) {
+      this.demandeAttestService.deleteAttest(demande.employe.id, demande.dateDemande).subscribe(data => {
+        if (data > 0) {
+          this.demandesAttestation.splice(index, 1);
+        }
+        else {
+          alert("Erreur suppression");
+        }
+      });
+    }
+    else {
+      // Si l'utilisateur clique sur "Annuler", ne rien faire
+      console.log("Suppression annulée.");
+    }
   }
 
   search(term: string): void {

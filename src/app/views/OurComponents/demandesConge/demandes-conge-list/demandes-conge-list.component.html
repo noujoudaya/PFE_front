@@ -9,7 +9,6 @@
 
 <table class="table table-bordered">
   <thead>
-  <th>Id</th>
   <th>Employé</th>
   <th>Date demande</th>
   <th>Date début</th>
@@ -20,7 +19,6 @@
   </thead>
   <tbody>
   <tr *ngFor="let c of demandes; index as i">
-    <td>{{ c.id }}</td>
     <td>{{ c.employe.nom }} {{ c.employe.prenom }}</td>
     <td>{{ c.dateDemande }}</td>
     <td>{{ c.dateDebut }}</td>
@@ -28,8 +26,9 @@
     <td>{{ c.typeConge.libelle }}</td>
     <td>{{ c.statutConge }}</td>
     <td>
-      <button class="btn btn-success text-white m-1" (click)="accepter(c)"> Accepter</button>
-      <button class="btn btn-danger text-white" (click)="refuser(c)">Refuser</button>
+      <button class="btn btn-success btn-sm text-white m-1" (click)="accepter(c)"><i class="fa-solid fa-check"></i></button>
+      <button class="btn btn-danger btn-sm text-white" (click)="refuser(c)"><i class="fa-solid fa-x"></i></button>
+      <button (click)="supprimer(c,i)" class="btn btn-info btn-sm m-1"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
     </td>
   </tr>
   </tbody>

@@ -47,23 +47,57 @@ export class DemandesCongeListComponent implements OnInit{
   }
 
   public accepter(demande:DemandeConge):void{
+    if (demande.statutConge.toString() == 'Refusée') {
+      alert("Cette demande de congé est déjà refusée. Elle ne peut pas être acceptée.");
+      return;
+    }
     this.selectedDemande = demande;
     this.demandeService.accepter(this.selectedDemande).subscribe(data=>{
       console.log(data);
       alert("Demande acceptée")
+      this.findAll();
       this.selectedDemande = new DemandeConge();
       }
     )
   }
 
   public refuser(demande:DemandeConge):void{
+    if (demande.statutConge.toString() == 'Acceptée') {
+      alert("Cette demande de congé est déjà acceptée. Elle ne peut pas être refusée.");
+      return;
+    }
     this.selectedDemande = demande;
     this.demandeService.refuser(this.selectedDemande).subscribe(data=>{
         console.log(data);
         alert("Demande refusée")
+      this.findAll();
         this.selectedDemande = new DemandeConge();
       }
     )
+  }
+
+  public supprimer(demande:DemandeConge,index:number):void{
+    if (demande.statutConge.toString() == 'Acceptée') {
+      alert("Cette demande de congé est déjà acceptée. Vous ne pouvez pas la supprimer.");
+      return; // Quitter la fonction car l'utilisateur ne peut pas supprimer une demande acceptée
+    }
+    // Afficher une boîte de dialogue de confirmation
+    const confirmation = confirm("Voulez-vous vraiment supprimer cette demande de congé ?");
+
+    // Vérifier la réponse de l'utilisateur
+    if (confirmation) {
+      // Si l'utilisateur clique sur "OK", effectuer la suppression
+      this.demandeService.deleteConge(demande.dateDemande, demande.employe.id, demande.typeConge.libelle).subscribe(data => {
+        if (data > 0) {
+          this.demandes.splice(index, 1);
+        } else {
+          alert("Erreur suppression");
+        }
+      });
+    } else {
+      // Si l'utilisateur clique sur "Annuler", ne rien faire
+      console.log("Suppression annulée.");
+    }
   }
 
   search(term: string): void {

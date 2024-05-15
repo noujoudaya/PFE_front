@@ -1,12 +1,12 @@
 <div class="d-flex justify-content-between pt-3 ">
-  <h1 class="display-6">Solde annuel : 30</h1>
-  <h1 class="display-6">Jours pris : 15</h1>
-  <h1 class="display-6">Jours restants : 15</h1>
+  <h1 class="display-6" *ngIf="authenticatedEmploye">Solde annuel : {{authenticatedEmploye.soldeConge}}</h1>
+  <h1 class="display-6">Jours pris : {{ this.joursPris }}</h1>
+  <h1 class="display-6">Jours restants : {{this.joursRestants}}</h1>
 </div><br>
 
 
 
-<button type="button" class="btn btn-primary text-white ml" data-bs-toggle="modal" data-bs-target="#demandeConge">
+<button type="button" [disabled]="joursRestants <= 0" class="btn btn-primary text-white ml" data-bs-toggle="modal" data-bs-target="#demandeConge">
   <i class="fa fa-plus fa-lg"></i> Nouvelle demande
 </button><br><br><br>
 <div class="modal fade" id="demandeConge" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -41,14 +41,14 @@
               <option *ngFor="let type of typesConges" [ngValue]="type">{{ type.libelle }}</option>
             </select>
           </div>
-          <div class="col-md-4">
+         <!-- <div class="col-md-4">
             <label for="employe" class="form-label">Employé :</label>
             <select class="form-control form-control-sm" id="employe" [(ngModel)]="demandeEmploye.employe">
               <option value="" disabled selected>Sélectionner l'employe</option>
               <option *ngFor="let employe of employes" [ngValue]="employe">{{ employe.nom }} {{ employe.prenom }}
               </option>
             </select>
-          </div>
+          </div>-->
         </div>
       </div>
       <div class="modal-footer justify-content-center">
@@ -69,15 +69,14 @@
   <th>Actions</th>
   </thead>
   <tbody>
-  <tr>
-    <td>test</td>
-    <td>test</td>
-    <td>test</td>
-    <td>test</td>
-    <td>test</td>
+  <tr *ngFor="let c of authenticatedEmpDemandes;index as i">
+    <td>{{c.dateDemande}}</td>
+    <td>{{c.dateDebut}}</td>
+    <td>{{c.dateFin}}</td>
+    <td>{{c.typeConge.libelle}}</td>
+    <td>{{c.statutConge}}</td>
     <td>
-      <button class="btn btn-info btn-sm m-1" data-bs-toggle="modal" data-bs-target="#edit"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></button>
-      <button class="btn btn-danger btn-sm m-1"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
+      <button (click)="deleteConge(c,i)" class="btn btn-danger btn-sm m-1"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
     </td>
   </tr>
   </tbody>

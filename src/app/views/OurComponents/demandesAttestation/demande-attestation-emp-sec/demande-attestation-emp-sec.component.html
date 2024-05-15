@@ -22,14 +22,14 @@
               <option *ngFor="let type of typesAttest" [value]="type">{{ type }}</option>
             </select>
           </div>
-          <div class="col-md-4">
+          <!--<div class="col-md-4">
             <label for="employe" class="form-label">Employé :</label>
             <select class="form-control form-control-sm" id="employe" [(ngModel)]="demandeEmploye.employe">
               <option value="" disabled selected>Sélectionner l'employe</option>
               <option *ngFor="let employe of employes" [ngValue]="employe">{{ employe.nom }} {{ employe.prenom }}
               </option>
             </select>
-          </div>
+          </div>-->
         </div>
       </div>
       <div class="modal-footer justify-content-center">
@@ -48,13 +48,12 @@
   <th>Actions</th>
   </thead>
   <tbody>
-  <tr>
-    <td>test</td>
-    <td>test</td>
-    <td>test</td>
+  <tr *ngFor="let c of authenticatedEmpAttest;index as i">
+    <td>{{c.dateDemande}}</td>
+    <td>{{c.typeAttestation}}</td>
+    <td>{{c.statutAttestation}}</td>
     <td>
-      <button class="btn btn-info btn-sm m-1" data-bs-toggle="modal" data-bs-target="#edit"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></button>
-      <button class="btn btn-danger btn-sm m-1"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
+      <button (click)="deleteAttest(c,i)" class="btn btn-danger btn-sm m-1"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
     </td>
   </tr>
   </tbody>
