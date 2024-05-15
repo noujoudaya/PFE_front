@@ -7,6 +7,7 @@ import {AuthenticationRequest} from "../../../services/models/authentication-req
 import {FormsModule} from "@angular/forms";
 import {AuthenticationService} from "../../../services/services/authentication.service";
 import {TokenService} from "../../../services/token/token.service";
+import {EmployeService} from "../../../services/services/employe.service";
 
 @Component({
     selector: 'app-login',
@@ -23,7 +24,8 @@ export class LoginComponent {
   constructor(
     private router: Router,
     private authService: AuthenticationService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private employeService: EmployeService
   ) {
   }
 
@@ -34,6 +36,10 @@ export class LoginComponent {
     }).subscribe({
       next: (res) => {
         this.tokenService.token = res.token as string;
+        console.log(res.employe);
+        this.employeService.authenticatedEmploye = res.employe;
+        console.log(this.employeService.authenticatedEmploye);
+        localStorage.setItem('authenticatedEmploye', JSON.stringify(res.employe));
         this.router.navigate(['dashboard']);
       },
       error: (err) => {

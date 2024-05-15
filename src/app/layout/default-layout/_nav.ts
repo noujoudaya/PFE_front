@@ -37,12 +37,12 @@ export const navItems: INavData[] = [
   {
     name: 'Absences',
     iconComponent: { name: 'cil-user-unfollow' },
-    url: 'secretaire/absence',
+    url: '/absence',
 
   },
   {
     name: 'Retards',
-    url: 'secretaire/retard',
+    url: '/retard',
     iconComponent: {name: 'cil-calendar'},
 
   },

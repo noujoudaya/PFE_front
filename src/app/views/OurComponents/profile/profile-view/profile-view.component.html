@@ -19,49 +19,49 @@
         <div class="row mt-2">
           <div class="col-md-4"> <!-- Chaque colonne prend 4 unités sur 12, donc trois colonnes par ligne -->
             <label for="No" class="form-label">Nom :</label>
-            <input disabled type="text" class="form-control form-control-sm" id="No">
+            <input disabled type="text" class="form-control form-control-sm" id="No" [(ngModel)]="authenticatedEmploye.nom">
           </div>
           <div class="col-md-4">
             <label for="prenomm" class="form-label">Prénom :</label>
-            <input disabled type="text" class="form-control form-control-sm" id="prenomm">
+            <input disabled type="text" class="form-control form-control-sm" id="prenomm" [(ngModel)]="authenticatedEmploye.prenom">
           </div>
           <div class="col-md-4">
             <label for="gender" class="form-label">Genre :</label>
-            <input disabled type="text" class="form-control form-control-sm" id="gender">
+            <input disabled type="text" class="form-control form-control-sm" id="gender" [(ngModel)]="authenticatedEmploye.genre">
           </div>
         </div>
         <div class="row mt-1">
           <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
             <label for="telephonne" class="form-label">Téléphone :</label>
-            <input disabled type="text" class="form-control form-control-sm" id="telephonne">
+            <input disabled type="text" class="form-control form-control-sm" id="telephonne" [(ngModel)]="authenticatedEmploye.telephone">
           </div>
           <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
             <label for="adressse" class="form-label">Adresse :</label>
-            <input disabled type="text" class="form-control form-control-sm" id="adressse">
+            <input disabled type="text" class="form-control form-control-sm" id="adressse" [(ngModel)]="authenticatedEmploye.adresse">
           </div>
           <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
             <label for="cinn" class="form-label">CIN :</label>
-            <input disabled type="text" class="form-control form-control-sm" id="cinn">
+            <input disabled type="text" class="form-control form-control-sm" id="cinn" [(ngModel)]="authenticatedEmploye.cin">
           </div>
         </div>
         <div class="row mt-1">
           <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
             <label for="villle" class="form-label">Ville :</label>
-            <input disabled type="text" class="form-control form-control-sm" id="villle">
+            <input disabled type="text" class="form-control form-control-sm" id="villle" [(ngModel)]="authenticatedEmploye.ville">
           </div>
           <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
             <label for="dateNaisssance" class="form-label">Date de naissance :</label>
-            <input disabled type="date" class="form-control form-control-sm" id="dateNaisssance">
+            <input disabled type="date" class="form-control form-control-sm" id="dateNaisssance" [(ngModel)]="authenticatedEmploye.dateNaissance">
           </div>
           <div class="col-md-4">
             <label for="situationn" class="form-label">Situation Familiale :</label>
-            <input disabled type="text" class="form-control form-control-sm" id="situationn">
+            <input disabled type="text" class="form-control form-control-sm" id="situationn" [(ngModel)]="authenticatedEmploye.situationFamiliale">
           </div>
         </div>
         <div class="row mt-1">
           <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
             <label for="emaill" class="form-label">Email :</label>
-            <input disabled type="text" class="form-control form-control-sm" id="emaill">
+            <input disabled type="text" class="form-control form-control-sm" id="emaill" [(ngModel)]="authenticatedEmploye.email">
           </div>
         </div><br>
         <div class="d-flex justify-content-center">
@@ -73,67 +73,67 @@
         <div class="row mt-2">
           <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
             <label for="dateEmbauch" class="form-label">Date d'embauche :</label>
-            <input disabled type="date" class="form-control form-control-sm" id="dateEmbauch">
+            <input disabled type="date" class="form-control form-control-sm" id="dateEmbauch" [(ngModel)]="authenticatedEmploye.dateEmbauche">
           </div>
           <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
             <label for="dateEntree" class="form-label">Date d'entrée :</label>
-            <input disabled type="date" class="form-control form-control-sm" id="dateEntree">
+            <input disabled type="date" class="form-control form-control-sm" id="dateEntree" [(ngModel)]="authenticatedEmploye.dateEntree">
           </div>
           <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
             <label for="dateFinContratt" class="form-label">Date fin contrat :</label>
-            <input disabled type="date" class="form-control form-control-sm" id="dateFinContratt">
+            <input disabled type="date" class="form-control form-control-sm" id="dateFinContratt" [(ngModel)]="authenticatedEmploye.dateFinContrat">
           </div>
         </div>
         <div class="row mt-2">
           <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
             <label for="salairee" class="form-label">Salaire :</label>
-            <input disabled type="number" class="form-control form-control-sm" id="salairee">
+            <input disabled type="number" class="form-control form-control-sm" id="salairee" [(ngModel)]="authenticatedEmploye.salaire">
           </div>
           <div class="col-md-4">
             <label for="statutt" class="form-label">Statut :</label>
-            <input disabled type="text" class="form-control form-control-sm" id="statutt">
+            <input disabled type="text" class="form-control form-control-sm" id="statutt" [(ngModel)]="authenticatedEmploye.statutEmploye">
           </div>
           <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
             <label for="numeroo" class="form-label">Numéro compte bancaire :</label>
-            <input disabled type="text" class="form-control form-control-sm" id="numeroo">
+            <input disabled type="text" class="form-control form-control-sm" id="numeroo" [(ngModel)]="authenticatedEmploye.numeroCompteBancaire">
           </div>
         </div>
         <div class="row mt-2">
           <div class="col-md-4">
             <label for="designationn" class="form-label">Designation :</label>
-            <input disabled type="text" class="form-control form-control-sm" id="designationn">
+            <input disabled type="text" class="form-control form-control-sm" id="designationn" [(ngModel)]="authenticatedEmploye.designation">
           </div>
           <div class="col-md-4">
             <label for="typeContrattt" class="form-label">Type Contrat :</label>
-            <input disabled type="text" class="form-control form-control-sm" id="typeContrattt">
+            <input disabled type="text" class="form-control form-control-sm" id="typeContrattt" [(ngModel)]="authenticatedEmploye.typeContrat">
           </div>
           <div class="col-md-4">
             <label for="typeSall" class="form-label">Type salaire :</label>
-            <input disabled type="text" class="form-control form-control-sm" id="typeSall">
+            <input disabled type="text" class="form-control form-control-sm" id="typeSall" [(ngModel)]="authenticatedEmploye.typeSalaire">
           </div>
         </div>
         <div class="row mt-2">
           <div class="col-md-4">
             <label for="departementt" class="form-label">Département :</label>
-            <input disabled type="text" class="form-control form-control-sm" id="departementt">
+            <input disabled type="text" class="form-control form-control-sm" id="departementt" [(ngModel)]="authenticatedEmploye.departement.libelle">
           </div>
           <div class="col-md-4">
             <label for="servicee" class="form-label">Service :</label>
-            <input disabled type="text" class="form-control form-control-sm" id="servicee">
+            <input disabled type="text" class="form-control form-control-sm" id="servicee" [(ngModel)]="authenticatedEmploye.service.libelle">
           </div>
           <div class="col-md-4">
             <label for="fonctionn" class="form-label">Fonction :</label>
-            <input disabled type="text" class="form-control form-control-sm" id="fonctionn">
+            <input disabled type="text" class="form-control form-control-sm" id="fonctionn" [(ngModel)]="authenticatedEmploye.fonction.libelle">
           </div>
         </div>
         <div class="row mt-2">
           <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
             <label for="numeroCNSSS" class="form-label">Numéro CNSS :</label>
-            <input disabled type="number" class="form-control form-control-sm" id="numeroCNSSS">
+            <input disabled type="number" class="form-control form-control-sm" id="numeroCNSSS" [(ngModel)]="authenticatedEmploye.numeroCNSS">
           </div>
           <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
             <label for="soldeCongee" class="form-label">Solde congé :</label>
-            <input disabled type="number" class="form-control form-control-sm" id="soldeCongee">
+            <input disabled type="number" class="form-control form-control-sm" id="soldeCongee" [(ngModel)]="authenticatedEmploye.soldeConge">
           </div>
         </div>
       </div>
