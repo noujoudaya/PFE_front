@@ -16,40 +16,40 @@ export class DemandeAttestationService {
   private _demandeEmploye: DemandeAttestation = new DemandeAttestation();
   private _demandesEmploye: DemandeAttestation[] = [];
 
-  private url = 'http://localhost:8088/api/v1/demandesAttestation/';
+  private url = 'http://localhost:8088/api/v1/';
 
   constructor(private http: HttpClient) {
   }
 
   public findAll(): Observable<Array<DemandeAttestation>> {
-    return this.http.get<Array<DemandeAttestation>>(this.url);
+    return this.http.get<Array<DemandeAttestation>>(this.url+'admin/demandesAttestation/');
   }
 
   public preparerDemande(demandeAttestation:DemandeAttestation): Observable<string>{
-    return this.http.post<string>(this.url+'preparerDemande',demandeAttestation,{ responseType: 'text' as 'json' });
+    return this.http.post<string>(this.url+'admin/demandesAttestation/preparerDemande',demandeAttestation,{ responseType: 'text' as 'json' });
   }
 
   public validerDemande(demandeAttestation:DemandeAttestation): Observable<string>{
-    return this.http.post<string>(this.url+'validerDemande',demandeAttestation,{ responseType: 'text' as 'json' });
+    return this.http.post<string>(this.url+'admin/demandesAttestation/validerDemande',demandeAttestation,{ responseType: 'text' as 'json' });
   }
 
   public searchDemandes(term: string): Observable<Array<DemandeAttestation>> {
-    return this.http.get<Array<DemandeAttestation>>(this.url + 'search', {params: {search: term}});
+    return this.http.get<Array<DemandeAttestation>>(this.url + 'admin/demandesAttestation/search', {params: {search: term}});
   }
 
   public countByStatutAttestation():Observable<number>{
-    return this.http.get<number>(this.url+'countByStatutDemande');
+    return this.http.get<number>(this.url+'admin/demandesAttestation/countByStatutDemande');
   }
 
   public save(demande:DemandeAttestation):Observable<number>{
-    return this.http.post<number>(this.url+'save',demande);
+    return this.http.post<number>(this.url+'employe-secretaire/demandesAttestation/save',demande);
   }
 
   public deleteAttest(employeId:number,dateDemande:string):Observable<number>{
-    return this.http.delete<number>(`${this.url}deleteAttest/${employeId}/${dateDemande}`);
+    return this.http.delete<number>(`${this.url}all/demandesAttestation/deleteAttest/${employeId}/${dateDemande}`);
   }
   public findByEmploye(employe:Employe):Observable<Array<DemandeAttestation>>{
-    return this.http.post<Array<DemandeAttestation>>(this.url+'employe',employe);
+    return this.http.post<Array<DemandeAttestation>>(this.url+'employe-secretaire/demandesAttestation/employe',employe);
   }
 
   get demandeAttestation(): DemandeAttestation {

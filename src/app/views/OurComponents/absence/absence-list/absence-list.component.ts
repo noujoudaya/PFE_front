@@ -36,6 +36,7 @@ export class AbsenceListComponent implements OnInit {
   public findAll(): void {
     this.absenceService.findAll().subscribe(data=>{
       this.absences=data;
+      console.log(this.absences);
     })
   }
 

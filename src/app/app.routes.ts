@@ -22,6 +22,14 @@ export const routes: Routes = [
         loadChildren: () => import('./views/dashboard/admin/routes').then((m) => m.routes)
       },
       {
+        path: 'employe/dashboard',
+        loadChildren: () => import('./views/dashboard/dashboard-employe/routes').then((m) => m.routes)
+      },
+      {
+        path: 'secretaire/dashboard',
+        loadChildren: () => import('./views/dashboard/dashboard-secretaire/routes').then((m) => m.routes)
+      },
+      {
         path: 'profile',
         loadChildren: () => import('./views/OurComponents/profile/profile-view/routes').then((m) => m.routes)
       },
@@ -72,6 +80,10 @@ export const routes: Routes = [
       {
         path: 'fonction',
         loadChildren: () => import('./views/OurComponents/fonction/fonction-list/routes').then((m) => m.routes)
+      },
+      {
+        path: 'parametres',
+        loadChildren: () => import('./views/OurComponents/parametres/routes').then((m) => m.routes)
       },
       {
         path: 'theme',

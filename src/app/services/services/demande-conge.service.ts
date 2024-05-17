@@ -15,25 +15,25 @@ export class DemandeCongeService {
   private _demandes: DemandeConge[] = [];
   private _demandeEmploye: DemandeConge = new DemandeConge();
   private _demandesEmploye: DemandeConge[] = [];
-  private url = 'http://localhost:8088/api/v1/demandesConge/';
+  private url = 'http://localhost:8088/api/v1/';
 
   constructor(private http: HttpClient) {
   }
 
   public findAll(): Observable<Array<DemandeConge>> {
-    return this.http.get<Array<DemandeConge>>(this.url);
+    return this.http.get<Array<DemandeConge>>(this.url+'admin/demandesConge/');
   }
 
   public accepter(demande: DemandeConge): Observable<string> {
-    return this.http.post<string>(this.url + 'accepterDemande', demande, {responseType: 'text' as 'json'});
+    return this.http.post<string>(this.url + 'admin/demandesConge/accepterDemande', demande, {responseType: 'text' as 'json'});
   }
 
   public refuser(demande: DemandeConge): Observable<string> {
-    return this.http.post<string>(this.url + 'refuserDemande', demande, {responseType: 'text' as 'json'});
+    return this.http.post<string>(this.url + 'admin/demandesConge/refuserDemande', demande, {responseType: 'text' as 'json'});
   }
 
   public searchDemandes(term: string): Observable<Array<DemandeConge>> {
-    return this.http.get<Array<DemandeConge>>(this.url + 'search', {params: {search: term}});
+    return this.http.get<Array<DemandeConge>>(this.url + 'admin/demandesConge/search', {params: {search: term}});
   }
 
   public findByStatut(statut: StatutConge): Observable<Array<DemandeConge>> {
@@ -41,19 +41,19 @@ export class DemandeCongeService {
   }
 
   public save(demandeConge: DemandeConge): Observable<number> {
-    return this.http.post<number>(this.url + 'save', demandeConge);
+    return this.http.post<number>(this.url + 'employe-secretaire/demandesConge/save', demandeConge);
   }
 
   public countByStatutConge():Observable<number>{
-    return this.http.get<number>(this.url+'countByStatutConge');
+    return this.http.get<number>(this.url+'admin/demandesConge/countByStatutConge');
   }
 
   public findByEmploye(employe:Employe):Observable<Array<DemandeConge>>{
-    return this.http.post<Array<DemandeConge>>(this.url+'employe',employe);
+    return this.http.post<Array<DemandeConge>>(this.url+'employe-secretaire/demandesConge/employe',employe);
   }
 
   public deleteConge(dateDemande:string,employeId:number,typeConge:string):Observable<number>{
-    return this.http.post<number>(`${this.url}deleteConge/${dateDemande}/${employeId}/${typeConge}`, null);  }
+    return this.http.post<number>(`${this.url}all/demandesConge/deleteConge/${dateDemande}/${employeId}/${typeConge}`, null);  }
 
   get demande(): DemandeConge {
     return this._demande;

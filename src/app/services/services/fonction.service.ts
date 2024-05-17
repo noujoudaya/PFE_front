@@ -14,20 +14,20 @@ import {Router} from "@angular/router";
 export class FonctionService {
   private _fonction :Fonction = new Fonction();
   private _fonctions :Fonction[] = [];
-  private url: string="http://localhost:8088/api/v1/fonction/";
+  private url: string="http://localhost:8088/api/v1/";
 
 
   constructor(private http : HttpClient, private router: Router) { }
   public save() : Observable<number>{
-    return this.http.post<number>(this.url,this.fonction);
+    return this.http.post<number>(this.url+'admin/fonction/',this.fonction);
 
   }
   public update() : Observable<number>{
-    return this.http.put<number>(this.url,this.fonction);
+    return this.http.put<number>(this.url+'admin/fonction/',this.fonction);
 
   }
   public findAll() : Observable<Array<Fonction>>{
-    return this.http.get<Array<Fonction>>(this.url);
+    return this.http.get<Array<Fonction>>(this.url+'all/fonction/');
   }
 
   public findByCode(code: string) : Observable<Fonction>{
@@ -40,7 +40,7 @@ export class FonctionService {
     return this.http.get<Fonction>(this.url+'libelle/'+libelle);
   }
   public deleteByCode(code: string) : Observable<number>{
-    return this.http.delete<number>(this.url+'code/'+code);
+    return this.http.delete<number>(this.url+'admin/fonction/code/'+code);
   }
   public deleteByServiceCode(code: string) : Observable<number>{
     return this.http.delete<number>(this.url+'/service/code/'+code);

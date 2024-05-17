@@ -11,21 +11,21 @@ import {Router} from "@angular/router";
 export class ServiceService {
   private _service :Service = new Service();
   private _services :Service[] = [];
-  private url: string="http://localhost:8088/api/v1/service/";
+  private url: string="http://localhost:8088/api/v1/";
 
 
   constructor(private http : HttpClient, private router: Router) { }
   public save() : Observable<number>{
-    return this.http.post<number>(this.url,this.service);
+    return this.http.post<number>(this.url+'admin/service/',this.service);
 
 
   }
   public update() : Observable<number>{
-    return this.http.put<number>(this.url,this.service);
+    return this.http.put<number>(this.url+'admin/service/',this.service);
 
   }
   public findAll() : Observable<Array<Service>>{
-    return this.http.get<Array<Service>>(this.url);
+    return this.http.get<Array<Service>>(this.url+'all/service/');
   }
   public findByCode(code: string) : Observable<Service>{
     return this.http.get<Service>(this.url+'code/'+code);
@@ -37,7 +37,7 @@ export class ServiceService {
     return this.http.get<Service>(this.url+'libelle/'+libelle);
   }
   public deleteByCode(code: string) : Observable<number>{
-    return this.http.delete<number>(this.url+'code/'+code);
+    return this.http.delete<number>(this.url+'admin/service/code/'+code);
   }
   public deleteByDepartementCode(code: string) : Observable<number>{
     return this.http.delete<number>(this.url+'/departement/code/'+code);

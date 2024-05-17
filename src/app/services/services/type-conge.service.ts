@@ -10,12 +10,12 @@ export class TypeCongeService {
 
   private _type : TypeConge = new TypeConge();
   private _types: TypeConge[] = [];
-  private  url = 'http://localhost:8088/api/v1/typeConge/';
+  private  url = 'http://localhost:8088/api/v1/';
 
   constructor(private http:HttpClient) { }
 
   public findAll():Observable<Array<TypeConge>>{
-    return this.http.get<Array<TypeConge>>(this.url);
+    return this.http.get<Array<TypeConge>>(this.url+'all/typeConge/');
   }
 
 

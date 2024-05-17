@@ -8,6 +8,7 @@ import {FormsModule} from "@angular/forms";
 import {AuthenticationService} from "../../../services/services/authentication.service";
 import {TokenService} from "../../../services/token/token.service";
 import {EmployeService} from "../../../services/services/employe.service";
+import {JwtHelperService} from "@auth0/angular-jwt";
 
 @Component({
     selector: 'app-login',
@@ -19,6 +20,10 @@ import {EmployeService} from "../../../services/services/employe.service";
 export class LoginComponent {
   authRequest: AuthenticationRequest = {email: '', password: ''};
   errorMsg: Array<string> = [];
+
+  // @ts-ignore
+  public userRole: string;
+  private jwtHelper: JwtHelperService = new JwtHelperService();
 
 
   constructor(
@@ -40,7 +45,17 @@ export class LoginComponent {
         this.employeService.authenticatedEmploye = res.employe;
         console.log(this.employeService.authenticatedEmploye);
         localStorage.setItem('authenticatedEmploye', JSON.stringify(res.employe));
-        this.router.navigate(['dashboard']);
+        this.userRole = this.extractUserRoleFromToken();
+        if (this.userRole === 'ADMIN'){
+          this.router.navigate(['dashboard']);
+        }
+        else if (this.userRole === 'EMPLOYE'){
+          this.router.navigate(['employe/dashboard']);
+        }
+        else if(this.userRole === 'SECRETAIRE'){
+          this.router.navigate(['secretaire/dashboard']);
+        }
+
       },
       error: (err) => {
         console.log(err);
@@ -58,5 +73,13 @@ export class LoginComponent {
 
   activate() {
     this.router.navigate(['activate-account']);
+  }
+
+  private extractUserRoleFromToken(): string {
+    const token = this.tokenService.token;
+    const decodedToken = this.jwtHelper.decodeToken(token);
+    const authorities = decodedToken.authorities; // Récupérer la liste des autorités
+    const userRole = authorities[0]; // Récupérer le premier élément de la liste (le rôle)
+    return userRole;
   }
 }

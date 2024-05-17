@@ -17,29 +17,29 @@ export class RetardService {
   private _retardSec: Retard = new Retard();
   private _retardsSec: Retard[] = [];
 
-  private url = 'http://localhost:8088/api/v1/retards/';
+  private url = 'http://localhost:8088/api/v1/';
 
   constructor(private http: HttpClient) {
   }
 
   public findAll(): Observable<Array<Retard>> {
-    return this.http.get<Array<Retard>>(this.url);
+    return this.http.get<Array<Retard>>(this.url+'sup/retards/');
   }
 
   public save(retard: Retard): Observable<number> {
-    return this.http.post<number>(this.url + 'save', retard);
+    return this.http.post<number>(this.url + 'secretaire/retards/save', retard);
   }
 
   public deleteByDateRetardAndEmploye(dateRetard: string, employe: Employe): Observable<number> {
-    return this.http.delete<number>(`${this.url}dateRetard/${dateRetard}/employe`, {body: employe});
+    return this.http.delete<number>(`${this.url}secretaire/retards/dateRetard/${dateRetard}/employe`, {body: employe});
   }
 
   public searchRetards(term: string): Observable<Array<Retard>> {
-    return this.http.get<Array<Retard>>(this.url + 'search', {params: {search: term}});
+    return this.http.get<Array<Retard>>(this.url + 'sup/retards/search', {params: {search: term}});
   }
 
   public justifier(retard: Retard): Observable<string> {
-    return this.http.post<string>(this.url + 'justifier', retard,{ responseType: 'text' as 'json' });
+    return this.http.post<string>(this.url + 'admin/retards/justifier', retard,{ responseType: 'text' as 'json' });
   }
 
   get retard(): Retard {
