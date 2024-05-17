@@ -13,23 +13,23 @@ export class DepartementService {
 
   private _departement :Departement = new Departement();
   private _departements :Departement[]=[];
-  private url: string = "http://localhost:8088/api/v1/departement/";
+  private url: string = "http://localhost:8088/api/v1/";
 
   constructor(private http: HttpClient, private router: Router) {
   }
 
   public save(): Observable<number> {
-    return this.http.post<number>(this.url, this.departement);
+    return this.http.post<number>(this.url+'admin/departement/', this.departement);
 
   }
 
   public update(): Observable<number> {
-    return this.http.put<number>(this.url, this.departement);
+    return this.http.put<number>(this.url+'admin/departement/', this.departement);
 
   }
 
   public findAll(): Observable<Array<Departement>> {
-    return this.http.get<Array<Departement>>(this.url);
+    return this.http.get<Array<Departement>>(this.url+'all/departement/');
   }
 
   public findByCode(code: string): Observable<Departement> {
@@ -41,7 +41,7 @@ export class DepartementService {
   }
 
   public deleteByCode(code: string): Observable<number> {
-    return this.http.delete<number>(this.url + 'code/' + code);
+    return this.http.delete<number>(this.url + 'admin/departement/code/' + code);
   }
 
   get departement(): Departement {

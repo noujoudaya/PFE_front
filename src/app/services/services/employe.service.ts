@@ -15,33 +15,33 @@ export class EmployeService {
   // @ts-ignore
   public _authenticatedEmploye: Employe;
 
-  private url: string = "http://localhost:8088/api/v1/employes/";
+  private url: string = "http://localhost:8088/api/v1/";
 
   constructor(private http: HttpClient) {
   }
 
   public save(): Observable<number> {
-    return this.http.post<number>(this.url + 'save', this.employe);
+    return this.http.post<number>(this.url + 'admin/employes/save', this.employe);
   }
 
   public update(): Observable<number> {
-    return this.http.post<number>(this.url + 'update', this.employe)
+    return this.http.post<number>(this.url + 'admin/employes/update', this.employe)
   }
 
   public findAll(): Observable<Array<Employe>> {
-    return this.http.get <Array<Employe>>(this.url);
+    return this.http.get <Array<Employe>>(this.url+'sup/employes/');
   }
 
   public searchEmployes(term: string): Observable<Array<Employe>> {
-    return this.http.get<Array<Employe>>(this.url + 'search', {params: {search: term}});
+    return this.http.get<Array<Employe>>(this.url + 'admin/employes/search', {params: {search: term}});
   }
 
   public getEmployeeCount(): Observable<number> {
-    return this.http.get<number>(this.url + 'count');
+    return this.http.get<number>(this.url + 'admin/employes/count');
   }
 
   public deleteByCin(cin: string): Observable<number> {
-    return this.http.delete<number>(this.url + 'cin/' + cin);
+    return this.http.delete<number>(this.url + 'admin/employes/cin/' + cin);
   }
 
   get employe(): Employe {

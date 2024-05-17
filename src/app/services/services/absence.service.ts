@@ -16,28 +16,28 @@ export class AbsenceService {
   private _absenceSec : Absence = new Absence();
   private _absencesSec : Absence[] = [];
 
-  private url = 'http://localhost:8088/api/v1/absences/';
+  private url = 'http://localhost:8088/api/v1/';
 
   constructor(private http: HttpClient) {
   }
 
   public findAll(): Observable<Array<Absence>> {
-    return this.http.get<Array<Absence>>(this.url);
+    return this.http.get<Array<Absence>>(this.url+'sup/absences/');
   }
 
   public save(absence: Absence):Observable<number>{
-    return this.http.post<number>(this.url+'save',absence);
+    return this.http.post<number>(this.url+'secretaire/absences/save',absence);
   }
 
   public deleteByDateAbsenceAndEmploye(dateAbsence: string, employe: Employe): Observable<number> {
-    return this.http.delete<number>(`${this.url}dateAbsence/${dateAbsence}/employe`, { body: employe });
+    return this.http.delete<number>(`${this.url}secretaire/absences/dateAbsence/${dateAbsence}/employe`, { body: employe });
   }
 
   public justifier(absence: Absence): Observable<string>{
-    return this.http.post<string>(this.url+'justifier',absence,{ responseType: 'text' as 'json' })
+    return this.http.post<string>(this.url+'admin/absences/justifier',absence,{ responseType: 'text' as 'json' })
   }
   public searchAbsences(term: string): Observable<Array<Absence>> {
-    return this.http.get<Array<Absence>>(this.url + 'search', {params: {search: term}});
+    return this.http.get<Array<Absence>>(this.url + 'sup/absences/search', {params: {search: term}});
   }
   get absence(): Absence {
     return this._absence;

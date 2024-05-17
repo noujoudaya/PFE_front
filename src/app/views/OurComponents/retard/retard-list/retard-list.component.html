@@ -6,7 +6,7 @@
 </div>
 <br>
 
-<table class="table table-bordered">
+<table class="table table-bordered table-hover">
   <thead>
   <th>Employé</th>
   <th>Date retard</th>
@@ -25,7 +25,7 @@
     <td>{{ calculerDureeRetard(c.heureDebutTravail, c.heureArrivee) }}</td>
     <td>{{ c.statutRetard }}</td>
     <td>
-      <button (click)="justifier(c)" class="btn btn-warning text-white">Justifier</button>
+      <button (click)="justifier(c)" class="btn btn-primary text-white">Justifier</button>
     </td>
   </tr>
   </tbody>

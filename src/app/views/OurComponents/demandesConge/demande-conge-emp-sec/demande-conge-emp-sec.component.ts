@@ -42,7 +42,7 @@ export class DemandeCongeEmpSecComponent implements OnInit {
     }
     this.findByEmploye();
     this.calculateDaysDifference("2024-05-17", "2024-05-31");
-
+    this.joursRestants=this.authenticatedEmploye.soldeConge;
   }
 
   constructor(private typesService: TypeCongeService,
