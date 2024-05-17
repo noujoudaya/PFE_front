@@ -1,0 +1,14 @@
+<table class="table table-bordered table-hover">
+  <thead>
+  <tr>
+    <th>Nom du Fonction</th>
+    <th>Nom du Service</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let fonction of fonctions;index as i">
+      <td>{{fonction.libelle}}</td>
+      <td>{{fonction.service.libelle}}</td>
+    </tr>
+  </tbody>
+</table>

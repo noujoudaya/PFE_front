@@ -147,4 +147,8 @@ export class DefaultHeaderComponent extends HeaderComponent {
     { id: 4, title: 'Angular Version', value: 100, color: 'success' }
   ];
 
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('authenticatedEmploye');
+  }
 }

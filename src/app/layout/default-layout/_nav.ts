@@ -126,20 +126,26 @@ export const EmpNavItems: INavData[] = [
   },
   {
     name: 'Departements',
-    url: '/departement',
+    url: 'employe/departement',
     iconComponent: {name: 'cil-building'},
 
   },
   {
     name: 'Services',
-    url: '/service',
+    url: 'employe/service',
     iconComponent: {name: 'cil-briefcase'},
 
   },
   {
     name: 'Fonctions',
-    url: '/fonction',
+    url: 'employe/fonction',
     iconComponent: {name: 'cil-list-rich'},
+
+  },
+  {
+    name: 'Paramètres',
+    iconComponent: { name: 'cil-settings' },
+    url: '/parametres'
 
   }
 
@@ -188,19 +194,25 @@ export const SecNavItems: INavData[] = [
   },
   {
     name: 'Departements',
-    url: '/departement',
+    url: 'employe/departement',
     iconComponent: {name: 'cil-building'},
   },
   {
     name: 'Services',
-    url: '/service',
+    url: 'employe/service',
     iconComponent: {name: 'cil-briefcase'},
 
   },
   {
     name: 'Fonctions',
-    url: '/fonction',
+    url: 'employe/fonction',
     iconComponent: {name: 'cil-list-rich'},
+
+  },
+  {
+    name: 'Paramètres',
+    iconComponent: { name: 'cil-settings' },
+    url: '/parametres'
 
   }
 

@@ -74,12 +74,24 @@ export const routes: Routes = [
         loadChildren: () => import('./views/OurComponents/departement/departement-list/routes').then((m) => m.routes)
       },
       {
+        path: 'employe/departement',
+        loadChildren: () => import('./views/OurComponents/departement/departement-emp-sec/routes').then((m) => m.routes)
+      },
+      {
         path: 'service',
         loadChildren: () => import('./views/OurComponents/service/service-list/routes').then((m) => m.routes)
       },
       {
+        path: 'employe/service',
+        loadChildren: () => import('./views/OurComponents/service/service-emp-sec/routes').then((m) => m.routes)
+      },
+      {
         path: 'fonction',
         loadChildren: () => import('./views/OurComponents/fonction/fonction-list/routes').then((m) => m.routes)
+      },
+      {
+        path: 'employe/fonction',
+        loadChildren: () => import('./views/OurComponents/fonction/fonction-emp-sec/routes').then((m) => m.routes)
       },
       {
         path: 'parametres',
