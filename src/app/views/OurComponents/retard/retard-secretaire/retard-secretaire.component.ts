@@ -48,6 +48,7 @@ export class RetardSecretaireComponent implements OnInit {
       if (data > 0) {
         this.retardsSec.push({...this.retardSec});
         alert("Retard enregistré !");
+        this.findAll();
         this.retardSec = new Retard();
       } else {
         alert("Erreur");
