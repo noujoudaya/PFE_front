@@ -4,7 +4,7 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./service-list.component').then(m => m.ServiceListComponent),
+    loadComponent: () => import('./service-emp-sec.component').then(m => m.ServiceEmpSecComponent),
     data: {
       title: $localize`Services`
     }

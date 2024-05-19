@@ -26,6 +26,7 @@ import { WidgetsBrandComponent } from '../../widgets/widgets-brand/widgets-brand
 import { WidgetsDropdownComponent } from '../../widgets/widgets-dropdown/widgets-dropdown.component';
 import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
 import {RouterLink} from "@angular/router";
+import {Employe} from "../../../services/models/employe.model";
 
 interface IUser {
   name: string;
@@ -49,6 +50,9 @@ interface IUser {
   imports: [WidgetsDropdownComponent, TextColorDirective, CardComponent, CardBodyComponent, RowComponent, ColComponent, ButtonDirective, IconDirective, ReactiveFormsModule, ButtonGroupComponent, FormCheckLabelDirective, ChartjsComponent, NgStyle, CardFooterComponent, GutterDirective, ProgressBarDirective, ProgressComponent, WidgetsBrandComponent, CardHeaderComponent, TableDirective, AvatarComponent, DropdownComponent, RouterLink, DropdownItemDirective, DropdownMenuDirective, DropdownToggleDirective]
 })
 export class DashboardComponent implements OnInit {
+
+  // @ts-ignore
+  authenticatedEmploye: Employe;
 
   readonly #destroyRef: DestroyRef = inject(DestroyRef);
   readonly #document: Document = inject(DOCUMENT);
@@ -158,6 +162,10 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.initCharts();
     this.updateChartOnColorModeChange();
+    const storedEmployee = localStorage.getItem('authenticatedEmploye');
+    if (storedEmployee) {
+      this.authenticatedEmploye = JSON.parse(storedEmployee);
+    }
   }
 
   initCharts(): void {
