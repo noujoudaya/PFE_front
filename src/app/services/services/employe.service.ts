@@ -3,6 +3,8 @@ import {HttpClient} from "@angular/common/http";
 import {Employe} from "../models/employe.model";
 import {Observable} from "rxjs";
 import value from "*.json";
+import {Departement} from "../models/departement.model";
+import {Service} from "../models/service.model";
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +46,13 @@ export class EmployeService {
     return this.http.delete<number>(this.url + 'admin/employes/cin/' + cin);
   }
 
+  public findByDepartement(departement:Departement):Observable<Array<Employe>>{
+    return this.http.post<Array<Employe>>(this.url+'sup/employes/departement/',departement);
+  }
+
+  public countEmployeByService(service:Service):Observable<number>{
+    return this.http.post<number>(this.url+'/count/service',service);
+  }
   get employe(): Employe {
     return this._employe;
   }

@@ -34,7 +34,7 @@ export class FonctionService {
     return this.http.get<Fonction>(this.url+'code/'+code);
   }
   public findByServiceCode(code: string) : Observable<Array<Fonction>>{
-    return this.http.get<Array<Fonction>>(this.url+'/service/code/'+code);
+    return this.http.get<Array<Fonction>>(this.url+'fonction/service/code/'+code);
   }
   public findByLibelle(libelle: string) : Observable<Fonction>{
     return this.http.get<Fonction>(this.url+'libelle/'+libelle);

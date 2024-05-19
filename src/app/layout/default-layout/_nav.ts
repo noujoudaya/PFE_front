@@ -194,18 +194,18 @@ export const SecNavItems: INavData[] = [
   },
   {
     name: 'Departements',
-    url: 'employe/departement',
+    url: 'secretaire/departement',
     iconComponent: {name: 'cil-building'},
   },
   {
     name: 'Services',
-    url: 'employe/service',
+    url: 'secretaire/service',
     iconComponent: {name: 'cil-briefcase'},
 
   },
   {
     name: 'Fonctions',
-    url: 'employe/fonction',
+    url: 'secretaire/fonction',
     iconComponent: {name: 'cil-list-rich'},
 
   },
