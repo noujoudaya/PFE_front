@@ -15,6 +15,11 @@ import { routes } from './app.routes';
 import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi} from "@angular/common/http";
 import {HttpTokenInterceptor} from "./services/interceptor/http-token.interceptor";
 
+import {
+  provideCharts,
+  withDefaultRegisterables,
+} from 'ng2-charts';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes,
@@ -37,6 +42,8 @@ export const appConfig: ApplicationConfig = {
       provide:HTTP_INTERCEPTORS,
       useClass:HttpTokenInterceptor,
       multi:true
-    }
+    },
+    provideCharts(withDefaultRegisterables()),
+
   ]
 };

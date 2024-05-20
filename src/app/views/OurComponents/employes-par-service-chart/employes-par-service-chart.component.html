@@ -1,3 +1,22 @@
-<div>
-  <canvas id="employeesByServiceChart"></canvas>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 d-flex flex-column justify-content-center align-items-center">
+      <h5 class="text-center">Employés par service</h5><br>
+      <div style="width: 300px; height: 300px;">
+        <canvas baseChart
+                [data]="doughnutChartData"
+                [type]="doughnutChartType">
+        </canvas>
+      </div>
+    </div>
+    <div class="col-md-6 d-flex flex-column justify-content-center align-items-center">
+      <h5 class="text-center">Répartition des employés</h5><br>
+      <div style="width: 300px; height: 300px;">
+        <canvas baseChart
+                [data]="maleFemaleChartData"
+                [type]="maleFemaleChartType">
+        </canvas>
+      </div>
+    </div>
+  </div>
 </div>

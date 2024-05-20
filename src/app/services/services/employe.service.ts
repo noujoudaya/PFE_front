@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import value from "*.json";
 import {Departement} from "../models/departement.model";
 import {Service} from "../models/service.model";
+import {Genre} from "../enums/genre.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -51,8 +52,16 @@ export class EmployeService {
   }
 
   public countEmployeByService(service:Service):Observable<number>{
-    return this.http.post<number>(this.url+'/count/service',service);
+    return this.http.post<number>(this.url+'count/service',service);
   }
+
+  public countEmployeByDepartement(departement:Departement):Observable<number>{
+    return this.http.post<number>(this.url+'count/departement/',departement);
+  }
+  public countEmployeByGenre(genre:Genre):Observable<number>{
+    return this.http.get<number>(this.url+'count/genre/'+genre);
+  }
+
   get employe(): Employe {
     return this._employe;
   }

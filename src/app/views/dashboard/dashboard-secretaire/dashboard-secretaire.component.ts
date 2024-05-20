@@ -47,15 +47,11 @@ export class DashboardSecretaireComponent implements OnInit{
   retardsAuj: Retard[] = [];
   services: Service[] = [];
 
-  employeeCounts: number[] = [];
-  serviceNames: string[] = [];
-
 
 
   constructor(private absenceService:AbsenceService,
               private retardService: RetardService,
-              private serviceService:ServiceService,
-              private employeService:EmployeService) {
+              private serviceService:ServiceService) {
 
   }
 
