@@ -12,7 +12,7 @@ export const navItems: INavData[] = [
     iconComponent: {name: 'cil-user'}
   },
   {
-    name: 'Employees',
+    name: 'Employés',
     url: '/employee-list',
     iconComponent: {name: 'cil-people'},
 
@@ -76,7 +76,7 @@ export const navItems: INavData[] = [
 
   },
   {
-    name: 'Users',
+    name: 'Utilisateurs',
     url: 'users',
     iconComponent: {name: 'cil-user'},
     children: [
