@@ -37,7 +37,9 @@ export class DemandeAttestationEmpSecComponent implements OnInit {
               private demandeService: DemandeAttestationService) {
   }
 
-  typesAttest = Object.values(TypeAttestation);
+  // @ts-ignore
+  typesAttest: string[] = Object.keys(TypeAttestation).filter(key => typeof TypeAttestation[key] === 'string');
+
   employes: Employe[] = [];
 
 
