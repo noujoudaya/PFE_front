@@ -221,19 +221,22 @@ export class EmployesListComponent implements OnInit {
 
   public deleteByCin(employe: Employe, index: number): void {
     if (employe.cin != null) {
-      const confirmation = confirm("Êtes-vous sûr de vouloir supprimer cet employé ?");
-      if (confirmation) {
-        this.service.deleteByCin(employe.cin).subscribe(data => {
+      const firstConfirmation = confirm("Êtes-vous sûr de vouloir supprimer cet employé ?");
+      if (firstConfirmation) {
+        const secondConfirmation = confirm("Cet employé va être supprimé d'une façon définitive. Poursuivre l'opération ?");
+        if (secondConfirmation) {
+          this.service.deleteByCin(employe.cin).subscribe(data => {
             if (data > 0) {
               this.employes.splice(index, 1);
             } else {
               alert("Erreur suppression");
             }
-          }
-        );
+          });
+        }
       }
     }
   }
+
 
   get employe(): Employe {
     return this.service.employe;

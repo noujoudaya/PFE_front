@@ -1,10 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {Employe} from "../../../services/models/employe.model";
+import {EmployeCalendarComponent} from "../../OurComponents/employe-calendar/employe-calendar.component";
 
 @Component({
   selector: 'app-dashboard-employe',
   standalone: true,
-  imports: [],
+  imports: [
+    EmployeCalendarComponent
+  ],
   templateUrl: './dashboard-employe.component.html',
   styleUrl: './dashboard-employe.component.scss'
 })

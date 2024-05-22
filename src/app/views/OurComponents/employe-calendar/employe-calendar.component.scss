@@ -1,0 +1,14 @@
+/* Réduire la taille de la police */
+.fullcalendar-container {
+  font-size: 12px; /* Réglez la taille de la police selon vos besoins */
+}
+
+/* Réduire la hauteur des lignes */
+.fc-daygrid-body .fc-daygrid-day {
+  height: 15px; /* Réglez la hauteur des lignes selon vos besoins */
+}
+
+/* Réduire la largeur du calendrier */
+.fullcalendar-container {
+  max-width: 300px; /* Réglez la largeur maximale du calendrier selon vos besoins */
+}
