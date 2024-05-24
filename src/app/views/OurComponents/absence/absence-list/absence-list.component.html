@@ -1,3 +1,39 @@
+<div class="container">
+  <div class="row">
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="btn-group me-3">
+        <button type="button" class="btn btn-info dropdown-toggle text-white" data-bs-toggle="dropdown" aria-expanded="false">
+          Départements
+        </button>
+        <ul class="dropdown-menu">
+          <li *ngFor="let departement of departements">
+            <a class="dropdown-item" (click)="selectDepartement(departement)">{{ departement.libelle }}</a>
+          </li>
+        </ul>
+      </div>
+      <div class="d-flex">
+        <div class="me-3">
+          <label for="startDate" class="form-label">Du :</label>
+          <input type="date" id="startDate" class="form-control" [(ngModel)]="dateDebut">
+        </div>
+        <div>
+          <label for="endDate" class="form-label">Au :</label>
+          <input type="date" id="endDate" class="form-control" [(ngModel)]="dateFin">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3 justify-content-end">
+    <div class="col-auto">
+      <button class="btn btn-primary m-2">Chercher</button>
+      <button class="btn btn-secondary">Justifier</button>
+    </div>
+  </div>
+</div>
+
+
+<br><br>
+
 <div class="input-group w-25">
   <input type="text" class="form-control" placeholder="Rechercher absence ..." (input)="search($any($event.target).value)">
   <span class="input-group-text">

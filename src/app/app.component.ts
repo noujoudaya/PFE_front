@@ -1,3 +1,5 @@
+import { MbscModule } from '@mobiscroll/angular';
+import { FormsModule } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { Title } from '@angular/platform-browser';
@@ -9,7 +11,7 @@ import { iconSubset } from './icons/icon-subset';
   selector: 'app-root',
   template: '<router-outlet />',
   standalone: true,
-  imports: [RouterOutlet]
+  imports: [MbscModule, FormsModule, RouterOutlet]
 })
 export class AppComponent implements OnInit {
   title = 'CoreUI Angular Admin Template';
