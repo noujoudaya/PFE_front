@@ -6,6 +6,7 @@ import {NgForOf} from "@angular/common";
 import {EmployesListComponent} from "../../employes/employes-list/employes-list.component";
 import {Departement} from "../../../../services/models/departement.model";
 import {DepartementService} from "../../../../services/services/departement.service";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-service-list',
@@ -51,7 +52,10 @@ public deleteByCode(service: Service, index: number): void {
       if (data > 0) {
         this.services.splice(index, 1);
       } else {
-        alert('error accured');
+        Swal.fire({
+          title: 'Oops ! Une erreur est survenue',
+          icon: 'error',
+        });
       }
     });
   }
@@ -66,13 +70,23 @@ public update(service: Service): void {
         if (index !== -1) {
           this.services[index].libelle = this.service.libelle;
           // Update any other properties as needed
-          alert('UPDATE SUCCESS');
+          Swal.fire({
+            title: 'Service modifié !',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          });
           this.updatedLibelle = '';
         } else {
-          alert('Department not found');
+          Swal.fire({
+            title: 'Département non trouvé !',
+            icon: 'error',
+          });
         }
       } else {
-        alert('Error occurred');
+        Swal.fire({
+          title: 'Oops ! Une erreur est survenue',
+          icon: 'error',
+        });
       }
       this.serviceService.service = new Service();
     });
@@ -84,23 +98,47 @@ public save(): void {
     this.serviceService.save().subscribe(data => {
       if (data > 0) {
         this.services.push({...this.service});
-        alert('SAVE SUCCESS');
+        Swal.fire({
+          title: 'Service enregistré !',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
       } else if (data === 0){
-        alert('Service existe déjà');
+        Swal.fire({
+          title: 'Service existe déja !',
+          icon: 'error',
+        });
       }
       else {
-        alert('departement nexiste pas');
+        Swal.fire({
+          title: 'Département n\'existe pas !',
+          icon: 'error',
+        });
       }
       this.serviceService.service = new Service();
     });
   }
 
 public confirmDelete(service: Service, index: number): void {
-    if (confirm('La suppression de ce département supprimera tous les services associés. Confirmez-vous la suppression ?')) {
+  Swal.fire({
+    title: 'La suppression de ce service supprimera toutes les fonctions associées. Confirmez-vous la suppression ?',
+    showDenyButton: true,
+    denyButtonText: 'Annuler',
+    confirmButtonText: 'Oui, supprimer'
+  }).then((result) => {
+    if (result.isConfirmed) {
     this.deleteByCode(service, index);
-  }
-}
+      Swal.fire({
+        title: 'Service supprimé !',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
+    } else if (result.isDenied) {
+      console.log('Supression annulée');
+    }
+  });
 
+}
 
   get service(): Service {
     return this.serviceService.service;

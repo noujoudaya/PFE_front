@@ -3,6 +3,7 @@ import {Absence} from "../../../../services/models/absence.model";
 import {AbsenceService} from "../../../../services/services/absence.service";
 import {NgForOf} from "@angular/common";
 import {debounceTime, distinctUntilChanged, Subject, switchMap} from "rxjs";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-absence-list',
@@ -44,7 +45,11 @@ export class AbsenceListComponent implements OnInit {
     this.selectedAbsence=absence;
     this.absenceService.justifier(this.selectedAbsence).subscribe(data=>{
       console.log(data);
-      alert("Absence justifiée");
+      Swal.fire({
+        title: 'Absence justifiée !',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
       this.findAll();
       this.selectedAbsence = new Absence();
     })

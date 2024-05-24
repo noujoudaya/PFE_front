@@ -7,6 +7,7 @@ import {EmployeService} from "../../../../services/services/employe.service";
 import {Employe} from "../../../../services/models/employe.model";
 import {DemandeAttestationService} from "../../../../services/services/demande-attestation.service";
 import {DemandeAttestation} from "../../../../services/models/demande-attestation.model";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-demande-attestation-emp-sec',
@@ -59,11 +60,18 @@ export class DemandeAttestationEmpSecComponent implements OnInit {
     demande.employe=this.authenticatedEmploye;
     this.demandeService.save(demande).subscribe(data => {
       if (data > 0) {
-        alert("Demande enregistrée");
+        Swal.fire({
+          title: 'Demande enregistrée !',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
         this.findByEmploye();
         this.demandeEmploye = new DemandeAttestation();
       } else {
-        alert("Erreur");
+        Swal.fire({
+          title: 'Oops! Une erreur est survenue',
+          icon: 'error',
+        });
       }
     });
   }
@@ -77,29 +85,45 @@ export class DemandeAttestationEmpSecComponent implements OnInit {
 
   public deleteAttest(demande: DemandeAttestation, index: number): void {
     if (demande.statutAttestation.toString() == 'En_Cours') {
-      alert("Cette demande est au cours de traitement. Vous ne pouvez pas la supprimer.");
+      Swal.fire({
+        title: 'Cette demande est au cours de traitement. Vous ne pouvez pas la supprimer.',
+        icon: 'error',
+      });
       return; // Quitter la fonction car l'utilisateur ne peut pas supprimer une demande acceptée
     } else if (demande.statutAttestation.toString() == 'Prête') {
-      alert("Cette demande est déja traitée. Vous ne pouvez pas la supprimer.");
+      Swal.fire({
+        title: 'Cette demande est déja traitée. Vous ne pouvez pas la supprimer.',
+        icon: 'error',
+      });
       return;
     }
-    const confirmation = confirm("Voulez-vous vraiment supprimer cette demande d'attestation ?");
-
-    // Vérifier la réponse de l'utilisateur
-    if (confirmation) {
-      this.demandeService.deleteAttest(demande.employe.id, demande.dateDemande).subscribe(data => {
-        if (data > 0) {
-          this.authenticatedEmpAttest.splice(index, 1);
-        }
-        else {
-          alert("Erreur suppression");
-        }
-      });
-    }
-    else {
-      // Si l'utilisateur clique sur "Annuler", ne rien faire
-      console.log("Suppression annulée.");
-    }
+    Swal.fire({
+      title: 'Voulez-vous vraiment supprimer cette demande ?',
+      showDenyButton: true,
+      denyButtonText: 'Annuler',
+      confirmButtonText: 'Oui, supprimer'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.demandeService.deleteAttest(demande.employe.id, demande.dateDemande).subscribe(data => {
+          if (data > 0) {
+            this.authenticatedEmpAttest.splice(index, 1);
+            Swal.fire({
+              title: 'Demande supprimée !',
+              icon: 'success',
+              confirmButtonText: 'OK'
+            });
+          } else {
+            Swal.fire({
+              title: 'Oops! Une erreur est survenue',
+              icon: 'error',
+            });
+          }
+        });
+      } else {
+        // Si l'utilisateur clique sur "Annuler", ne rien faire
+        console.log("Suppression annulée.");
+      }
+    });
   }
 
   get demandeEmploye(): DemandeAttestation {

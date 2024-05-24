@@ -3,6 +3,7 @@ import {DemandeAttestationService} from "../../../../services/services/demande-a
 import {DemandeAttestation} from "../../../../services/models/demande-attestation.model";
 import {NgForOf} from "@angular/common";
 import {debounceTime, distinctUntilChanged, Subject, switchMap} from "rxjs";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-demandes-attestation-list',
@@ -43,7 +44,11 @@ export class DemandesAttestationListComponent implements OnInit {
     this.selectedDemandeAttest = demande;
     this.demandeAttestService.preparerDemande(this.selectedDemandeAttest).subscribe(data => {
       console.log(data);
-      alert("Demande en cours de préparation");
+      Swal.fire({
+        title: 'Demande en cours de préparation !',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
       this.findAll();
     })
   }
@@ -52,38 +57,59 @@ export class DemandesAttestationListComponent implements OnInit {
     this.selectedDemandeAttest = demande;
     this.demandeAttestService.validerDemande(this.selectedDemandeAttest).subscribe(data => {
       console.log(data);
-      alert("Demande prête");
+      Swal.fire({
+        title: 'Demande prête !',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
       this.findAll();
       this.selectedDemandeAttest = new DemandeAttestation();
     })
   }
 
-  public delete(demande: DemandeAttestation, index: number):void{
+  public delete(demande: DemandeAttestation, index: number): void {
     if (demande.statutAttestation.toString() == 'En_Cours') {
-      alert("Cette demande est au cours de traitement. Vous ne pouvez pas la supprimer.");
-      return; // Quitter la fonction car l'utilisateur ne peut pas supprimer une demande acceptée
+      Swal.fire({
+        title: 'Cette demande est en cours de traitement , vous ne pouvez pas la supprimer !',
+        icon: 'error',
+      });
+      return; // Quitter la fonction car l'utilisateur ne peut pas supprimer une demande en cours
     } else if (demande.statutAttestation.toString() == 'Prête') {
-      alert("Cette demande est déja traitée. Vous ne pouvez pas la supprimer.");
+      Swal.fire({
+        title: 'Cette demande est déjà traitée ! Vous ne pouvez pas la supprimer',
+        icon: 'error',
+      });
       return;
     }
-    const confirmation = confirm("Voulez-vous vraiment supprimer cette demande d'attestation ?");
-
-    // Vérifier la réponse de l'utilisateur
-    if (confirmation) {
-      this.demandeAttestService.deleteAttest(demande.employe.id, demande.dateDemande).subscribe(data => {
-        if (data > 0) {
-          this.demandesAttestation.splice(index, 1);
-        }
-        else {
-          alert("Erreur suppression");
-        }
-      });
-    }
-    else {
-      // Si l'utilisateur clique sur "Annuler", ne rien faire
-      console.log("Suppression annulée.");
-    }
+    Swal.fire({
+      title: 'Voulez-vous vraiment supprimer cette demande ?',
+      showDenyButton: true,
+      denyButtonText: 'Annuler',
+      confirmButtonText: 'Oui, supprimer'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.demandeAttestService.deleteAttest(demande.employe.id, demande.dateDemande).subscribe(data => {
+          if (data > 0) {
+            this.demandesAttestation.splice(index, 1);
+            Swal.fire({
+              title: 'Demande supprimée !',
+              icon: 'success',
+              confirmButtonText: 'OK'
+            });
+          } else {
+            Swal.fire({
+              title: 'Oops ! Une erreur est survenue',
+              icon: 'error',
+            });
+          }
+        });
+      } else {
+        // Si l'utilisateur clique sur "Annuler", ne rien faire
+        console.log("Suppression annulée.");
+      }
+    });
   }
+
 
   search(term: string): void {
     this.searchTerms.next(term);

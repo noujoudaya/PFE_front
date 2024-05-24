@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {DepartementService} from "../../../../services/services/departement.service";
 import {Departement} from "../../../../services/models/departement.model";
 import {FormsModule} from "@angular/forms";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-departement-list',
@@ -31,14 +32,20 @@ export class DepartementListComponent  implements OnInit {
       if (data > 0) {
         this.departements.splice(index, 1);
       } else {
-        alert('error accured');
+        Swal.fire({
+          title: 'Oops ! Une erreur est survenue',
+          icon: 'error',
+        });
       }
     });
   }
 
   public update(departement: Departement): void {
     if (this.updatedLibelle == null) {
-      alert("enter un nom");
+      Swal.fire({
+        title: 'Ajouter un nom !',
+        icon: 'error',
+      });
     } else {
       this.departement.libelle = this.updatedLibelle;
       this.departement.code = departement.code;
@@ -48,18 +55,31 @@ export class DepartementListComponent  implements OnInit {
           const index = this.departements.findIndex(d => d.id === departement.id);
           if (index !== -1) {
             this.departements[index].libelle = this.departement.libelle;
-            alert('UPDATE SUCCESS');
+            Swal.fire({
+              title: 'Département modifié !',
+              icon: 'success',
+              confirmButtonText: 'OK'
+            });
             this.updatedLibelle = '';
           } else {
-            alert('Department not found');
+            Swal.fire({
+              title: 'Département non trouvé !',
+              icon: 'error',
+            });
           }
         }
         else if(data === 0){
-          alert("Ce département existe déjà. Veuillez saisir un nouveau département");
+          Swal.fire({
+            title: 'Ce département existe déja ! Veuillez ajouter un nouveau département',
+            icon: 'error',
+          });
           this.updatedLibelle = '';
         }
         else {
-          alert('Error occurred');
+          Swal.fire({
+            title: 'Oops ! Une erreur est survenue',
+            icon: 'error',
+          });
         }
         this.departementService.departement = new Departement();
       });
@@ -68,15 +88,25 @@ export class DepartementListComponent  implements OnInit {
 
   public save(): void {
     if (this.departement.libelle == null) {
-      alert("enter un nom");
+      Swal.fire({
+        title: 'Ajouter un nom !',
+        icon: 'error',
+      });
     } else {
       this.departement.code = this.departement.libelle;
       this.departementService.save().subscribe(data => {
         if (data > 0) {
           this.departements.push({...this.departement});
-          alert('SAVE SUCCESS');
+          Swal.fire({
+            title: 'Département enregistré !',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          });
         } else {
-          alert('Departement existe déjà');
+          Swal.fire({
+            title: 'Département existe déja !',
+            icon: 'error',
+          });
         }
         this.departementService.departement = new Departement();
       });
@@ -84,9 +114,24 @@ export class DepartementListComponent  implements OnInit {
   }
 
   public confirmDelete(departement: Departement, index: number): void {
-    if (confirm('La suppression de ce département supprimera tous les services associés. Confirmez-vous la suppression ?')) {
-      this.deleteByCode(departement, index);
-    }
+    Swal.fire({
+      title: 'La suppression de ce département supprimera tous les services associés. Confirmez-vous la suppression ?',
+      showDenyButton: true,
+      denyButtonText: 'Annuler',
+      confirmButtonText: 'Oui, supprimer'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.deleteByCode(departement, index);
+        Swal.fire({
+          title: 'Département supprimé !',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+      } else if (result.isDenied) {
+        console.log('Supression annulée');
+      }
+    });
+
   }
 
 

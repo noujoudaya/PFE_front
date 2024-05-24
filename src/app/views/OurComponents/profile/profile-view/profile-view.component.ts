@@ -5,6 +5,7 @@ import {EmployeService} from "../../../../services/services/employe.service";
 import {Employe} from "../../../../services/models/employe.model";
 import {Genre} from "../../../../services/enums/genre.enum";
 import {SituationFamiliale} from "../../../../services/enums/situationFamiliale.enum";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-profile-view',
@@ -47,13 +48,22 @@ export class ProfileViewComponent implements OnInit{
     this.employe=this.authenticatedEmploye;
     this.employeService.update().subscribe(data=>{
       if (data>0){
-        this.showSuccessAlert = true;
-        setTimeout(() => this.showSuccessAlert = false, 7000); // Hide alert after 3 seconds
-        this.employe = new Employe();
-        this.editMode = false;
+        Swal.fire({
+          title: 'Modifications enregistrées ! Les modifications seront visibles après la prochaine connexion',
+          icon: 'success',
+          confirmButtonText: 'OK'
+
+        });
+        //this.showSuccessAlert = true;
+        //setTimeout(() => this.showSuccessAlert = false, 7000); // Hide alert after 3 seconds
+        //this.employe = new Employe();
+        //this.editMode = false;
       }
       else {
-        alert("erreur");
+        Swal.fire({
+          title: 'Oops , une erreur est survenue !',
+          icon: 'error',
+        });
       }
     })
   }

@@ -7,6 +7,7 @@ import {debounceTime, distinctUntilChanged, Subject, switchMap} from "rxjs";
 import {FormsModule} from "@angular/forms";
 import {EnumToStringPipe} from "../../../../services/enums/enum-to-string.pipe";
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import Swal from "sweetalert2";
 
 declare var bootstrap: any;
 
@@ -55,13 +56,24 @@ export class DemandesCongeListComponent implements OnInit {
 
   public accepter(demande: DemandeConge): void {
     if (demande.statutConge.toString() == 'Refusée') {
-      alert("Cette demande de congé est déjà refusée. Elle ne peut pas être acceptée.");
+      Swal.fire({
+        title: 'Cette demande est déja refusée !',
+        icon: 'error',
+        confirmButtonText: 'OK'
+
+      });
       return;
     }
     this.selectedDemande = demande;
     this.demandeService.accepter(this.selectedDemande).subscribe(data => {
         console.log(data);
-        alert("Demande acceptée")
+      Swal.fire({
+        title: 'Demande acceptée !',
+        icon: 'success',
+        confirmButtonText: 'OK'
+
+      });
+        //alert("Demande acceptée")
         this.findAll();
         this.selectedDemande = new DemandeConge();
       }
@@ -70,7 +82,12 @@ export class DemandesCongeListComponent implements OnInit {
 
   public openRefusModal(demande: DemandeConge): void {
     if (demande.statutConge.toString() === 'Acceptée') {
-      alert("Cette demande de congé est déjà acceptée. Elle ne peut pas être refusée.");
+      Swal.fire({
+        title: 'Cette demande est déja acceptée !',
+        icon: 'error',
+        confirmButtonText: 'OK'
+
+      });
       return;
     }
     this.selectedDemande = demande;
@@ -95,7 +112,12 @@ export class DemandesCongeListComponent implements OnInit {
       this.selectedDemande.statutConge = StatutConge.Refusée;
       this.demandeService.refuser(this.selectedDemande).subscribe(data => {
         console.log(data);
-        alert("Demande refusée");
+        Swal.fire({
+          title: 'Demande refusée !',
+          icon: 'success',
+          confirmButtonText: 'OK'
+
+        });
         this.findAll();
         this.selectedDemande = new DemandeConge();
       });
@@ -109,27 +131,44 @@ export class DemandesCongeListComponent implements OnInit {
 
   public supprimer(demande: DemandeConge, index: number): void {
     if (demande.statutConge.toString() == 'Acceptée') {
-      alert("Cette demande de congé est déjà acceptée. Vous ne pouvez pas la supprimer.");
+      Swal.fire({
+        title: 'Cette demande est déjà acceptée ! Vous ne pouvez pas la supprimer',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
       return; // Quitter la fonction car l'utilisateur ne peut pas supprimer une demande acceptée
     }
     // Afficher une boîte de dialogue de confirmation
-    const confirmation = confirm("Voulez-vous vraiment supprimer cette demande de congé ?");
-
-    // Vérifier la réponse de l'utilisateur
-    if (confirmation) {
-      // Si l'utilisateur clique sur "OK", effectuer la suppression
-      this.demandeService.deleteConge(demande.dateDemande, demande.employe.id, demande.typeConge.libelle).subscribe(data => {
-        if (data > 0) {
-          this.demandes.splice(index, 1);
-        } else {
-          alert("Erreur suppression");
-        }
-      });
-    } else {
-      // Si l'utilisateur clique sur "Annuler", ne rien faire
-      console.log("Suppression annulée.");
-    }
+    Swal.fire({
+      title: 'Voulez-vous vraiment supprimer cette demande ?',
+      showDenyButton: true,
+      denyButtonText: 'Annuler',
+      confirmButtonText: 'Oui, supprimer'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Si l'utilisateur clique sur "OK", effectuer la suppression
+        this.demandeService.deleteConge(demande.dateDemande, demande.employe.id, demande.typeConge.libelle).subscribe(data => {
+          if (data > 0) {
+            Swal.fire({
+              title: 'Demande supprimée !',
+              icon: 'success',
+              confirmButtonText: 'OK'
+            });
+            this.demandes.splice(index, 1);
+          } else {
+            Swal.fire({
+              title: 'Oops ! Une erreur est survenue',
+              icon: 'error',
+            });
+          }
+        });
+      } else {
+        // Si l'utilisateur clique sur "Annuler", ne rien faire
+        console.log("Suppression annulée.");
+      }
+    });
   }
+
 
   search(term: string): void {
     this.searchTerms.next(term);

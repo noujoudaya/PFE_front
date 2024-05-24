@@ -5,50 +5,49 @@
         <c-card-group>
           <c-card class="p-4">
             <c-card-body>
-              <form cForm>
-                <div class="alert alert-danger" role="alert" *ngIf="errorMsg.length">
-                  <p *ngFor="let msg of errorMsg">{{ msg }}</p>
-                </div>
-                <h1 class="text-center">Page de connexion</h1>
-                <p class="text-white">Sign In to your account</p>
-                <c-input-group class="mb-3">
-                  <span cInputGroupText>
-                    <svg cIcon name="cilUser"></svg>
-                  </span>
-                  <input autoComplete="username" name="email" [(ngModel)]="authRequest.email" cFormControl
-                         placeholder="Email"/>
-                </c-input-group>
-                <c-input-group class="mb-4">
-                  <span cInputGroupText>
-                    <svg cIcon name="cilLockLocked"></svg>
-                  </span>
-                  <input
-                    autoComplete="current-password"
-                    cFormControl
-                    name="password"
-                    placeholder="Mot de passe" [(ngModel)]="authRequest.password"
-                    type="password"/>
-                </c-input-group>
-                <c-row>
-                  <c-col xs="6">
-                    <button cButton class="px-4" color="primary" (click)="login()">
-                      Se connecter
-                    </button>
-                  </c-col>
-                  <c-col class="text-right pt-1" xs="6">
-                    <p class="fw-bold">
-                      Pour activer votre compte ,
-                      <a
-                        class="link-danger cursor-pointer" (click)="activate()">cliquez ici</a>
-                    </p>
-                  </c-col>
-                </c-row>
-              </form>
+              <h1 class="text-center">Page de connexion</h1>
+              <p class="text-white">Sign In to your account</p>
+              <c-input-group class="mb-3">
+                <span cInputGroupText>
+                  <svg cIcon name="cilUser"></svg>
+                </span>
+                <input autoComplete="username" name="email" [(ngModel)]="authRequest.email" cFormControl
+                       placeholder="Email"/>
+              </c-input-group>
+              <c-input-group class="mb-4">
+                <span cInputGroupText>
+                  <svg cIcon name="cilLockLocked"></svg>
+                </span>
+                <input
+                  autoComplete="current-password"
+                  cFormControl
+                  name="password"
+                  placeholder="Mot de passe" [(ngModel)]="authRequest.password"
+                  type="password"/>
+              </c-input-group>
+              <c-row>
+                <c-col xs="6">
+                  <button cButton class="px-4" color="primary" (click)="login()">
+                    Se connecter
+                  </button>
+                </c-col>
+                <c-col class="text-right pt-1" xs="6">
+                  <p class="fw-bold">
+                    Pour activer votre compte ,
+                    <a
+                      class="link-danger cursor-pointer" (click)="activate()">cliquez ici</a>
+                  </p>
+                </c-col>
+              </c-row>
             </c-card-body>
           </c-card>
-
         </c-card-group>
       </c-col>
     </c-row>
   </c-container>
+</div>
+
+<!-- Afficher les messages d'erreur dans l'alerte SweetAlert -->
+<div class="sweet-alert" role="alert" *ngIf="errorMsg.length">
+  <p *ngFor="let msg of errorMsg">{{ msg }}</p>
 </div>

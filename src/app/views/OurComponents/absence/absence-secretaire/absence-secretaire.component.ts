@@ -7,6 +7,7 @@ import {Absence} from "../../../../services/models/absence.model";
 import {AbsenceService} from "../../../../services/services/absence.service";
 import {AlertComponent} from "@coreui/angular";
 import {debounceTime, distinctUntilChanged, Subject, switchMap} from "rxjs";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-absence-secretaire',
@@ -67,27 +68,50 @@ export class AbsenceSecretaireComponent implements OnInit {
     this.absenceService.save(absence).subscribe(data => {
       if (data > 0) {
         this.absencesSec.push({...this.absenceSec});
-        alert("Absence enregistrée !");
+        Swal.fire({
+          title: 'Absence enregistrée !',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
         this.findAll();
         this.absenceSec = new Absence();
       } else {
-        alert("Erreur");
+        Swal.fire({
+          title: 'Oops! Une erreur est survenue',
+          icon: 'error',
+        });
       }
     })
   }
 
-  public deleteByDateAndEmploye(date: string, employe: Employe,index:number): void {
-    this.absenceService.deleteByDateAbsenceAndEmploye(date, employe).subscribe(data => {
-      if (data > 0){
-        this.absencesSec.splice(index, 1);
-        alert("Absence supprimée !");
-        this.findAll();
+  public deleteByDateAndEmploye(date: string, employe: Employe, index: number): void {
+    Swal.fire({
+      title: 'Voulez-vous vraiment supprimer cette absence ?',
+      showDenyButton: true,
+      denyButtonText: 'Annuler',
+      confirmButtonText: 'Supprimer'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.absenceService.deleteByDateAbsenceAndEmploye(date, employe).subscribe(data => {
+          if (data > 0) {
+            this.absencesSec.splice(index, 1);
+            Swal.fire({
+              title: 'Absence supprimée !',
+              icon: 'success',
+              confirmButtonText: 'OK'
+            });
+            this.findAll();
+          } else {
+            Swal.fire({
+              title: 'Oops! Une erreur est survenue',
+              icon: 'error',
+            });
+          }
+        });
       }
-      else {
-        alert("Erreur");
-      }
-    })
+    });
   }
+
 
   public findAll(): void {
     this.absenceService.findAll().subscribe(data => {

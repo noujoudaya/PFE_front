@@ -3,6 +3,7 @@ import {RetardService} from "../../../../services/services/retard.service";
 import {Retard} from "../../../../services/models/retard.model";
 import {NgForOf} from "@angular/common";
 import {debounceTime, distinctUntilChanged, Subject, switchMap} from "rxjs";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-retard-list',
@@ -60,7 +61,11 @@ export class RetardListComponent implements OnInit {
     this.retardService.justifier(this.selectedRetard).subscribe(data => {
       if (data != null)
         console.log(data);
-      alert("retard justifié!");
+      Swal.fire({
+        title: 'Retard justifié !',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
       this.findAll();
       this.selectedRetard = new Retard();
     });

@@ -230,7 +230,9 @@
     <td>
       <button class="btn btn-warning btn-sm m-1" (click)="showEmployeeDetails(c)" data-bs-toggle="modal" data-bs-target="#view"><i class="fa-solid fa-eye" style="color: #ffffff;"></i></button>
       <button class="btn btn-info btn-sm m-1" (click)="showEmployeeDetails(c)" data-bs-toggle="modal" data-bs-target="#edit"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></button>
-      <button class="btn btn-danger btn-sm m-1" (click)="deleteByCin(c,i)"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
+      <button class="btn btn-danger btn-sm m-1"
+              (click)="confirmDelete(c,i)"><i class="fa-solid fa-trash" style="color: #ffffff;"></i>
+      </button>
     </td>
   </tr>
 

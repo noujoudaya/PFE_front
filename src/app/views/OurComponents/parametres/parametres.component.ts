@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {UserServiceService} from "../../../services/services/user-service.service";
 import {ChangePasswordRequest} from "../../../services/models/change-password-request.model";
 import {NgIf} from "@angular/common";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-parametres',
@@ -34,12 +35,22 @@ export class ParametresComponent {
       this.userService.changePassword(request).subscribe(
         response => {
           console.log('Password changed successfully', response);
-          this.alertSuccess = true;
-          setTimeout(() => {
-            this.alertSuccess = false; // Cacher l'alerte après quelques secondes
-          }, 4000);
+          Swal.fire({
+            title: 'Mot de passe modifié !',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          });
+          this.changePasswordForm.reset();
+          //this.alertSuccess = true;
+          //setTimeout(() => {
+            //this.alertSuccess = false; // Cacher l'alerte après quelques secondes
+          //}, 4000);
         },
         error => {
+          Swal.fire({
+            title: 'Oops ! Une erreur est survenue',
+            icon: 'error',
+          });
           console.error('Error changing password', error);
           this.alertSuccess = false;
         }

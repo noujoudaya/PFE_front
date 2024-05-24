@@ -15,8 +15,10 @@ import {Service} from "../../../../services/models/service.model";
 import {ServiceService} from "../../../../services/services/service.service";
 import {Fonction} from "../../../../services/models/fonction.model";
 import {FonctionService} from "../../../../services/services/fonction.service";
-import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
+import {Subject, debounceTime, distinctUntilChanged, switchMap} from 'rxjs';
 import {HttpClient} from "@angular/common/http";
+import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -25,7 +27,8 @@ import {HttpClient} from "@angular/common/http";
   imports: [
     NgForOf,
     FormsModule,
-    NgIf
+    NgIf,
+    SweetAlert2Module
   ],
   templateUrl: './employes-list.component.html',
   styleUrl: './employes-list.component.scss'
@@ -141,7 +144,8 @@ export class EmployesListComponent implements OnInit {
       }
     });
   }
-  public onFileChanged(event: any,employe: Employe) {
+
+  public onFileChanged(event: any, employe: Employe) {
     // Select File
     this.selectedFile = event.target.files[0];
     this.onUpload(employe);
@@ -152,7 +156,7 @@ export class EmployesListComponent implements OnInit {
   public findAll(): void {
     this.service.findAll().subscribe(data => {
         this.employes = data;
-        for (let employe of this.employes ){
+        for (let employe of this.employes) {
           this.base64Data = employe.image.picByte;
           employe.image = 'data:image/jpeg;base64,' + this.base64Data;
 
@@ -160,6 +164,7 @@ export class EmployesListComponent implements OnInit {
       }
     );
   }
+
   onUpload(employe: Employe) {
     const uploadImageData = new FormData();
     uploadImageData.append('imageFile', this.selectedFile, this.selectedFile.name);
@@ -177,6 +182,7 @@ export class EmployesListComponent implements OnInit {
         }
       });
   }
+
   getImage() {
     //Make a call to Sprinf Boot to get the Image Bytes.
     this.httpClient.get('http://localhost:8088/api/v1/image/get/' + this.selectedFile.name)
@@ -199,42 +205,92 @@ export class EmployesListComponent implements OnInit {
       if (data > 0) {
         this.employes.push({...this.employe});
         this.employe = new Employe();
-        alert("Employé enregisté avec succès");
-      } else {
-        alert("Erreur");
+        Swal.fire({
+          title: 'Employé enregistré !',
+          icon: 'success',
+          confirmButtonText: 'OK'
+
+        });
       }
     })
   }
 
   public update(): void {
     this.employe = this.selectedEmployee;
-    this.service.update().subscribe(data=>{
-      if (data > 0){
-        alert("Employé modifié");
+    this.service.update().subscribe(data => {
+      if (data > 0) {
         this.employe = new Employe();
-      }
-      else {
-        alert("erreur")
+        Swal.fire({
+          title: 'Modifications enregistrées !',
+          icon: 'success',
+          confirmButtonText: 'OK'
+
+        });
+      } else {
+        Swal.fire({
+          title: 'Oops , une erreur est survenue !',
+          icon: 'error',
+        });
       }
     })
   }
-
   public deleteByCin(employe: Employe, index: number): void {
     if (employe.cin != null) {
-      const firstConfirmation = confirm("Êtes-vous sûr de vouloir supprimer cet employé ?");
-      if (firstConfirmation) {
-        const secondConfirmation = confirm("Cet employé va être supprimé d'une façon définitive. Poursuivre l'opération ?");
-        if (secondConfirmation) {
-          this.service.deleteByCin(employe.cin).subscribe(data => {
-            if (data > 0) {
-              this.employes.splice(index, 1);
-            } else {
-              alert("Erreur suppression");
-            }
-          });
+      this.service.deleteByCin(employe.cin).subscribe(data => {
+        if (data > 0) {
+          this.employes.splice(index, 1);
+          this.showThirdAlert(); // Appel du troisième alerte si la suppression est réussie
         }
-      }
+      });
+    } else {
+      Swal.fire({
+        title: 'Oops, une erreur est survenue !',
+        icon: 'error',
+      });
     }
+  }
+
+
+
+  confirmDelete(employe: Employe, index: number) {
+    Swal.fire({
+      title: 'Voulez-vous vraiment supprimer cet employé ?',
+      showDenyButton: true,
+      denyButtonText: 'Annuler',
+      confirmButtonText: 'Oui, supprimer'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.showSecondAlert(employe, index);
+      } else if (result.isDenied) {
+        console.log('Supression annulée');
+      }
+    });
+  }
+
+  showSecondAlert(employe: Employe, index: number) {
+    Swal.fire({
+      title: 'Cet employé sera supprimé de façon définitive , poursuivre ?',
+      showDenyButton: true,
+      denyButtonText: 'Annuler',
+      confirmButtonText: 'Supprimer',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.deleteByCin(employe,index);
+      } else if (result.isDenied) {
+        console.log("supression annulée");
+      }
+    });
+
+  }
+
+  showThirdAlert(): void {
+    Swal.fire({
+      title: 'Opération réussite !',
+      icon: 'success',
+      confirmButtonText: 'OK'
+
+    })
+
   }
 
 

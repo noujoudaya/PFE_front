@@ -17,6 +17,7 @@ import {HttpTokenInterceptor} from "./services/interceptor/http-token.intercepto
 
 import { BrowserModule } from '@angular/platform-browser';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 import {
   provideCharts,
@@ -38,7 +39,7 @@ export const appConfig: ApplicationConfig = {
       withViewTransitions(),
       withHashLocation()
     ),
-    importProvidersFrom(SidebarModule, DropdownModule),
+    importProvidersFrom(SidebarModule, DropdownModule,SweetAlert2Module.forRoot()),
     IconSetService,
     provideAnimations(),
     provideHttpClient(withInterceptorsFromDi()),
@@ -48,6 +49,7 @@ export const appConfig: ApplicationConfig = {
       multi:true
     },
     provideCharts(withDefaultRegisterables()),
-    FullCalendarModule
+    FullCalendarModule,
+    SweetAlert2Module
   ]
 };

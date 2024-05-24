@@ -6,6 +6,7 @@ import {Employe} from "../../../../services/models/employe.model";
 import {Retard} from "../../../../services/models/retard.model";
 import {RetardService} from "../../../../services/services/retard.service";
 import {debounceTime, distinctUntilChanged, Subject, switchMap} from "rxjs";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-retard-secretaire',
@@ -60,15 +61,22 @@ export class RetardSecretaireComponent implements OnInit {
   }
 
   public save(retard: Retard): void {
-    retard.dateRetard=new Date().toISOString().split('T')[0]; // Initialise avec la date actuelle
+    retard.dateRetard = new Date().toISOString().split('T')[0]; // Initialise avec la date actuelle
     this.retardService.save(retard).subscribe(data => {
       if (data > 0) {
         this.retardsSec.push({...this.retardSec});
-        alert("Retard enregistré !");
+        Swal.fire({
+          title: 'Retard enregistré !',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
         this.findAll();
         this.retardSec = new Retard();
       } else {
-        alert("Erreur");
+        Swal.fire({
+          title: 'Oops! Une erreur est survenue',
+          icon: 'error',
+        });
       }
     })
   }
@@ -80,15 +88,31 @@ export class RetardSecretaireComponent implements OnInit {
   }
 
   public deleteByDateAndEmploye(date: string, employe: Employe, index: number): void {
-    this.retardService.deleteByDateRetardAndEmploye(date, employe).subscribe(data => {
-      if (data > 0){
-        this.retardsSec.splice(index, 1);
-        alert("Retard supprimé !");
+    Swal.fire({
+      title: 'Voulez-vous vraiment supprimer ce retard ?',
+      showDenyButton: true,
+      denyButtonText: 'Annuler',
+      confirmButtonText: 'Supprimer'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.retardService.deleteByDateRetardAndEmploye(date, employe).subscribe(data => {
+          if (data > 0) {
+            this.retardsSec.splice(index, 1);
+            Swal.fire({
+              title: 'Retard supprimé !',
+              icon: 'success',
+              confirmButtonText: 'OK'
+            });
+            this.findAll();
+          } else {
+            Swal.fire({
+              title: 'Oops! Une erreur est survenue',
+              icon: 'error',
+            });
+          }
+        });
       }
-      else {
-        alert("erreur");
-      }
-    })
+    });
   }
 
   public calculerDureeRetard(heureDebutTravail: string, heureArrive: string): string {
