@@ -1,5 +1,5 @@
 export enum StatutConge{
-  En_Attente,
-  Acceptée,
-  Refusée
+  En_Attente='En attente',
+  Acceptée='Acceptée',
+  Refusée='Refusée'
 }

@@ -1,11 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {DemandeCongeService} from "../../../../services/services/demande-conge.service";
 import {DemandeConge} from "../../../../services/models/demande-conge.model";
-import {NgClass, NgForOf} from "@angular/common";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {StatutConge} from "../../../../services/enums/statutConge.enum";
 import {debounceTime, distinctUntilChanged, Subject, switchMap} from "rxjs";
 import {FormsModule} from "@angular/forms";
 import {EnumToStringPipe} from "../../../../services/enums/enum-to-string.pipe";
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-demandes-conge-list',
@@ -14,20 +17,24 @@ import {EnumToStringPipe} from "../../../../services/enums/enum-to-string.pipe";
     NgForOf,
     NgClass,
     FormsModule,
-    EnumToStringPipe
+    EnumToStringPipe,
+    NgIf,
   ],
   templateUrl: './demandes-conge-list.component.html',
   styleUrl: './demandes-conge-list.component.scss'
 })
-export class DemandesCongeListComponent implements OnInit{
+export class DemandesCongeListComponent implements OnInit {
 
-  constructor(private demandeService: DemandeCongeService) {
+  constructor(private demandeService: DemandeCongeService, private modalService: NgbModal) {
   }
 
-  private selectedDemande : DemandeConge | null = null;
+  protected selectedDemande: DemandeConge = new DemandeConge();
 
   private searchTerms = new Subject<string>();
 
+  public motifRefus: string = '';
+
+  public StatutConge = StatutConge;
 
   ngOnInit(): void {
     this.findAll();
@@ -40,43 +47,67 @@ export class DemandesCongeListComponent implements OnInit{
     });
   }
 
-  public findAll():void{
-    this.demandeService.findAll().subscribe(data=>{
-      this.demandes=data;
+  public findAll(): void {
+    this.demandeService.findAll().subscribe(data => {
+      this.demandes = data;
     })
   }
 
-  public accepter(demande:DemandeConge):void{
+  public accepter(demande: DemandeConge): void {
     if (demande.statutConge.toString() == 'Refusée') {
       alert("Cette demande de congé est déjà refusée. Elle ne peut pas être acceptée.");
       return;
     }
     this.selectedDemande = demande;
-    this.demandeService.accepter(this.selectedDemande).subscribe(data=>{
-      console.log(data);
-      alert("Demande acceptée")
-      this.findAll();
-      this.selectedDemande = new DemandeConge();
-      }
-    )
-  }
-
-  public refuser(demande:DemandeConge):void{
-    if (demande.statutConge.toString() == 'Acceptée') {
-      alert("Cette demande de congé est déjà acceptée. Elle ne peut pas être refusée.");
-      return;
-    }
-    this.selectedDemande = demande;
-    this.demandeService.refuser(this.selectedDemande).subscribe(data=>{
+    this.demandeService.accepter(this.selectedDemande).subscribe(data => {
         console.log(data);
-        alert("Demande refusée")
-      this.findAll();
+        alert("Demande acceptée")
+        this.findAll();
         this.selectedDemande = new DemandeConge();
       }
     )
   }
 
-  public supprimer(demande:DemandeConge,index:number):void{
+  public openRefusModal(demande: DemandeConge): void {
+    if (demande.statutConge.toString() === 'Acceptée') {
+      alert("Cette demande de congé est déjà acceptée. Elle ne peut pas être refusée.");
+      return;
+    }
+    this.selectedDemande = demande;
+    this.motifRefus = '';
+
+
+    const modalElement = document.getElementById('refusModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
+
+  showDetailsDemande(demande: DemandeConge): void {
+    this.selectedDemande = demande;
+    console.log(this.selectedDemande.statutConge);
+  }
+
+  public enregistrerRefus(): void {
+    if (this.selectedDemande) {
+      this.selectedDemande.motifRefus = this.motifRefus;
+      this.selectedDemande.statutConge = StatutConge.Refusée;
+      this.demandeService.refuser(this.selectedDemande).subscribe(data => {
+        console.log(data);
+        alert("Demande refusée");
+        this.findAll();
+        this.selectedDemande = new DemandeConge();
+      });
+    }
+    const modalElement = document.getElementById('refusModal');
+    if (modalElement) {
+      const modal = bootstrap.Modal.getInstance(modalElement);
+      modal.hide();
+    }
+  }
+
+  public supprimer(demande: DemandeConge, index: number): void {
     if (demande.statutConge.toString() == 'Acceptée') {
       alert("Cette demande de congé est déjà acceptée. Vous ne pouvez pas la supprimer.");
       return; // Quitter la fonction car l'utilisateur ne peut pas supprimer une demande acceptée
@@ -120,5 +151,4 @@ export class DemandesCongeListComponent implements OnInit{
     this.demandeService.demandes = value;
   }
 
-  protected readonly StatutConge = StatutConge;
 }

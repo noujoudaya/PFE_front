@@ -6,7 +6,7 @@ import {StatutConge} from "./statutConge.enum";
   name: 'enumToString'
 })
 export class EnumToStringPipe implements PipeTransform {
-  transform(value: any): string {
-    return StatutConge[value];
+  transform(value: any): void {
+   // return StatutConge[value];
   }
 }

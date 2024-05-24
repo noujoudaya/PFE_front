@@ -1,21 +1,22 @@
 <div class="input-group w-25">
   <input type="text" class="form-control" placeholder="Rechercher demande..." (input)="search($any($event.target).value)">
   <span class="input-group-text">
-      <i class="fa fa-search"></i>
-    </span>
+    <i class="fa fa-search"></i>
+  </span>
 </div>
 <br>
 
-
 <table class="table table-bordered table-hover">
   <thead>
-  <th>Employé</th>
-  <th>Date demande</th>
-  <th>Date début</th>
-  <th>Date fin</th>
-  <th>Type Congé</th>
-  <th>Statut demande</th>
-  <th>Actions</th>
+  <tr>
+    <th>Employé</th>
+    <th>Date demande</th>
+    <th>Date début</th>
+    <th>Date fin</th>
+    <th>Type Congé</th>
+    <th>Statut demande</th>
+    <th>Actions</th>
+  </tr>
   </thead>
   <tbody>
   <tr *ngFor="let c of demandes; index as i">
@@ -26,10 +27,73 @@
     <td>{{ c.typeConge.libelle }}</td>
     <td>{{ c.statutConge }}</td>
     <td>
-      <button class="btn btn-success btn-sm text-white m-1" (click)="accepter(c)"><i class="fa-solid fa-check"></i></button>
-      <button class="btn btn-danger btn-sm text-white" (click)="refuser(c)"><i class="fa-solid fa-x"></i></button>
-      <button (click)="supprimer(c,i)" class="btn btn-info btn-sm m-1"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
+      <button class="btn btn-success btn-sm text-white m-1" (click)="accepter(c)">
+        <i class="fa-solid fa-check"></i>
+      </button>
+      <button class="btn btn-danger btn-sm text-white" (click)="openRefusModal(c)">
+        <i class="fa-solid fa-x"></i>
+      </button>
+      <button class="btn btn-warning btn-sm text-white m-1" (click)="showDetailsDemande(c)" data-bs-toggle="modal" data-bs-target="#detailsModal">
+        <i class="fa-solid fa-eye"></i>
+      </button>
+      <button (click)="supprimer(c, i)" class="btn btn-info btn-sm">
+        <i class="fa-solid fa-trash" style="color: #ffffff;"></i>
+      </button>
     </td>
   </tr>
   </tbody>
 </table>
+
+<!-- Modal for Refusal Justification -->
+<div class="modal fade" id="refusModal" tabindex="-1" aria-labelledby="refusModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="refusModalLabel">Motif de Refus</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="motifRefus" class="form-label">Motif de Refus</label>
+            <textarea class="form-control" id="motifRefus" [(ngModel)]="motifRefus" name="motifRefus"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        <button type="button" class="btn btn-primary" (click)="enregistrerRefus()">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for Viewing Details -->
+<div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="detailsModalLabel">Détails de la Demande</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Employé:</strong> {{ selectedDemande.employe.nom }} {{ selectedDemande.employe.prenom }}</p>
+        <p><strong>Date de Demande:</strong> {{ selectedDemande.dateDemande }}</p>
+        <p><strong>Date de Début:</strong> {{ selectedDemande.dateDebut }}</p>
+        <p><strong>Date de Fin:</strong> {{ selectedDemande.dateFin }}</p>
+        <p><strong>Type de Congé:</strong> <ng-container *ngIf="selectedDemande.typeConge">
+          {{ selectedDemande.typeConge.libelle }}
+        </ng-container></p>
+        <p><strong>Statut de Demande:</strong> {{ selectedDemande.statutConge }}</p>
+        <p><strong>Motif de refus :</strong>
+          <ng-container *ngIf="selectedDemande.statutConge === 'Refusée'">
+            {{ selectedDemande.motifRefus}}
+          </ng-container>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>

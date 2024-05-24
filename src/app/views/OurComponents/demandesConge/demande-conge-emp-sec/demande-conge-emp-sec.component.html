@@ -66,6 +66,7 @@
   <th>Date fin</th>
   <th>Type Congé</th>
   <th>Statut demande</th>
+  <th>Motif de refus</th>
   <th>Actions</th>
   </thead>
   <tbody>
@@ -74,7 +75,8 @@
     <td>{{c.dateDebut}}</td>
     <td>{{c.dateFin}}</td>
     <td>{{c.typeConge.libelle}}</td>
-    <td>{{c.statutConge}}</td>
+    <td>{{c.statutConge.valueOf()}}</td>
+    <td>{{c.motifRefus}}</td>
     <td>
       <button (click)="deleteConge(c,i)" class="btn btn-danger btn-sm m-1"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
     </td>
