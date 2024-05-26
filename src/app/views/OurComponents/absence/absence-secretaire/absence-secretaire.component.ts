@@ -5,7 +5,6 @@ import {Employe} from "../../../../services/models/employe.model";
 import {EmployeService} from "../../../../services/services/employe.service";
 import {Absence} from "../../../../services/models/absence.model";
 import {AbsenceService} from "../../../../services/services/absence.service";
-import {AlertComponent} from "@coreui/angular";
 import {debounceTime, distinctUntilChanged, Subject, switchMap} from "rxjs";
 import Swal from "sweetalert2";
 
@@ -41,7 +40,8 @@ export class AbsenceSecretaireComponent implements OnInit {
       this.authenticatedEmploye = JSON.parse(storedEmployee);
     }
     this.loadEmployes();
-    this.findAll();
+    //this.findAll();
+    this.findByEmployeDepartement();
     this.searchTerms.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -73,7 +73,7 @@ export class AbsenceSecretaireComponent implements OnInit {
           icon: 'success',
           confirmButtonText: 'OK'
         });
-        this.findAll();
+        this.findByEmployeDepartement();
         this.absenceSec = new Absence();
       } else {
         Swal.fire({
@@ -119,6 +119,11 @@ export class AbsenceSecretaireComponent implements OnInit {
     })
   }
 
+  public findByEmployeDepartement():void{
+    this.absenceService.findByEmployeDepartement(this.authenticatedEmploye.departement).subscribe(data=>{
+      this.absencesSec=data;
+    })
+  }
   search(term: string): void {
     this.searchTerms.next(term);
   }
