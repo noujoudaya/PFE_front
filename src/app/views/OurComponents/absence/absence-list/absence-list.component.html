@@ -11,6 +11,9 @@
           </li>
         </ul>
       </div>
+      <div class="row m-3">
+        <p class="display-6"> Département : {{this.selectedDepartement.libelle}} </p>
+      </div>
       <div class="d-flex">
         <div class="me-3">
           <label for="startDate" class="form-label">Du :</label>
@@ -30,8 +33,8 @@
     </div>
   </div>
 </div>
-
-
+<br><br>
+<full-calendar [options]="calendarOptions"></full-calendar>
 <br><br>
 
 <div class="input-group w-25">

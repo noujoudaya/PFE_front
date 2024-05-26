@@ -4,6 +4,8 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { FullCalendarModule } from "@fullcalendar/angular";
 import { EventInput } from "@fullcalendar/core";
 import frLocale from '@fullcalendar/core/locales/fr';
+import timeGridPlugin from '@fullcalendar/timegrid';
+
 @Component({
   selector: 'app-employe-calendar',
   standalone: true,
@@ -22,11 +24,11 @@ export class EmployeCalendarComponent implements OnInit {
   ngOnInit(): void {
 
     this.calendarOptions = {
-      plugins: [dayGridPlugin, interactionPlugin],
+      plugins: [dayGridPlugin, interactionPlugin,timeGridPlugin],
       initialView: 'dayGridMonth',
       //selectable:true,
       //unselectedAuto:true,
-      weekends: false,
+      weekends: true,
       locale: frLocale,
       events: this.events
     };

@@ -43,6 +43,7 @@
     "@fullcalendar/core": "^6.1.12",
     "@fullcalendar/daygrid": "^6.1.12",
     "@fullcalendar/interaction": "^6.1.12",
+    "@fullcalendar/timegrid": "^6.1.13",
     "@mobiscroll/angular": "npm:@mobiscroll/angular-ivy-trial@^5.30.0",
     "@ng-bootstrap/ng-bootstrap": "^16.0.0",
     "@sweetalert2/ngx-sweetalert2": "^12.3.0",
