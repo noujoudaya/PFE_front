@@ -86,6 +86,7 @@ export class AbsenceListComponent implements OnInit {
       });
       this.findAll();
       this.selectedAbsence = new Absence();
+      this.updateAfterJustification();
     });
   }
 
@@ -287,6 +288,14 @@ export class AbsenceListComponent implements OnInit {
     this.updateCalendarOptions();
   }
 
+  updateAfterJustification(): void {
+    if (this.selectedDepartement) {
+      this.findByDepartement(this.selectedDepartement);
+    } else {
+      this.loadAllEmployees();
+      this.loadAbsences();
+    }
+  }
   get absence(): Absence {
     return this.absenceService.absence;
   }
