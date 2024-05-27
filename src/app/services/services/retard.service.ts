@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {Absence} from "../models/absence.model";
 import value from "*.json";
 import {Employe} from "../models/employe.model";
+import {Departement} from "../models/departement.model";
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +43,9 @@ export class RetardService {
     return this.http.post<string>(this.url + 'admin/retards/justifier', retard,{ responseType: 'text' as 'json' });
   }
 
+  public findByEmployeDepartement(departement:Departement):Observable<Array<Retard>>{
+    return this.http.post<Array<Retard>>(this.url+'sup/retards/departement',departement);
+  }
   get retard(): Retard {
     return this._retard;
   }

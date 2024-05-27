@@ -34,7 +34,8 @@ export class RetardSecretaireComponent implements OnInit {
       this.authenticatedEmploye = JSON.parse(storedEmployee);
     }
     this.loadEmployes();
-    this.findAll();
+    this.findByEmployeDepartement();
+   // this.findAll();
     this.searchTerms.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -70,7 +71,7 @@ export class RetardSecretaireComponent implements OnInit {
           icon: 'success',
           confirmButtonText: 'OK'
         });
-        this.findAll();
+        this.findByEmployeDepartement();
         this.retardSec = new Retard();
       } else {
         Swal.fire({
@@ -126,6 +127,12 @@ export class RetardSecretaireComponent implements OnInit {
     const minutesRetard = Math.floor(diff / 60000); // Convertir en minutes
 
     return minutesRetard > 0 ? `${minutesRetard} minutes` : 'Aucun retard';
+  }
+
+  public findByEmployeDepartement():void{
+    this.retardService.findByEmployeDepartement(this.authenticatedEmploye.departement).subscribe(data=>{
+      this.retardsSec=data;
+    })
   }
 
   search(term: string): void {

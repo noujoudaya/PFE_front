@@ -80,14 +80,14 @@ export class DashboardSecretaireComponent implements OnInit{
   }
 
   getAbsencesAujourdhui(): void {
-    this.absenceService.findAll().subscribe((absences: any[]) => {
+    this.absenceService.findByEmployeDepartement(this.authenticatedEmploye.departement).subscribe((absences: any[]) => {
       // Filtrer les absences pour ne conserver que celles d'aujourd'hui
       this.absencesAuj = absences.filter(absence => this.isToday(absence.dateAbsence));
     });
   }
 
   getRetardsAujourdhui(): void {
-    this.retardService.findAll().subscribe((retards: any[]) => {
+    this.retardService.findByEmployeDepartement(this.authenticatedEmploye.departement).subscribe((retards: any[]) => {
       // Filtrer les absences pour ne conserver que celles d'aujourd'hui
       this.retardsAuj = retards.filter(retard => this.isToday(retard.dateRetard));
     });
