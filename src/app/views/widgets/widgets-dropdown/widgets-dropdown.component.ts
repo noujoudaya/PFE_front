@@ -149,7 +149,7 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
     this.demandeAttestationService.countByStatutAttestation().subscribe(count=> {
       this.demandesAttestations=count;
     });
-    this.usersService.countUsers().subscribe(count=>{
+    this.usersService.countpureUsers().subscribe(count=>{
       this.usersCount=count;
     });
   }

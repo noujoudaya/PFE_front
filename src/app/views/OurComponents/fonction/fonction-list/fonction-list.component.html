@@ -47,7 +47,7 @@
   </tr>
   </thead>
   <tbody>
-    @for (fonction of fonctions; track fonction; let i = $index) {
+    @for (fonction of fonctionsPage.content; track fonction; let i = $index) {
 
       <tr >
         <td>{{fonction.libelle}}</td>
@@ -85,6 +85,12 @@
     }
   </tbody>
 </table>
-
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end">
+    <li class="page-item" [class.disabled]="fonctionsPage.first"><a class="page-link" (click)="getFonctionPage(fonctionsPage.number - 1, fonctionsPage.size)">&laquo; Précédent</a></li>
+    <li class="page-item" *ngFor="let pageNumber of getPageNumbers()" [class.active]="pageNumber === fonctionsPage.number"><a class="page-link" (click)="getFonctionPage(pageNumber, fonctionsPage.size)">{{ pageNumber + 1 }}</a></li>
+    <li class="page-item" [class.disabled]="fonctionsPage.last"><a class="page-link" (click)="getFonctionPage(fonctionsPage.number + 1, fonctionsPage.size)">Suivant &raquo;</a></li>
+  </ul>
+</nav>
 
 

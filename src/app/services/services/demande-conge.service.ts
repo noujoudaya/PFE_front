@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
 import {DemandeConge} from "../models/demande-conge.model";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Employe} from "../models/employe.model";
 import {StatutConge} from "../enums/statutConge.enum";
 import value from "*.json";
+import {Page} from "../models/page.model";
 
 @Injectable({
   providedIn: 'root'
@@ -54,6 +55,14 @@ export class DemandeCongeService {
 
   public deleteConge(dateDemande:string,employeId:number,typeConge:string):Observable<number>{
     return this.http.post<number>(`${this.url}all/demandesConge/deleteConge/${dateDemande}/${employeId}/${typeConge}`, null);  }
+
+  public getDemandesConge(page: number, size: number): Observable<Page<DemandeConge>> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<Page<DemandeConge>>(this.url+'admin/demandesConge/paginated', { params });
+  }
 
   get demande(): DemandeConge {
     return this._demande;

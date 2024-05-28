@@ -19,7 +19,7 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let c of demandes; index as i">
+  <tr *ngFor="let c of demandesPage.content;index as i">
     <td>{{ c.employe.nom }} {{ c.employe.prenom }}</td>
     <td>{{ c.dateDemande }}</td>
     <td>{{ c.dateDebut }}</td>
@@ -43,6 +43,13 @@
   </tr>
   </tbody>
 </table>
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end">
+    <li class="page-item" [class.disabled]="demandesPage.first"><a class="page-link" (click)="getDemandesCongesPage(demandesPage.number - 1, demandesPage.size)">&laquo; Précédent</a></li>
+    <li class="page-item" *ngFor="let pageNumber of getPageNumbers()" [class.active]="pageNumber === demandesPage.number"><a class="page-link" (click)="getDemandesCongesPage(pageNumber, demandesPage.size)">{{ pageNumber + 1 }}</a></li>
+    <li class="page-item" [class.disabled]="demandesPage.last"><a class="page-link" (click)="getDemandesCongesPage(demandesPage.number + 1, demandesPage.size)">Suivant &raquo;</a></li>
+  </ul>
+</nav>
 
 <!-- Modal for Refusal Justification -->
 <div class="modal fade" id="refusModal" tabindex="-1" aria-labelledby="refusModalLabel" aria-hidden="true">

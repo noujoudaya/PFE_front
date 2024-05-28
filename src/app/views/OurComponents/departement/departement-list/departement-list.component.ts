@@ -3,24 +3,48 @@ import {DepartementService} from "../../../../services/services/departement.serv
 import {Departement} from "../../../../services/models/departement.model";
 import {FormsModule} from "@angular/forms";
 import Swal from "sweetalert2";
+import {Page} from "../../../../services/models/page.model";
+import {Employe} from "../../../../services/models/employe.model";
+import {NgForOf} from "@angular/common";
 
 @Component({
   selector: 'app-departement-list',
   standalone: true,
   imports: [
-    FormsModule
+    FormsModule,
+    NgForOf
   ],
   templateUrl: './departement-list.component.html',
   styleUrl: './departement-list.component.scss'
 })
 export class DepartementListComponent  implements OnInit {
+
   updatedLibelle!: string;
+
+  departementsPage: Page<Departement> = new Page<Departement>();
 
   constructor(private departementService: DepartementService) {
   }
 
   ngOnInit(): void {
-    this.findAll();
+   // this.findAll();
+    this.getDepartementsPage(0,5);
+  }
+
+  getPageNumbers(): number[] {
+    const totalPages = this.departementsPage.totalPages;
+    return Array.from({ length: totalPages }, (_, i) => i);
+  }
+
+  getDepartementsPage(page: number, size: number): void {
+    this.departementService.getDepartements(page, size).subscribe({
+      next: (page) => {
+        this.departementsPage = page;
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des départements paginés:', error);
+      }
+    });
   }
 
   public findAll(): void {

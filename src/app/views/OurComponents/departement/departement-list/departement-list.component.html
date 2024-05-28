@@ -37,7 +37,7 @@
   </tr>
   </thead>
   <tbody>
-    @for (deparetement of departements; track deparetement; let i = $index) {
+    @for (deparetement of departementsPage.content; track deparetement; let i = $index) {
 
       <tr >
         <td>{{deparetement.libelle}}</td>
@@ -73,4 +73,10 @@
     }
   </tbody>
 </table>
-
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end">
+    <li class="page-item" [class.disabled]="departementsPage.first"><a class="page-link" (click)="getDepartementsPage(departementsPage.number - 1, departementsPage.size)">&laquo; Précédent</a></li>
+    <li class="page-item" *ngFor="let pageNumber of getPageNumbers()" [class.active]="pageNumber === departementsPage.number"><a class="page-link" (click)="getDepartementsPage(pageNumber, departementsPage.size)">{{ pageNumber + 1 }}</a></li>
+    <li class="page-item" [class.disabled]="departementsPage.last"><a class="page-link" (click)="getDepartementsPage(departementsPage.number + 1, departementsPage.size)">Suivant &raquo;</a></li>
+  </ul>
+</nav>

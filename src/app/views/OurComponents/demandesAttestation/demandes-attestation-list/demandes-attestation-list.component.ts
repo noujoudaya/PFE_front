@@ -4,6 +4,8 @@ import {DemandeAttestation} from "../../../../services/models/demande-attestatio
 import {NgForOf} from "@angular/common";
 import {debounceTime, distinctUntilChanged, Subject, switchMap} from "rxjs";
 import Swal from "sweetalert2";
+import {Page} from "../../../../services/models/page.model";
+import {DemandeConge} from "../../../../services/models/demande-conge.model";
 
 @Component({
   selector: 'app-demandes-attestation-list',
@@ -18,10 +20,13 @@ export class DemandesAttestationListComponent implements OnInit {
 
   selectedDemandeAttest: DemandeAttestation = new DemandeAttestation();
 
+  demandesPage: Page<DemandeAttestation> = new Page<DemandeAttestation>();
+
   private searchTerms = new Subject<string>();
 
   ngOnInit(): void {
-    this.findAll();
+    //this.findAll();
+    this.getDemandesAttestPage(0,6);
     this.searchTerms.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -32,6 +37,22 @@ export class DemandesAttestationListComponent implements OnInit {
   }
 
   constructor(private demandeAttestService: DemandeAttestationService) {
+  }
+
+  getPageNumbers(): number[] {
+    const totalPages = this.demandesPage.totalPages;
+    return Array.from({ length: totalPages }, (_, i) => i);
+  }
+
+  getDemandesAttestPage(page: number, size: number): void {
+    this.demandeAttestService.getDemandesAttest(page, size).subscribe({
+      next: (page) => {
+        this.demandesPage = page;
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des demandes paginés:', error);
+      }
+    });
   }
 
   public findAll(): void {

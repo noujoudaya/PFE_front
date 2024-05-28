@@ -205,7 +205,7 @@
   <th>Actions</th>
   </thead>
   <tbody>
-  <tr *ngFor="let c of employes; index as i">
+  <tr *ngFor="let c of employesPage.content;index as i">
     <td>
       <div class="image-container">
         <label class="hoverable" for="fileInput">
@@ -238,7 +238,13 @@
 
   </tbody>
 </table>
-
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end">
+    <li class="page-item" [class.disabled]="employesPage.first"><a class="page-link" (click)="getEmployesPage(employesPage.number - 1, employesPage.size)">&laquo; Précédent</a></li>
+    <li class="page-item" *ngFor="let pageNumber of getPageNumbers()" [class.active]="pageNumber === employesPage.number"><a class="page-link" (click)="getEmployesPage(pageNumber, employesPage.size)">{{ pageNumber + 1 }}</a></li>
+    <li class="page-item" [class.disabled]="employesPage.last"><a class="page-link" (click)="getEmployesPage(employesPage.number + 1, employesPage.size)">Suivant &raquo;</a></li>
+  </ul>
+</nav>
 <!-- Modal view -->
 <div class="modal fade" id="view" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
   <div class="modal-dialog modal-lg">

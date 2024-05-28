@@ -8,6 +8,8 @@ import {FormsModule} from "@angular/forms";
 import {EnumToStringPipe} from "../../../../services/enums/enum-to-string.pipe";
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import Swal from "sweetalert2";
+import {Page} from "../../../../services/models/page.model";
+import {Employe} from "../../../../services/models/employe.model";
 
 declare var bootstrap: any;
 
@@ -29,6 +31,8 @@ export class DemandesCongeListComponent implements OnInit {
   constructor(private demandeService: DemandeCongeService, private modalService: NgbModal) {
   }
 
+  demandesPage: Page<DemandeConge> = new Page<DemandeConge>();
+
   protected selectedDemande: DemandeConge = new DemandeConge();
 
   private searchTerms = new Subject<string>();
@@ -38,7 +42,8 @@ export class DemandesCongeListComponent implements OnInit {
   public StatutConge = StatutConge;
 
   ngOnInit(): void {
-    this.findAll();
+   // this.findAll();
+    this.getDemandesCongesPage(0,6);
     this.searchTerms.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -47,6 +52,23 @@ export class DemandesCongeListComponent implements OnInit {
       this.demandes = demands;
     });
   }
+
+  getPageNumbers(): number[] {
+    const totalPages = this.demandesPage.totalPages;
+    return Array.from({ length: totalPages }, (_, i) => i);
+  }
+
+  getDemandesCongesPage(page: number, size: number): void {
+    this.demandeService.getDemandesConge(page, size).subscribe({
+      next: (page) => {
+        this.demandesPage = page;
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des demandes paginés:', error);
+      }
+    });
+  }
+
 
   public findAll(): void {
     this.demandeService.findAll().subscribe(data => {

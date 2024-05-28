@@ -7,6 +7,9 @@ import {Absence} from "../../../../services/models/absence.model";
 import {AbsenceService} from "../../../../services/services/absence.service";
 import {debounceTime, distinctUntilChanged, Subject, switchMap} from "rxjs";
 import Swal from "sweetalert2";
+import {Page} from "../../../../services/models/page.model";
+import {User} from "../../../../services/models/user.model";
+import {Departement} from "../../../../services/models/departement.model";
 
 @Component({
   selector: 'app-absence-secretaire',
@@ -20,6 +23,8 @@ import Swal from "sweetalert2";
   styleUrl: './absence-secretaire.component.scss'
 })
 export class AbsenceSecretaireComponent implements OnInit {
+
+  absencesPage: Page<Absence> = new Page<Absence>();
 
   // @ts-ignore
   authenticatedEmploye: Employe;
@@ -41,7 +46,8 @@ export class AbsenceSecretaireComponent implements OnInit {
     }
     this.loadEmployes();
     //this.findAll();
-    this.findByEmployeDepartement();
+    //this.findByEmployeDepartement();
+    this.getAbsencesPage(this.authenticatedEmploye.departement,0,6);
     this.searchTerms.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -50,6 +56,23 @@ export class AbsenceSecretaireComponent implements OnInit {
       this.absencesSec = demands;
     });
   }
+
+  getPageNumbers(): number[] {
+    const totalPages = this.absencesPage.totalPages;
+    return Array.from({ length: totalPages }, (_, i) => i);
+  }
+
+  getAbsencesPage(departement:Departement,page: number, size: number): void {
+    this.absenceService.getAbsences(departement,page, size).subscribe({
+      next: (page) => {
+        this.absencesPage = page;
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des absences paginés:', error);
+      }
+    });
+  }
+
 
   private loadEmployes(): void {
     this.employeService.findByDepartement(this.authenticatedEmploye.departement).subscribe({

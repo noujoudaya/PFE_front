@@ -7,6 +7,8 @@ import {NgForOf} from "@angular/common";
 import {Departement} from "../../../../services/models/departement.model";
 import {ServiceService} from "../../../../services/services/service.service";
 import Swal from "sweetalert2";
+import {Page} from "../../../../services/models/page.model";
+import {Employe} from "../../../../services/models/employe.model";
 
 @Component({
   selector: 'app-fonction-list',
@@ -23,13 +25,32 @@ export class FonctionListComponent implements OnInit {
   updatedLibelle!: string;
   services: Service[] = [];
 
+  fonctionsPage: Page<Fonction> = new Page<Fonction>();
+
   constructor(private fonctionService: FonctionService,
               private serviceService: ServiceService) {
   }
 
   ngOnInit(): void {
-    this.findAll();
+    this.getFonctionPage(0,5);
+   // this.findAll();
     this.loadServices();
+  }
+
+  getPageNumbers(): number[] {
+    const totalPages = this.fonctionsPage.totalPages;
+    return Array.from({ length: totalPages }, (_, i) => i);
+  }
+
+  getFonctionPage(page: number, size: number): void {
+    this.fonctionService.getFonctions(page, size).subscribe({
+      next: (page) => {
+        this.fonctionsPage = page;
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des fonctions paginés:', error);
+      }
+    });
   }
 
   public findAll(): void {

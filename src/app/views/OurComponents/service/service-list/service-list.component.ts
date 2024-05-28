@@ -7,6 +7,8 @@ import {EmployesListComponent} from "../../employes/employes-list/employes-list.
 import {Departement} from "../../../../services/models/departement.model";
 import {DepartementService} from "../../../../services/services/departement.service";
 import Swal from "sweetalert2";
+import {Page} from "../../../../services/models/page.model";
+import {Fonction} from "../../../../services/models/fonction.model";
 
 @Component({
   selector: 'app-service-list',
@@ -23,13 +25,33 @@ export class ServiceListComponent implements OnInit {
   updatedLibelle!: string;
   departements: Departement[] = [];
 
+  servicesPage: Page<Service> = new Page<Service>();
+
   constructor(private serviceService: ServiceService,
               private departementService: DepartementService) {
   }
 
   ngOnInit(): void {
-    this.findAll();
+   // this.findAll();
+    this.getServicePage(0,5);
     this.loadDepartements();
+  }
+
+
+  getPageNumbers(): number[] {
+    const totalPages = this.servicesPage.totalPages;
+    return Array.from({ length: totalPages }, (_, i) => i);
+  }
+
+  getServicePage(page: number, size: number): void {
+    this.serviceService.getServices(page, size).subscribe({
+      next: (page) => {
+        this.servicesPage = page;
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des services paginés:', error);
+      }
+    });
   }
 
   private loadDepartements(): void {

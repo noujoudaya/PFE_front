@@ -77,15 +77,20 @@ export const navItems: INavData[] = [
   },
   {
     name: 'Utilisateurs',
-    url: 'users',
+    url: '/users/list',
     iconComponent: {name: 'cil-user'},
-    children: [
-      {
-        name: 'Ajouter',
-        url: '/register',
-        icon: 'nav-icon-bullet'
-      }
-    ]
+    //children: [
+      //{
+        //name: 'Ajouter',
+        //url: '/register',
+        //icon: 'nav-icon-bullet'
+      //},
+      //{
+        //name: 'Liste utilisateurs',
+        //url: '/users/list',
+        //icon: 'nav-icon-bullet'
+      //}
+    //]
 
   },
   {

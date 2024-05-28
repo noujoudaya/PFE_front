@@ -1,10 +1,12 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Absence} from "../models/absence.model";
 import {Observable} from "rxjs";
 import {DemandeAttestation} from "../models/demande-attestation.model";
 import {Employe} from "../models/employe.model";
 import {Departement} from "../models/departement.model";
+import {Page} from "../models/page.model";
+import {User} from "../models/user.model";
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +46,14 @@ export class AbsenceService {
 
   public findByEmployeDepartement(departement: Departement): Observable<Array<Absence>> {
     return this.http.post<Array<Absence>>(this.url + 'sup/absences/departement', departement);
+  }
+
+  public getAbsences(departement:Departement,page: number, size: number): Observable<Page<Absence>> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.post<Page<Absence>>(this.url+'sup/absences/paginated',departement, { params });
   }
 
   get absence(): Absence {

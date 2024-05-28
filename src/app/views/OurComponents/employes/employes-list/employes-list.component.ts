@@ -19,6 +19,7 @@ import {Subject, debounceTime, distinctUntilChanged, switchMap} from 'rxjs';
 import {HttpClient} from "@angular/common/http";
 import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
 import Swal from 'sweetalert2';
+import { Page } from 'src/app/services/models/page.model';
 
 
 @Component({
@@ -88,8 +89,10 @@ export class EmployesListComponent implements OnInit {
   fonctions: Fonction[] = [];
 
 
+  employesPage: Page<Employe> = new Page<Employe>();
+
   ngOnInit(): void {
-    this.findAll();
+    //this.findAll();
     this.loadDepartements();
     this.loadServices();
     this.loadFonctions();
@@ -100,6 +103,7 @@ export class EmployesListComponent implements OnInit {
     ).subscribe(employes => {
       this.employes = employes;
     });
+    this.getEmployesPage(0, 5);
   }
 
   constructor(private service: EmployeService,
@@ -108,6 +112,24 @@ export class EmployesListComponent implements OnInit {
               private serviceService: ServiceService,
               private fonctionService: FonctionService) {
   }
+
+
+  getPageNumbers(): number[] {
+    const totalPages = this.employesPage.totalPages;
+    return Array.from({ length: totalPages }, (_, i) => i);
+  }
+
+  getEmployesPage(page: number, size: number): void {
+    this.service.getEmployes(page, size).subscribe({
+      next: (page) => {
+        this.employesPage = page;
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des employés paginés:', error);
+      }
+    });
+  }
+
 
   private loadDepartements(): void {
     this.departementService.findAll().subscribe({
