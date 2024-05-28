@@ -9,6 +9,8 @@ import {EmployeService} from "../../../../services/services/employe.service";
 import {Employe} from "../../../../services/models/employe.model";
 import {StatutConge} from "../../../../services/enums/statutConge.enum";
 import Swal from "sweetalert2";
+import {Page} from "../../../../services/models/page.model";
+import {DemandeAttestation} from "../../../../services/models/demande-attestation.model";
 
 @Component({
   selector: 'app-demande-conge-emp-sec',
@@ -22,6 +24,8 @@ import Swal from "sweetalert2";
   styleUrl: './demande-conge-emp-sec.component.scss'
 })
 export class DemandeCongeEmpSecComponent implements OnInit {
+
+  demandesPage: Page<DemandeConge> = new Page<DemandeConge>();
 
   typesConges: TypeConge[] = [];
   employes: Employe[] = [];
@@ -41,7 +45,8 @@ export class DemandeCongeEmpSecComponent implements OnInit {
     if (storedEmployee) {
       this.authenticatedEmploye = JSON.parse(storedEmployee);
     }
-    this.findByEmploye();
+    //this.findByEmploye();
+    this.getDemandesCongePage(this.authenticatedEmploye,0,5);
     this.calculateDaysDifference("2024-05-17", "2024-05-31");
     this.joursRestants = this.authenticatedEmploye.soldeConge;
   }
@@ -50,6 +55,22 @@ export class DemandeCongeEmpSecComponent implements OnInit {
               private demandeCongeService: DemandeCongeService,
               private employeService: EmployeService,
   ) {
+  }
+
+  getPageNumbers(): number[] {
+    const totalPages = this.demandesPage.totalPages;
+    return Array.from({ length: totalPages }, (_, i) => i);
+  }
+
+  getDemandesCongePage(employe:Employe,page: number, size: number): void {
+    this.demandeCongeService.getDemandesCongeByEmploye(this.authenticatedEmploye,page, size).subscribe({
+      next: (page) => {
+        this.demandesPage = page;
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des demandes paginés:', error);
+      }
+    });
   }
 
   private loadTypesConges(): void {

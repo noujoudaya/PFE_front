@@ -48,7 +48,7 @@
   <th>Actions</th>
   </thead>
   <tbody>
-  <tr *ngFor="let c of authenticatedEmpAttest;index as i">
+  <tr *ngFor="let c of demandesPage.content;index as i">
     <td>{{c.dateDemande}}</td>
     <td>{{c.typeAttestation}}</td>
     <td>{{c.statutAttestation}}</td>
@@ -58,6 +58,14 @@
   </tr>
   </tbody>
 </table>
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end">
+    <li class="page-item" [class.disabled]="demandesPage.first"><a class="page-link" (click)="getDemandesAttestPage(this.authenticatedEmploye,demandesPage.number - 1, demandesPage.size)">&laquo; Précédent</a></li>
+    <li class="page-item" *ngFor="let pageNumber of getPageNumbers()" [class.active]="pageNumber === demandesPage.number"><a class="page-link" (click)="getDemandesAttestPage(this.authenticatedEmploye,pageNumber, demandesPage.size)">{{ pageNumber + 1 }}</a></li>
+    <li class="page-item" [class.disabled]="demandesPage.last"><a class="page-link" (click)="getDemandesAttestPage(this.authenticatedEmploye,demandesPage.number + 1,demandesPage.size)">Suivant &raquo;</a></li>
+  </ul>
+</nav>
+
 
 <!-- Modal edit-->
 <div class="modal fade" id="edit" tabindex="-1" aria-labelledby="editModal" aria-hidden="true">

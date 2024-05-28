@@ -47,7 +47,7 @@ export class AbsenceSecretaireComponent implements OnInit {
     this.loadEmployes();
     //this.findAll();
     //this.findByEmployeDepartement();
-    this.getAbsencesPage(this.authenticatedEmploye.departement,0,6);
+    this.getAbsencesPage(this.authenticatedEmploye.departement,0,5);
     this.searchTerms.pipe(
       debounceTime(300),
       distinctUntilChanged(),

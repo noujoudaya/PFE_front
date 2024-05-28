@@ -7,6 +7,7 @@ import {Departement} from "../models/departement.model";
 import {Service} from "../models/service.model";
 import {Genre} from "../enums/genre.enum";
 import {Page} from "../models/page.model";
+import {DemandeConge} from "../models/demande-conge.model";
 
 @Injectable({
   providedIn: 'root'
@@ -69,6 +70,14 @@ export class EmployeService {
       .set('size', size.toString());
 
     return this.http.get<Page<Employe>>(this.url+'admin/employes/paginated', { params });
+  }
+
+  public getEmployeByDepartement(departement:Departement,page: number, size: number): Observable<Page<Employe>> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.post<Page<Employe>>(this.url+'sup/employes/departement/paginated',departement, { params });
   }
 
 

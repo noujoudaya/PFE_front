@@ -8,6 +8,7 @@ import {Employe} from "../../../../services/models/employe.model";
 import {DemandeAttestationService} from "../../../../services/services/demande-attestation.service";
 import {DemandeAttestation} from "../../../../services/models/demande-attestation.model";
 import Swal from "sweetalert2";
+import {Page} from "../../../../services/models/page.model";
 
 @Component({
   selector: 'app-demande-attestation-emp-sec',
@@ -21,6 +22,8 @@ import Swal from "sweetalert2";
 })
 export class DemandeAttestationEmpSecComponent implements OnInit {
 
+  demandesPage: Page<DemandeAttestation> = new Page<DemandeAttestation>();
+
   // @ts-ignore
   authenticatedEmploye: Employe;
   authenticatedEmpAttest: DemandeAttestation[] = [];
@@ -31,7 +34,8 @@ export class DemandeAttestationEmpSecComponent implements OnInit {
     if (storedEmployee) {
       this.authenticatedEmploye = JSON.parse(storedEmployee);
     }
-    this.findByEmploye();
+   // this.findByEmploye();
+    this.getDemandesAttestPage(this.authenticatedEmploye,0,5);
   }
 
   constructor(private employeService: EmployeService,
@@ -43,6 +47,21 @@ export class DemandeAttestationEmpSecComponent implements OnInit {
 
   employes: Employe[] = [];
 
+  getPageNumbers(): number[] {
+    const totalPages = this.demandesPage.totalPages;
+    return Array.from({ length: totalPages }, (_, i) => i);
+  }
+
+  getDemandesAttestPage(employe:Employe,page: number, size: number): void {
+    this.demandeService.getDemandesAttestByEmploye(this.authenticatedEmploye,page, size).subscribe({
+      next: (page) => {
+        this.demandesPage = page;
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des demandes paginés:', error);
+      }
+    });
+  }
 
   private loadEmployes(): void {
     this.employeService.findAll().subscribe({

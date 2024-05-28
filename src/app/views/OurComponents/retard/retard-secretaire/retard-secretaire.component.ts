@@ -7,6 +7,9 @@ import {Retard} from "../../../../services/models/retard.model";
 import {RetardService} from "../../../../services/services/retard.service";
 import {debounceTime, distinctUntilChanged, Subject, switchMap} from "rxjs";
 import Swal from "sweetalert2";
+import {Page} from "../../../../services/models/page.model";
+import {Absence} from "../../../../services/models/absence.model";
+import {Departement} from "../../../../services/models/departement.model";
 
 @Component({
   selector: 'app-retard-secretaire',
@@ -21,6 +24,8 @@ import Swal from "sweetalert2";
 })
 export class RetardSecretaireComponent implements OnInit {
 
+  retardsPage: Page<Retard> = new Page<Retard>();
+
   // @ts-ignore
   authenticatedEmploye: Employe;
   employes: Employe[] = [];
@@ -34,7 +39,8 @@ export class RetardSecretaireComponent implements OnInit {
       this.authenticatedEmploye = JSON.parse(storedEmployee);
     }
     this.loadEmployes();
-    this.findByEmployeDepartement();
+    this.getRetardsPage(this.authenticatedEmploye.departement,0,5);
+   // this.findByEmployeDepartement();
    // this.findAll();
     this.searchTerms.pipe(
       debounceTime(300),
@@ -47,6 +53,22 @@ export class RetardSecretaireComponent implements OnInit {
 
   constructor(private employeService: EmployeService,
               private retardService: RetardService) {
+  }
+
+  getPageNumbers(): number[] {
+    const totalPages = this.retardsPage.totalPages;
+    return Array.from({ length: totalPages }, (_, i) => i);
+  }
+
+  getRetardsPage(departement:Departement,page: number, size: number): void {
+    this.retardService.getRetards(departement,page, size).subscribe({
+      next: (page) => {
+        this.retardsPage = page;
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des retards paginés:', error);
+      }
+    });
   }
 
   private loadEmployes(): void {

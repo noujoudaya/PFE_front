@@ -6,6 +6,7 @@ import {Employe} from "../models/employe.model";
 import {StatutConge} from "../enums/statutConge.enum";
 import value from "*.json";
 import {Page} from "../models/page.model";
+import {DemandeAttestation} from "../models/demande-attestation.model";
 
 @Injectable({
   providedIn: 'root'
@@ -62,6 +63,14 @@ export class DemandeCongeService {
       .set('size', size.toString());
 
     return this.http.get<Page<DemandeConge>>(this.url+'admin/demandesConge/paginated', { params });
+  }
+
+  public getDemandesCongeByEmploye(employe:Employe,page: number, size: number): Observable<Page<DemandeConge>> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.post<Page<DemandeConge>>(this.url+'employe-secretaire/demandesConge/employe/paginated',employe, { params });
   }
 
   get demande(): DemandeConge {

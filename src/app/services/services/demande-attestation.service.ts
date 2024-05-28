@@ -61,6 +61,14 @@ export class DemandeAttestationService {
     return this.http.get<Page<DemandeAttestation>>(this.url+'admin/demandesAttestation/paginated', { params });
   }
 
+  public getDemandesAttestByEmploye(employe:Employe,page: number, size: number): Observable<Page<DemandeAttestation>> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.post<Page<DemandeAttestation>>(this.url+'employe-secretaire/demandesAttestation/employe/paginated',employe, { params });
+  }
+
   get demandeAttestation(): DemandeAttestation {
     return this._demandeAttestation;
   }
