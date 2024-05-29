@@ -101,7 +101,7 @@ export class EmployesListComponent implements OnInit {
       distinctUntilChanged(),
       switchMap((term: string) => this.service.searchEmployes(term))
     ).subscribe(employes => {
-      this.employes = employes;
+      this.employesPage.content = employes;
     });
     this.getEmployesPage(0, 5);
   }

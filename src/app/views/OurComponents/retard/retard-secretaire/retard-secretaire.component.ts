@@ -47,7 +47,7 @@ export class RetardSecretaireComponent implements OnInit {
       distinctUntilChanged(),
       switchMap((term: string) => this.retardService.searchRetards(term))
     ).subscribe(demands => {
-      this.retardsSec = demands;
+      this.retardsPage.content = demands;
     });
   }
 
