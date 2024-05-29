@@ -41,7 +41,7 @@ console.log(this.bulletinPaie)
   }
   public findAll(): Observable<Array<BulletinPaie>> {
     return this.http.get <Array<BulletinPaie>>(this.url+'bulletin/');
-  }
+  
 
 
 

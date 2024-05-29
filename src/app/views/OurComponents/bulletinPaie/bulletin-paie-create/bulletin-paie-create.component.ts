@@ -144,7 +144,8 @@ export class BulletinPaieCreateComponent {
     })
   }
   generer() {
-    this.bulletinPaieService.generer(this.bulletinPaie).subscribe(data=>{
+    console.log(this.calculatedBulletin)
+    this.bulletinPaieService.generer(this.calculatedBulletin).subscribe(data=>{
       console.log(data);
       if (data > 0) {
         alert("bulletin enregisté avec succès");
@@ -156,7 +157,7 @@ export class BulletinPaieCreateComponent {
       this.bulletinPaie.employe=new Employe();
       this.bulletinPaie=new BulletinPaie();
       this.calculatedBulletin=new BulletinPaie();
-      
+
     })
   }
   modifier() {
