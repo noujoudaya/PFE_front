@@ -8,11 +8,14 @@ import {Fonction} from "./fonction.model";
 import {TypeSalaire} from "../enums/typeSalaire.enum";
 import {TypeContrat} from "../enums/typeContrat.enum";
 import {Image} from "./image.model";
+import {modePaiement} from "../enums/modePaiement.enum";
 
 export class Employe {
 
   // @ts-ignore
   public id: number;
+  // @ts-ignore
+  public matricule:number;
   // @ts-ignore
   public nom: string;
   // @ts-ignore
@@ -32,6 +35,9 @@ export class Employe {
 
   // @ts-ignore
   numeroCNSS:number;
+  // @ts-ignore
+  numeroMutuelle:number;
+
 
   // @ts-ignore
   dateNaissance:string;
@@ -43,9 +49,18 @@ export class Employe {
   dateFinContrat:string;
 
   // @ts-ignore
+  nbrEnfant: number;
+  // @ts-ignore
+  nbrDeduction: number;
+
+  // @ts-ignore
+  modePaiement : modePaiement;
+  // @ts-ignore
   salaire:number;
   // @ts-ignore
   soldeConge:number;
+  // @ts-ignore
+  nbrJourTravaille:number;
 
   // @ts-ignore
   designation:Designation;

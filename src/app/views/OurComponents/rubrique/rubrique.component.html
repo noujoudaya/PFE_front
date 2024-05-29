@@ -1,0 +1,31 @@
+<div class="modal" *ngIf="isVisible" id="edit" tabindex="-1" aria-labelledby="edit-label" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="edit-label">Liste des rubriques:</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered">
+          <thead>
+          <tr>
+            <th>Code</th>
+            <th>Désignation</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let rubrique of allRubriques" (click)="toggleSelection(rubrique)"
+              [class.table-primary]="isSelected(rubrique)">
+            <td>{{ rubrique.code }}</td>
+            <td>{{ rubrique.libelle }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="validateSelection()">Valider</button>
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Quitter</button>
+      </div>
+    </div>
+  </div>
+</div>

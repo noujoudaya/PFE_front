@@ -98,6 +98,10 @@ export const routes: Routes = [
         loadChildren: () => import('./views/OurComponents/fonction/fonction-list/routes').then((m) => m.routes)
       },
       {
+        path: 'paie',
+        loadChildren: () => import('./views/OurComponents/bulletinPaie/routes').then((m) => m.routes)
+      },
+      {
         path: 'employe/fonction',
         loadChildren: () => import('./views/OurComponents/fonction/fonction-emp-sec/routes').then((m) => m.routes)
       },

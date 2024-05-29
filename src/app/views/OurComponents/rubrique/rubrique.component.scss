@@ -1,0 +1,64 @@
+.modal {
+  display: block; /* Show the modal */
+  position: fixed; /* Stay in place */
+  z-index: 2; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  justify-content: center; /* Center horizontally */
+  align-items: center;
+  background: transparent;
+  margin-left: 150px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding-top: 60px;
+}
+
+.modal-header {
+  position: relative;
+}
+
+
+
+.modal-header .close:hover,
+.modal-header .close:focus {
+  color: black;
+  cursor: pointer;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-section {
+  display: flex;
+  gap: 1rem;
+}
+
+.search-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-field label {
+  font-weight: bold;
+}
+
+.search-field input {
+  padding: 0.5rem;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+}
+
+.table-bordered {
+  border: 1px solid #dee2e6;
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid #dee2e6;
+}
