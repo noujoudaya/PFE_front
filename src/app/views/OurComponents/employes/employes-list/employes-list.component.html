@@ -39,6 +39,10 @@
             <!-- Contenu de l'onglet Accueil -->
             <div class="row mt-2">
               <div class="col-md-4"> <!-- Chaque colonne prend 4 unités sur 12, donc trois colonnes par ligne -->
+                <label for="Mat" class="form-label">Matricule :</label>
+                <input type="text" class="form-control form-control-sm" id="Mat" [(ngModel)]="employe.matricule">
+              </div>
+              <div class="col-md-4"> <!-- Chaque colonne prend 4 unités sur 12, donc trois colonnes par ligne -->
                 <label for="Nom" class="form-label">Nom :</label>
                 <input type="text" class="form-control form-control-sm" id="Nom" [(ngModel)]="employe.nom">
               </div>
@@ -46,6 +50,8 @@
                 <label for="prenom" class="form-label">Prénom :</label>
                 <input type="text" class="form-control form-control-sm" id="prenom" [(ngModel)]="employe.prenom">
               </div>
+            </div>
+            <div class="row mt-1">
               <div class="col-md-4">
                 <label for="genre" class="form-label">Genre :</label>
                 <select class="form-control form-control-sm" id="genre" [(ngModel)]="employe.genre">
@@ -53,8 +59,6 @@
                   <option *ngFor="let genre of genres" [value]="genre">{{ genre }}</option>
                 </select>
               </div>
-            </div>
-            <div class="row mt-1">
               <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
                 <label for="telephone" class="form-label">Téléphone :</label>
                 <input type="text" class="form-control form-control-sm" id="telephone" [(ngModel)]="employe.telephone">
@@ -63,12 +67,12 @@
                 <label for="adresse" class="form-label">Adresse :</label>
                 <input type="text" class="form-control form-control-sm" id="adresse" [(ngModel)]="employe.adresse">
               </div>
+            </div>
+            <div class="row mt-1">
               <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
                 <label for="cin" class="form-label">CIN :</label>
                 <input type="text" class="form-control form-control-sm" id="cin" [(ngModel)]="employe.cin">
               </div>
-            </div>
-            <div class="row mt-1">
               <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
                 <label for="ville" class="form-label">Ville :</label>
                 <input type="text" class="form-control form-control-sm" id="ville" [(ngModel)]="employe.ville">
@@ -77,12 +81,22 @@
                 <label for="dateNaissance" class="form-label">Date de naissance :</label>
                 <input type="date" class="form-control form-control-sm" id="dateNaissance" [(ngModel)]="employe.dateNaissance">
               </div>
+            </div>
+            <div class="row mt-1">
               <div class="col-md-4">
                 <label for="situation" class="form-label">Situation Familiale :</label>
                 <select class="form-control form-control-sm" id="situation" [(ngModel)]="employe.situationFamiliale">
                   <option value="" disabled selected>Sélectionner la sit.Familiale</option>
                   <option *ngFor="let situation of situations" [value]="situation">{{ situation }}</option>
                 </select>
+              </div>
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="enf" class="form-label">Nbre d'enfant :</label>
+                <input type="text" class="form-control form-control-sm" id="enf" [(ngModel)]="employe.nbrEnfant">
+              </div>
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="dedu" class="form-label">Nbre deduction :</label>
+                <input type="text" class="form-control form-control-sm" id="dedu" [(ngModel)]="employe.nbrDeduction">
               </div>
             </div>
             <div class="row mt-1">
@@ -110,41 +124,21 @@
             </div>
             <div class="row mt-2">
               <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
-                <label for="salaire" class="form-label">Salaire :</label>
+                <label for="salaire" class="form-label">Salaire de base:</label>
                 <input type="number" class="form-control form-control-sm" id="salaire" [(ngModel)]="employe.salaire">
-              </div>
-              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
-                <label for="numeroCB" class="form-label">Numéro compte bancaire :</label>
-                <input type="text" class="form-control form-control-sm" id="numeroCB" [(ngModel)]="employe.numeroCompteBancaire">
-              </div>
-              <div class="col-md-4">
-                <label for="statut" class="form-label">Statut :</label>
-                <select class="form-control form-control-sm" id="statut" [(ngModel)]="employe.statutEmploye">
-                  <option value="" disabled selected>Sélectionner le statut</option>
-                  <option *ngFor="let statut of statuts" [value]="statut">{{ statut }}</option>
-                </select>
-              </div>
-            </div>
-            <div class="row mt-2">
-              <div class="col-md-4">
-                <label for="designation" class="form-label">Designation :</label>
-                <select class="form-control form-control-sm" id="designation" [(ngModel)]="employe.designation">
-                  <option value="" disabled selected>Sélectionner la designation</option>
-                  <option *ngFor="let designation of designations" [value]="designation">{{ designation }}</option>
-                </select>
-              </div>
-              <div class="col-md-4">
-                <label for="typeContrat" class="form-label">Type Contrat :</label>
-                <select class="form-control form-control-sm" id="typeContrat" [(ngModel)]="employe.typeContrat">
-                  <option value="" disabled selected>Sélectionner le type</option>
-                  <option *ngFor="let typeContrat of typesContrats" [value]="typeContrat">{{ typeContrat }}</option>
-                </select>
               </div>
               <div class="col-md-4">
                 <label for="typeSal" class="form-label">Type salaire :</label>
                 <select class="form-control form-control-sm" id="typeSal" [(ngModel)]="employe.typeSalaire">
                   <option value="" disabled selected>Sélectionner le type</option>
                   <option *ngFor="let typeSal of typesSalaire" [value]="typeSal">{{ typeSal }}</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label for="statut" class="form-label">Statut :</label>
+                <select class="form-control form-control-sm" id="statut" [(ngModel)]="employe.statutEmploye">
+                  <option value="" disabled selected>Sélectionner le statut</option>
+                  <option *ngFor="let statut of statuts" [value]="statut">{{ statut }}</option>
                 </select>
               </div>
             </div>
@@ -172,13 +166,47 @@
               </div>
             </div>
             <div class="row mt-2">
-              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
-                <label for="numeroCNSS" class="form-label">Numéro CNSS :</label>
-                <input type="number" class="form-control form-control-sm" id="numeroCNSS" [(ngModel)]="employe.numeroCNSS">
+              <div class="col-md-4">
+                <label for="designation" class="form-label">Designation :</label>
+                <select class="form-control form-control-sm" id="designation" [(ngModel)]="employe.designation">
+                  <option value="" disabled selected>Sélectionner la designation</option>
+                  <option *ngFor="let designation of designations" [value]="designation">{{ designation }}</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label for="typeContrat" class="form-label">Type Contrat :</label>
+                <select class="form-control form-control-sm" id="typeContrat" [(ngModel)]="employe.typeContrat">
+                  <option value="" disabled selected>Sélectionner le type</option>
+                  <option *ngFor="let typeContrat of typesContrats" [value]="typeContrat">{{ typeContrat }}</option>
+                </select>
               </div>
               <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
                 <label for="soldeConge" class="form-label">Solde congé :</label>
                 <input type="number" class="form-control form-control-sm" id="soldeConge" [(ngModel)]="employe.soldeConge">
+              </div>
+
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="numeroCNSS" class="form-label">Nº Imm CNSS :</label>
+                <input type="number" class="form-control form-control-sm" id="numeroCNSS" [(ngModel)]="employe.numeroCNSS">
+              </div>
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="numeroMut" class="form-label">Nº Mutuelle :</label>
+                <input type="number" class="form-control form-control-sm" id="numeroMut" [(ngModel)]="employe.numeroMutuelle">
+              </div>
+              <div class="col-md-4">
+                <label for="modepaiement" class="form-label">Mode de paiement :</label>
+                <select class="form-control form-control-sm" id="modepaiement" [(ngModel)]="employe.modePaiement">
+                  <option value="" disabled selected>Sélectionner le type</option>
+                  <option *ngFor="let modePaiement of modePaiements" [value]="modePaiement">{{ modePaiement }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="numeroCB" class="form-label">Nº compte bancaire :</label>
+                <input type="text" class="form-control form-control-sm" id="numeroCB" [(ngModel)]="employe.numeroCompteBancaire">
               </div>
             </div>
           </div>
@@ -196,6 +224,7 @@
 <table class="table table-bordered table-hover">
   <thead>
   <th>Profile</th>
+  <th>Matricule</th>
   <th>Nom</th>
   <th>Prenom</th>
   <th>CIN</th>
@@ -216,11 +245,13 @@
         <input
           id="fileInput"
           type="file"
+
           class="select-profile-picture"
           (change)="onFileChanged($event,c)"
         />
       </div>
-    </td>
+     </td>
+    <td>{{ c.matricule }}</td>
     <td>{{ c.nom }}</td>
     <td>{{ c.prenom }}</td>
     <td>{{ c.cin }}</td>
@@ -260,6 +291,10 @@
             <!-- Contenu de l'onglet Accueil -->
             <div class="row mt-2">
               <div class="col-md-4"> <!-- Chaque colonne prend 4 unités sur 12, donc trois colonnes par ligne -->
+                <label for="matv" class="form-label">Matricule :</label>
+                <input disabled type="text" class="form-control form-control-sm" id="matv" [(ngModel)]="selectedEmployee.matricule">
+              </div>
+              <div class="col-md-4"> <!-- Chaque colonne prend 4 unités sur 12, donc trois colonnes par ligne -->
                 <label for="No" class="form-label">Nom :</label>
                 <input disabled type="text" class="form-control form-control-sm" id="No" [(ngModel)]="selectedEmployee.nom">
               </div>
@@ -267,12 +302,12 @@
                 <label for="preno" class="form-label">Prénom :</label>
                 <input disabled type="text" class="form-control form-control-sm" id="preno" [(ngModel)]="selectedEmployee.prenom">
               </div>
+            </div>
+            <div class="row mt-1">
               <div class="col-md-4">
                 <label for="gere" class="form-label">Genre :</label>
                 <input disabled type="text" class="form-control form-control-sm" id="gere" [(ngModel)]="selectedEmployee.genre">
               </div>
-            </div>
-            <div class="row mt-1">
               <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
                 <label for="telephoe" class="form-label">Téléphone :</label>
                 <input disabled type="text" class="form-control form-control-sm" id="telephoe" [(ngModel)]="selectedEmployee.telephone">
@@ -281,12 +316,12 @@
                 <label for="adrese" class="form-label">Adresse :</label>
                 <input disabled type="text" class="form-control form-control-sm" id="adrese" [(ngModel)]="selectedEmployee.adresse">
               </div>
+            </div>
+            <div class="row mt-1">
               <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
                 <label for="ci" class="form-label">CIN :</label>
                 <input disabled type="text" class="form-control form-control-sm" id="ci" [(ngModel)]="selectedEmployee.cin">
               </div>
-            </div>
-            <div class="row mt-1">
               <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
                 <label for="vile" class="form-label">Ville :</label>
                 <input disabled type="text" class="form-control form-control-sm" id="vile" [(ngModel)]="selectedEmployee.ville">
@@ -295,9 +330,19 @@
                 <label for="dateNaisance" class="form-label">Date de naissance :</label>
                 <input disabled type="date" class="form-control form-control-sm" id="dateNaisance" [(ngModel)]="selectedEmployee.dateNaissance">
               </div>
+            </div>
+            <div class="row mt-1">
               <div class="col-md-4">
                 <label for="situatin" class="form-label">Situation Familiale :</label>
                 <input disabled type="text" class="form-control form-control-sm" id="situatin" [(ngModel)]="selectedEmployee.situationFamiliale">
+              </div>
+              <div class="col-md-4"> <!-- Chaque colonne prend 4 unités sur 12, donc trois colonnes par ligne -->
+                <label for="enfview" class="form-label">Nbre d'enfant :</label>
+                <input disabled type="text" class="form-control form-control-sm" id="enfview" [(ngModel)]="selectedEmployee.nbrEnfant">
+              </div>
+              <div class="col-md-4"> <!-- Chaque colonne prend 4 unités sur 12, donc trois colonnes par ligne -->
+                <label for="deduview" class="form-label">Nbre déduction :</label>
+                <input disabled type="text" class="form-control form-control-sm" id="deduview" [(ngModel)]="selectedEmployee.nbrDeduction">
               </div>
             </div>
             <div class="row mt-1">
@@ -325,31 +370,17 @@
             </div>
             <div class="row mt-2">
               <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
-                <label for="salair" class="form-label">Salaire :</label>
+                <label for="salair" class="form-label">Salaire de Base:</label>
                 <input disabled type="number" class="form-control form-control-sm" id="salair" [(ngModel)]="selectedEmployee.salaire">
               </div>
-              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
-                <label for="numero" class="form-label">Numéro compte bancaire :</label>
-                <input disabled type="text" class="form-control form-control-sm" id="numero" [(ngModel)]="selectedEmployee.numeroCompteBancaire">
+              <div class="col-md-4">
+                <label for="typeSa" class="form-label">Type salaire :</label>
+                <input disabled type="text" class="form-control form-control-sm" id="typeSa" [(ngModel)]="selectedEmployee.typeSalaire">
               </div>
               <div class="col-md-4">
                 <label for="statu" class="form-label">Statut :</label>
                 <input disabled type="text" class="form-control form-control-sm" id="statu" [(ngModel)]="selectedEmployee.statutEmploye">
 
-              </div>
-            </div>
-            <div class="row mt-2">
-              <div class="col-md-4">
-                <label for="designatio" class="form-label">Designation :</label>
-                <input disabled type="text" class="form-control form-control-sm" id="designatio" [(ngModel)]="selectedEmployee.designation">
-              </div>
-              <div class="col-md-4">
-                <label for="typeContra" class="form-label">Type Contrat :</label>
-                <input disabled type="text" class="form-control form-control-sm" id="typeContra" [(ngModel)]="selectedEmployee.typeContrat">
-              </div>
-              <div class="col-md-4">
-                <label for="typeSa" class="form-label">Type salaire :</label>
-                <input disabled type="text" class="form-control form-control-sm" id="typeSa" [(ngModel)]="selectedEmployee.typeSalaire">
               </div>
             </div>
             <div class="row mt-2">
@@ -373,13 +404,39 @@
               </div>
             </div>
             <div class="row mt-2">
-              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
-                <label for="numeroCNSSview" class="form-label">Numéro CNSS :</label>
-                <input disabled type="number" class="form-control form-control-sm" id="numeroCNSSview" [(ngModel)]="selectedEmployee.numeroCNSS">
+              <div class="col-md-4">
+                <label for="designatio" class="form-label">Designation :</label>
+                <input disabled type="text" class="form-control form-control-sm" id="designatio" [(ngModel)]="selectedEmployee.designation">
+              </div>
+              <div class="col-md-4">
+                <label for="typeContra" class="form-label">Type Contrat :</label>
+                <input disabled type="text" class="form-control form-control-sm" id="typeContra" [(ngModel)]="selectedEmployee.typeContrat">
               </div>
               <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
                 <label for="soldeCong" class="form-label">Solde congé :</label>
                 <input disabled type="number" class="form-control form-control-sm" id="soldeCong" [(ngModel)]="selectedEmployee.soldeConge">
+              </div>
+
+
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="numeroCNSSview" class="form-label">Nº Imm CNSS :</label>
+                <input disabled type="number" class="form-control form-control-sm" id="numeroCNSSview" [(ngModel)]="selectedEmployee.numeroCNSS">
+              </div>
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="numeroMutview" class="form-label">Nº Mutuelle :</label>
+                <input disabled type="number" class="form-control form-control-sm" id="numeroMutview" [(ngModel)]="selectedEmployee.numeroMutuelle">
+              </div>
+              <div class="col-md-4">
+                <label for="typepaie" class="form-label">Mode de paiement :</label>
+                <input disabled type="text" class="form-control form-control-sm" id="typepaie" [(ngModel)]="selectedEmployee.modePaiement">
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="numero" class="form-label">Nº compte bancaire :</label>
+                <input disabled type="text" class="form-control form-control-sm" id="numero" [(ngModel)]="selectedEmployee.numeroCompteBancaire">
               </div>
             </div>
           </div>
@@ -412,6 +469,10 @@
             <!-- Contenu de l'onglet Accueil -->
             <div class="row mt-2">
               <div class="col-md-4"> <!-- Chaque colonne prend 4 unités sur 12, donc trois colonnes par ligne -->
+                <label for="Matedit" class="form-label">Matricule :</label>
+                <input type="text" class="form-control form-control-sm" id="Matedit" [(ngModel)]="selectedEmployee.matricule">
+              </div>
+              <div class="col-md-4"> <!-- Chaque colonne prend 4 unités sur 12, donc trois colonnes par ligne -->
                 <label for="Nomedit" class="form-label">Nom :</label>
                 <input type="text" class="form-control form-control-sm" id="Nomedit" [(ngModel)]="selectedEmployee.nom">
               </div>
@@ -419,6 +480,8 @@
                 <label for="prenomedit" class="form-label">Prénom :</label>
                 <input type="text" class="form-control form-control-sm" id="prenomedit" [(ngModel)]="selectedEmployee.prenom">
               </div>
+            </div>
+            <div class="row mt-1">
               <div class="col-md-4">
                 <label for="genreedit" class="form-label">Genre :</label>
                 <select class="form-control form-control-sm" id="genreedit" [(ngModel)]="selectedEmployee.genre">
@@ -426,8 +489,6 @@
                   <option *ngFor="let genre of genres" [ngValue]="genre">{{ genre }}</option>
                 </select>
               </div>
-            </div>
-            <div class="row mt-1">
               <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
                 <label for="telephoneedit" class="form-label">Téléphone :</label>
                 <input  type="text" class="form-control form-control-sm" id="telephoneedit" [(ngModel)]="selectedEmployee.telephone">
@@ -436,12 +497,12 @@
                 <label for="adresseedit" class="form-label">Adresse :</label>
                 <input type="text" class="form-control form-control-sm" id="adresseedit" [(ngModel)]="selectedEmployee.adresse">
               </div>
+            </div>
+            <div class="row mt-1">
               <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
                 <label for="cinedit" class="form-label">CIN :</label>
                 <input  type="text" class="form-control form-control-sm" id="cinedit" [(ngModel)]="selectedEmployee.cin">
               </div>
-            </div>
-            <div class="row mt-1">
               <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
                 <label for="villeedit" class="form-label">Ville :</label>
                 <input type="text" class="form-control form-control-sm" id="villeedit" [(ngModel)]="selectedEmployee.ville">
@@ -450,12 +511,22 @@
                 <label for="dateNaissanceedit" class="form-label">Date de naissance :</label>
                 <input type="date" class="form-control form-control-sm" id="dateNaissanceedit" [(ngModel)]="selectedEmployee.dateNaissance">
               </div>
+            </div>
+            <div class="row mt-1">
               <div class="col-md-4">
                 <label for="situationedit" class="form-label">Situation Familiale :</label>
                 <select class="form-control form-control-sm" id="situationedit" [(ngModel)]="selectedEmployee.situationFamiliale">
                   <option [ngValue]="null" disabled>Sélectionner le type</option>
                   <option *ngFor="let situation of situations" [ngValue]="situation">{{ situation }}</option>
                 </select>
+              </div>
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="enfedit" class="form-label">Nbre d'enfant :</label>
+                <input type="text" class="form-control form-control-sm" id="enfedit" [(ngModel)]="selectedEmployee.nbrEnfant">
+              </div>
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="deduedit" class="form-label">Nbre deduction :</label>
+                <input type="text" class="form-control form-control-sm" id="deduedit" [(ngModel)]="selectedEmployee.nbrDeduction">
               </div>
             </div>
             <div class="row mt-1">
@@ -483,41 +554,18 @@
             </div>
             <div class="row mt-2">
               <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
-                <label for="salairedit" class="form-label">Salaire :</label>
+                <label for="salairedit" class="form-label">Salaire de base:</label>
                 <input type="number" class="form-control form-control-sm" id="salairedit" [(ngModel)]="selectedEmployee.salaire">
               </div>
-              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
-                <label for="numeroedit" class="form-label">Numéro compte bancaire :</label>
-                <input  type="text" class="form-control form-control-sm" id="numeroedit" [(ngModel)]="selectedEmployee.numeroCompteBancaire">
+              <div class="col-md-4">
+                <label for="typeSaedit" class="form-label">Type salaire :</label>
+                <input disabled type="text" class="form-control form-control-sm" id="typeSaedit" [(ngModel)]="selectedEmployee.typeSalaire">
               </div>
               <div class="col-md-4">
                 <label for="statutedit" class="form-label">Statut :</label>
                 <select class="form-control form-control-sm" id="statutedit" [(ngModel)]="selectedEmployee.statutEmploye">
                   <option [ngValue]="null" disabled>Sélectionner le type</option>
                   <option *ngFor="let statut of statuts" [ngValue]="statut">{{ statut }}</option>
-                </select>
-              </div>
-            </div>
-            <div class="row mt-2">
-              <div class="col-md-4">
-                <label for="designationedit" class="form-label">Designation :</label>
-                <select class="form-control form-control-sm" id="designationedit" [(ngModel)]="selectedEmployee.designation">
-                  <option [ngValue]="null" disabled>Sélectionner la designation</option>
-                  <option *ngFor="let designation of designations" [ngValue]="designation">{{ designation }}</option>
-                </select>
-              </div>
-              <div class="col-md-4">
-                <label for="typeContratedit" class="form-label">Type Contrat :</label>
-                <select class="form-control form-control-sm" id="typecontratedit" [(ngModel)]="selectedEmployee.typeContrat">
-                  <option [ngValue]="null" disabled>Sélectionner le type</option>
-                  <option *ngFor="let type of typesContrats" [ngValue]="type">{{ type }}</option>
-                </select>
-              </div>
-              <div class="col-md-4">
-                <label for="typeSaledit" class="form-label">Type salaire :</label>
-                <select class="form-control form-control-sm" id="typeSaledit" [(ngModel)]="selectedEmployee.typeSalaire">
-                  <option [ngValue]="null" disabled>Sélectionner le type</option>
-                  <option *ngFor="let type of typesSalaire" [ngValue]="type">{{ type }}</option>
                 </select>
               </div>
             </div>
@@ -552,13 +600,46 @@
               </div>
             </div>
             <div class="row mt-2">
-              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
-                <label for="numeroCNSSedit" class="form-label">Numéro CNSS :</label>
-                <input type="number" class="form-control form-control-sm" id="numeroCNSSedit" [(ngModel)]="selectedEmployee.numeroCNSS">
+              <div class="col-md-4">
+                <label for="designationedit" class="form-label">Designation :</label>
+                <select class="form-control form-control-sm" id="designationedit" [(ngModel)]="selectedEmployee.designation">
+                  <option [ngValue]="null" disabled>Sélectionner la designation</option>
+                  <option *ngFor="let designation of designations" [ngValue]="designation">{{ designation }}</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label for="typeContratedit" class="form-label">Type Contrat :</label>
+                <select class="form-control form-control-sm" id="typecontratedit" [(ngModel)]="selectedEmployee.typeContrat">
+                  <option [ngValue]="null" disabled>Sélectionner le type</option>
+                  <option *ngFor="let type of typesContrats" [ngValue]="type">{{ type }}</option>
+                </select>
               </div>
               <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
                 <label for="soldeCongedit" class="form-label">Solde congé :</label>
-                <input type="number" class="form-control form-control-sm" id="soldeCongedit" [(ngModel)]="selectedEmployee.soldeConge">
+                <input disabled type="number" class="form-control form-control-sm" id="soldeCongedit" [(ngModel)]="selectedEmployee.soldeConge">
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="numeroCNSSedit" class="form-label">Nº Imm CNSS :</label>
+                <input type="number" class="form-control form-control-sm" id="numeroCNSSedit" [(ngModel)]="selectedEmployee.numeroCNSS">
+              </div>
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="numeroMutedit" class="form-label">Nº Mutuelle :</label>
+                <input disabled type="number" class="form-control form-control-sm" id="numeroMutedit" [(ngModel)]="selectedEmployee.numeroMutuelle">
+              </div>
+              <div class="col-md-4">
+                <label for="modepaiementedit" class="form-label">Designation :</label>
+                <select class="form-control form-control-sm" id="modepaiementedit" [(ngModel)]="selectedEmployee.modePaiement">
+                  <option [ngValue]="null" disabled>Sélectionner un mode de paiement</option>
+                  <option *ngFor="let modePaiement of modePaiements" [ngValue]="modePaiement">{{ modePaiement }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+                <label for="numeroedit" class="form-label">Nº compte bancaire :</label>
+                <input disabled type="text" class="form-control form-control-sm" id="numeroedit" [(ngModel)]="selectedEmployee.numeroCompteBancaire">
               </div>
             </div>
           </div>
@@ -571,6 +652,5 @@
     </div>
   </div>
 </div>
-
 
 
