@@ -15,8 +15,9 @@ import {Service} from "../../../../services/models/service.model";
 import {ServiceService} from "../../../../services/services/service.service";
 import {Fonction} from "../../../../services/models/fonction.model";
 import {FonctionService} from "../../../../services/services/fonction.service";
-import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
+import {Subject, debounceTime, distinctUntilChanged, switchMap} from 'rxjs';
 import {HttpClient} from "@angular/common/http";
+import {modePaiement} from "../../../../services/enums/modePaiement.enum";
 
 
 @Component({
@@ -36,9 +37,10 @@ export class EmployesListComponent implements OnInit {
 
   private searchTerms = new Subject<string>();
   selectedFile!: File;
-  retrievedImage: any;
   base64Data: any;
   retrieveResponse: any;
+  url: any = '';
+
 
   compareDepartments(d1: any, d2: any): boolean {
     return d1 && d2 ? d1.id === d2.id : d1 === d2;
@@ -79,7 +81,7 @@ export class EmployesListComponent implements OnInit {
   designations = Object.values(Designation)
   typesSalaire = Object.values(TypeSalaire);
   typesContrats = Object.values(TypeContrat);
-
+  modePaiements = Object.values(modePaiement);
   departements: Departement[] = [];
   services: Service[] = [];
   fonctions: Fonction[] = [];
@@ -141,50 +143,69 @@ export class EmployesListComponent implements OnInit {
       }
     });
   }
-  public onFileChanged(event: any,employe: Employe) {
+
+  public onFileChanged(event: any, employe: Employe) {
     // Select File
     this.selectedFile = event.target.files[0];
     this.onUpload(employe);
 
-
   }
+
 
   public findAll(): void {
     this.service.findAll().subscribe(data => {
         this.employes = data;
-        for (let employe of this.employes ){
-          this.base64Data = employe.image.picByte;
-          employe.image = 'data:image/jpeg;base64,' + this.base64Data;
-
+        for (let employe of this.employes) {
+          this.getImage(employe);
         }
       }
     );
   }
+
   onUpload(employe: Employe) {
     const uploadImageData = new FormData();
     uploadImageData.append('imageFile', this.selectedFile, this.selectedFile.name);
-    uploadImageData.append('cin', employe.cin)
+    uploadImageData.append('cin', employe.cin);
+
     this.httpClient.post('http://localhost:8088/api/v1/image/upload', uploadImageData, {
       observe: 'response',
-      responseType: 'text' // Specify the response type as text
+      responseType: 'text'
     })
       .subscribe((response) => {
         if (response.status === 200) {
-          alert('Image uploaded successfully');
+
+          /*if (typeof employe.image === 'string') {
+
+            this.employe = employe;*/
+
+            alert('Image uploaded successfully. ');
+/*
+
+          } else {
+            this.getImage(employe);
+            this.employe = employe;
+            alert('Image uploaded successfully. ')
+
+          }
+*/
+
 
         } else {
           alert('Image not uploaded successfully');
         }
       });
   }
-  getImage() {
-    //Make a call to Sprinf Boot to get the Image Bytes.
-    this.httpClient.get('http://localhost:8088/api/v1/image/get/' + this.selectedFile.name)
+
+  getImage(employe: Employe) {
+
+    this.httpClient.get('http://localhost:8088/api/v1/image/get/' + employe.image.id)
       .subscribe(
         res => {
           this.retrieveResponse = res;
           this.base64Data = this.retrieveResponse.picByte;
-          this.retrievedImage = 'data:image/jpeg;base64,' + this.base64Data;
+          employe.image = 'data:image/jpeg;base64,' + this.base64Data;
+
+
         }
       );
   }
@@ -208,12 +229,11 @@ export class EmployesListComponent implements OnInit {
 
   public update(): void {
     this.employe = this.selectedEmployee;
-    this.service.update().subscribe(data=>{
-      if (data > 0){
+    this.service.update().subscribe(data => {
+      if (data > 0) {
         alert("Employé modifié");
         this.employe = new Employe();
-      }
-      else {
+      } else {
         alert("erreur")
       }
     })
@@ -250,5 +270,4 @@ export class EmployesListComponent implements OnInit {
   set employes(value: Employe[]) {
     this.service.employes = value;
   }
-
 }

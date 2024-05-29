@@ -47,16 +47,21 @@ export const navItems: INavData[] = [
 
   },
   {
-    name: "Paie",
-    url: "/paie",
-    iconComponent: {name: 'cilMoney'},
+    name: 'Paie',
+    url: '/paie',
+    iconComponent: {name: 'cil-notes'},
     children: [
       {
-        name: 'Bulletin de paie',
-        url: 'paie/bulletin',
+        name: 'bulletin paie list',
+        url: '/paie/bulletin-paie-list',
         icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'bulletin paie',
+        url: '/paie/bulletin-paie',
+        icon: 'nav-icon-bullet'
+      },
 
-      }
     ]
   },
   {

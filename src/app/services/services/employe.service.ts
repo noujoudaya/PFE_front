@@ -3,9 +3,13 @@ import {HttpClient} from "@angular/common/http";
 import {Employe} from "../models/employe.model";
 import {Observable} from "rxjs";
 import value from "*.json";
+
 import {Departement} from "../models/departement.model";
 import {Service} from "../models/service.model";
 import {Genre} from "../enums/genre.enum";
+
+import {BulletinPaie} from "../models/bulletin-paie.model";
+
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +49,9 @@ export class EmployeService {
 
   public deleteByCin(cin: string): Observable<number> {
     return this.http.delete<number>(this.url + 'admin/employes/cin/' + cin);
+  }
+  public findByMatricule(matricule: number): Observable<Employe> {
+    return this.http.get<Employe>(this.url + 'matricule/'+ matricule);
   }
 
   public findByDepartement(departement:Departement):Observable<Array<Employe>>{

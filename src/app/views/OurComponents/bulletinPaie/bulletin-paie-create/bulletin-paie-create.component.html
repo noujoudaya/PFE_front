@@ -1,0 +1,543 @@
+<div *ngIf="!showContent1">
+  <div class="card border-primary mb-3" style="max-width: 100%;">
+    <div class="card-body text-primary">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <label for="code" class="form-label">Bulletin Code:</label>
+            <input type="number" class="form-control form-control-sm" id="code" [(ngModel)]="bulletinPaie.code">
+          </div>
+          <div class="col">
+            <label for="monthDropdown">Sélectionnez un mois</label>
+            <select id="monthDropdown" class="form-select" [(ngModel)]="bulletinPaie.month"
+                    style="margin-bottom: 10px;">
+              <option *ngFor="let month of months" [value]="month">{{ month }}</option>
+            </select>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card border-primary mb-3" style="max-width: 100%;">
+    <div class="card-body text-primary">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="input-group mb-1">
+              <button class="btn btn-outline-primary" type="button" id="button-addon1">Matricule</button>
+              <input type="text" class="form-control" placeholder="Enter matricule" aria-label="Matricule"
+                     aria-describedby="button-addon1"
+                     [(ngModel)]="matricule" required>
+            </div>
+          </div>
+          <div class="col">
+            <div class="input-group mb-3">
+              <button class="btn btn-outline-primary" type="button" id="button-addon2">Nom</button>
+              <input type="text" class="form-control" placeholder="Nom" aria-label="Nom"
+                     aria-describedby="button-addon2"
+                     [(ngModel)]="nom">
+            </div>
+          </div>
+          <div class="col">
+            <div class="input-group mb-3">
+              <button class="btn btn-outline-primary" type="button" id="button-addon3">Prenom</button>
+              <input type="text" class="form-control" placeholder="Prenom" aria-label="Prenom"
+                     aria-describedby="button-addon3" [(ngModel)]="prenom">
+            </div>
+          </div>
+          <div class="col-auto">
+            <div class="d-flex justify-content-end">
+              <button class="btn btn-outline-primary" type="button" (click)="searchEmploye()" [disabled]="!matricule">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="showContent">
+
+
+    <div class="card border-primary mb-3" style="max-width: 100%;">
+      <div class="card-header">Header</div>
+      <div class="card-body text-primary">
+        <div class="row mt-2">
+          <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+            <label for="salair" class="form-label">Salaire de Base:</label>
+            <input disabled type="number" class="form-control form-control-sm" id="salair"
+                   [(ngModel)]="bulletinPaie.employe.salaire">
+          </div>
+          <div class="col-md-4">
+            <label for="servic" class="form-label">Service :</label>
+            <div *ngIf="bulletinPaie.employe">
+              <input disabled type="text" class="form-control form-control-sm" id="servic"
+                     [value]="bulletinPaie.employe.service.libelle">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label for="fct" class="form-label">Fonction :</label>
+            <div *ngIf="bulletinPaie.employe">
+              <input disabled type="text" class="form-control form-control-sm" id="fct"
+                     [value]="bulletinPaie.employe.fonction.libelle">
+            </div>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-4">
+            <label for="situatin" class="form-label">Situation Familiale :</label>
+            <input disabled type="text" class="form-control form-control-sm" id="situatin"
+                   [(ngModel)]="bulletinPaie.employe.situationFamiliale">
+          </div>
+          <div class="col-md-4">
+            <label for="enf" class="form-label">Nbr.Enfant:</label>
+            <input disabled type="number" class="form-control form-control-sm" id="enf"
+                   [(ngModel)]="bulletinPaie.employe.nbrEnfant">
+          </div>
+          <div class="col-md-4">
+            <label for="ddc" class="form-label">Nbr.déduction:</label>
+            <input disabled type="number" class="form-control form-control-sm" id="ddc"
+                   [(ngModel)]="bulletinPaie.employe.nbrDeduction">
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-4">
+            <label for="jtrv" class="form-label">Nbr de jour travaillé:</label>
+            <input type="number" class="form-control form-control-sm" id="jtrv"
+                   [(ngModel)]="bulletinPaie.nbrJourTravaille">
+          </div>
+          <div class="col-md-4">
+            <label for="jrTrav" class="form-label">Nbr d'heure travaillée:</label>
+            <input type="number" class="form-control form-control-sm" id="jrTrav"
+                   [(ngModel)]="bulletinPaie.nbrHeuresTravaille">
+          </div>
+          <div class="col-md-4">
+            <label for="tsHor" class="form-label">Taux Horaire:</label>
+            <input type="number" class="form-control form-control-sm" id="tsHor"
+                   [(ngModel)]="bulletinPaie.tauxHoraire">
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-4">
+            <label for="anc" class="form-label">Ancienneté:</label>
+            <input type="number" class="form-control form-control-sm" id="anc"
+                   [(ngModel)]="bulletinPaie.anciennete">
+          </div>
+
+          <div class="col-md-4">
+            <label for="cgNoPay" class="form-label">Nbr de jours de congé non payé:</label>
+            <input type="number" class="form-control form-control-sm" id="cgNoPay"
+                   [(ngModel)]="bulletinPaie.nbrJourCongeNonPaye">
+          </div>
+          <div class="col-md-4">
+            <label for="jrabs" class="form-label">Nbr de jours d'absences non justifiées:</label>
+            <input type="number" class="form-control form-control-sm" id="jrabs"
+                   [(ngModel)]="bulletinPaie.nbrJourAbsenceNonJust">
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="card border-primary mb-3" style="max-width: 100%;">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        Rubriques:
+        <span></span>
+        <button class="btn btn-outline-primary btn-sm" (click)="openModal()">
+          <i class="fas fa-plus"></i> Add
+        </button>
+      </div>
+      <div class="card-body text-primary">
+        <table class="table table-bordered">
+          <thead>
+          <tr>
+            <th>Code</th>
+            <th>Désignation</th>
+            <th>Nombre</th>
+            <th>Montant</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let bulletinPaieRubrique of bulletinPaie.bulletinPaieRubriques">
+            <td>{{ bulletinPaieRubrique.rubrique.code }}</td>
+            <td>{{ bulletinPaieRubrique.rubrique.libelle }}</td>
+            <td>
+              <input type="number" [(ngModel)]="bulletinPaieRubrique.nombre" class="form-control"/>
+            </td>
+            <td>
+              <input type="number" [(ngModel)]="bulletinPaieRubrique.montant" class="form-control"/>
+            </td>
+            <td>
+              <button class="btn btn-danger btn-sm m-1"><i class="fa-solid fa-trash" style="color: #ffffff;"></i>
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <app-rubrique #rubriquesModal [allRubriques]="rubriques"
+                  (rubriqueSelected)="handleRubriquesSelected($event)"></app-rubrique>
+
+    <div class="d-flex justify-content-end mt-3">
+      <!--<button class="btn btn-primary" (click)="generer()" style="margin-right: 10px;">Generer</button>-->
+      <button class="btn btn-secondary" (click)="calculer()">Calculer</button>
+    </div>
+
+
+  </div>
+</div>
+
+<div *ngIf="showContent1">
+
+
+  <div class="container">
+    <div class="col-md-6">
+      <div class="card border-primary mb-3">
+        <div class="card-body text-black">
+      <span style="text-align: center; display: block; font-size: larger;">
+      {{ bulletinPaie.entreprise.identifiantFiscale }}
+    </span>
+          <br><br>
+          <span style=" display: block; font-size:15px">
+      {{ bulletinPaie.entreprise.adresse }}
+    </span>
+          <br><br>
+          <div style="text-align:left; font-size: 15px;">
+            <span>{{ bulletinPaie.entreprise.numeroCNSS }} </span>
+            <span style="margin-left: 35px;">{{ bulletinPaie.entreprise.numeromutuelle }}</span>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+      <div class="card border-primary mb-3">
+        <div class="card-body text-black">
+          <div style="text-align: center; font-size: larger;">
+            <span>{{ bulletinPaie.employe.nom }} {{ bulletinPaie.employe.prenom }}</span>
+          </div>
+          <br>
+          <div style="font-size: 15px;">
+            {{ bulletinPaie.employe.adresse }}
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-6">
+      <div class="card border-primary mb-3" style="height: 100%;">
+        <div class="card-body text-black">
+          Période du : {{ bulletinPaie.month }} {{ bulletinPaie.year }}<br>
+          Paiement le // Par {{ bulletinPaie.employe.modePaiement }}<br>
+          Matricule: {{ bulletinPaie.employe.matricule }}<br>
+          Service: {{ bulletinPaie.employe.service.libelle }}<br>
+          Fonction: {{ bulletinPaie.employe.fonction.libelle }}<br>
+          Date naiss.:{{ bulletinPaie.employe.dateNaissance }}<br>
+          S.fam.:{{ bulletinPaie.employe.situationFamiliale }}<br>
+          Embauche :{{ bulletinPaie.employe.dateEmbauche }}<br>
+          Enfant: {{ bulletinPaie.employe.nbrEnfant }}<br>
+          Déd.: {{ bulletinPaie.employe.nbrDeduction }}<br>
+          Mat.CNSS: {{ bulletinPaie.employe.numeroCNSS }}<br>
+          Mat.Mut.:{{ bulletinPaie.employe.numeroMutuelle }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card border-primary mb-3" style="max-width: 100%;">
+
+    <div class="card border-primary mb-3" style="max-width: 100%;">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span></span>
+
+      </div>
+      <div class="card-body text-primary">
+        <table class="table table-bordered table-hover">
+          <thead>
+          <tr>
+            <th>CODE</th>
+            <th>LIBELLE</th>
+            <th>BASE</th>
+            <th>TAUX</th>
+            <th>GAINS</th>
+            <th>RETENUES</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>10</td>
+            <td>Salaire de base</td>
+            <td>{{this.calculatedBulletin.employe.salaire}}</td>
+            <td>{{this.calculatedBulletin.nbrJourTravaille}}</td>
+            <td>{{this.calculatedBulletin.salaireBaseMensuelle}}</td>
+            <td></td>
+          </tr>
+          <tr *ngIf="this.calculatedBulletin.heuresSupp25 !== 0">
+            <td>16</td>
+            <td>Heures Supp</td>
+            <td>{{this.calculatedBulletin.salaireBaseMensuelle}}</td>
+            <td>25.00</td>
+            <td>{{this.calculatedBulletin.heuresSupp25}}</td>
+            <td></td>
+          </tr>
+          <tr *ngIf="this.calculatedBulletin.heuresSupp50 !== 0">
+            <td>17</td>
+            <td>Heures Supp</td>
+            <td>{{this.calculatedBulletin.salaireBaseMensuelle}}</td>
+            <td>50.00</td>
+            <td>{{this.calculatedBulletin.heuresSupp50}}</td>
+            <td></td>
+          </tr>
+          <tr *ngIf="this.calculatedBulletin.heuresSupp100!== 0">
+            <td>18</td>
+            <td>Heures Supp</td>
+            <td>{{this.calculatedBulletin.salaireBaseMensuelle}}</td>
+            <td>100.00</td>
+            <td>{{this.calculatedBulletin.heuresSupp100}}</td>
+            <td></td>
+          </tr>
+          <tr *ngIf="this.calculatedBulletin.tauxAnc !== 0">
+            <td>11</td>
+            <td>Prime d'ancienneté</td>
+            <td>{{this.calculatedBulletin.salaireBaseImposable}}</td>
+            <td>{{this.calculatedBulletin.tauxAnc}}</td>
+            <td>{{this.calculatedBulletin.primeAnc}}</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>300</td>
+            <td>Cotisation CNSS</td>
+            <td>{{this.calculatedBulletin.salaireBrutImp}}</td>
+            <td>4.48</td>
+            <td></td>
+            <td>{{this.calculatedBulletin.retenusCnss}}</td>
+          </tr>
+          <tr>
+            <td>310</td>
+            <td> Cotisation AMO</td>
+            <td>{{this.calculatedBulletin.salaireBrutImp}}</td>
+            <td>2.26</td>
+            <td></td>
+            <td>{{this.calculatedBulletin.retenusAmo}}</td>
+          </tr>
+          <tr *ngIf="this.calculatedBulletin.retenusIr !== 0">
+            <td>330</td>
+            <td> Retenue IR</td>
+            <td>{{this.calculatedBulletin.salaireNetImp}}</td>
+            <td>{{this.calculatedBulletin.tauxIr}}</td>
+            <td></td>
+            <td>{{this.calculatedBulletin.retenusIr}}</td>
+          </tr>
+          <ng-container *ngFor="let bpr of this.calculatedBulletin.bulletinPaieRubriques">
+            <tr *ngIf="bpr.rubrique.code !== 11 && bpr.rubrique.code !== 16 && bpr.rubrique.code !== 17 && bpr.rubrique.code !== 18 && bpr.montant !== 0">
+              <td>{{bpr.rubrique.code}}</td>
+              <td>{{bpr.rubrique.libelle}}</td>
+              <td></td>
+              <td></td>
+              <td>{{bpr.montant}}</td>
+              <td></td>
+            </tr>
+          </ng-container>
+
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+
+    <div class="card border-primary mb-3" style="max-width: 100%;">
+      <div class="card-body text-primary">
+        <table class="table table-bordered table-hover">
+          <thead>
+          <tr>
+            <th>CUMULS</th>
+            <th>Jours <br> travailles</th>
+            <th>Heures <br> travailles</th>
+            <th>Heures <br> supp</th>
+            <th>Brut</th>
+            <th>CNSS</th>
+            <th>MUTUELLE</th>
+            <th>I.R</th>
+            <th>NET <br> A <br> PAYER</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>Période</td>
+            <td>{{this.calculatedBulletin.nbrJourTravaille}}</td>
+            <td></td>
+            <td></td>
+            <td>{{this.calculatedBulletin.salaireBrutImp}}</td>
+            <td>{{this.calculatedBulletin.retenusCnss}}</td>
+            <td>{{this.calculatedBulletin.retenusAmo}}</td>
+            <td>{{this.calculatedBulletin.retenusIr !== 0 ? this.calculatedBulletin.retenusIr : ''}}</td>
+            <td rowspan="2">{{this.calculatedBulletin.salNetPayer}}</td>
+          </tr>
+          <tr>
+            <td>Année</td>
+            <td>{{this.calculatedBulletin.nbrJourTravaille}}</td>
+            <td></td>
+            <td></td>
+            <td>{{this.calculatedBulletin.salaireBrutImp}}</td>
+            <td>{{this.calculatedBulletin.retenusCnss}}</td>
+            <td>{{this.calculatedBulletin.retenusAmo}}</td>
+            <td>{{this.calculatedBulletin.retenusIr !== 0 ? this.calculatedBulletin.retenusIr : ''}}</td>
+
+          </tr>
+
+          </tbody>
+        </table>
+
+      </div>
+
+    </div>
+
+
+
+  </div>
+  <div class="d-flex justify-content-end mt-3">
+    <button class="btn btn-primary" (click)="modifier()" style="margin-right: 10px;">Modifier</button>
+    <button class="btn btn-primary" (click)="generer()" style="margin-right: 10px;">Generer</button>
+
+  </div>
+</div>
+
+
+<!--
+
+
+
+<div class="container">
+  <div class="col-md-6">
+    <div class="card border-primary mb-3">
+
+      <div class="card-body text-black">
+
+      </div>
+    </div>
+    <div class="card border-primary mb-3">
+      <div class="card-body text-black">
+        <span style="text-align: center; display: block; font-size: larger;">
+      {{ bulletinPaie.employe.nom }} {{ bulletinPaie.employe.prenom }}
+    </span>
+        <br><br>
+        <span style=" display: block; font-size:15px">
+      {{ bulletinPaie.employe.adresse }}
+    </span>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card border-primary mb-3" style="height: 100%;">
+      <div class="card-body text-black" >
+        Période du : {{selectedOption1}} {{selectedOption2}} <br>
+        Paiement le // Par {{bulletinPaie.employe.modePaiement}}<br>
+        Matricule: {{bulletinPaie.employe.matricule}}<br>
+        Service: {{bulletinPaie.employe.service.libelle}}<br>
+        Fonction: {{bulletinPaie.employe.fonction.libelle}}<br>
+        Date naiss.:{{bulletinPaie.employe.dateNaissance}}<br>
+        S.fam.:{{bulletinPaie.employe.situationFamiliale}}<br>
+        Embauche :{{bulletinPaie.employe.dateEmbauche}}<br>
+        Enfant: {{bulletinPaie.employe.nbrEnfant}}<br>
+        Déd.: {{bulletinPaie.employe.nbrDeduction}}<br>
+        Mat.CNSS: {{bulletinPaie.employe.numeroCNSS}}<br>
+        Mat.Mut.:{{bulletinPaie.employe.numeroMutuelle}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card border-primary mb-3" style="max-width: 100%;">
+
+  <div class="card border-primary mb-3" style="max-width: 100%;">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <span></span>
+      <button class="btn btn-outline-primary btn-sm" (click)="onAddClick()">
+        <i class="fas fa-plus"></i> &lt;!&ndash; Font Awesome add icon &ndash;&gt;
+      </button>
+    </div>
+    <div class="card-body text-primary">
+      <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+          <th>CODE</th>
+          <th>LIBELLE</th>
+          <th>BASE</th>
+          <th>TAUX</th>
+          <th>GAINS</th>
+          <th>RETENUES</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        &lt;!&ndash; Add table rows here if needed &ndash;&gt;
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+  <div class="card border-primary mb-3" style="max-width: 100%;">
+  <div class="card-body text-primary">
+    <table class="table table-bordered table-hover">
+      <thead>
+      <tr>
+        <th>CUMULS</th>
+        <th>Jours <br> travailles</th>
+        <th>Heures <br> travailles</th>
+        <th>Heures <br> supp</th>
+        <th>Brut</th>
+        <th>CNSS</th>
+        <th>MUTUELLE</th>
+        <th>I.R</th>
+        <th>NET <br> A <br> PAYER</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+
+</div>
+-->
+
