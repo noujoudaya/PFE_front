@@ -1,4 +1,4 @@
-import { DOCUMENT, NgStyle } from '@angular/common';
+import {DOCUMENT, NgForOf, NgStyle} from '@angular/common';
 import { Component, DestroyRef, effect, inject, OnInit, Renderer2, signal, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ChartOptions } from 'chart.js';
@@ -27,6 +27,10 @@ import { WidgetsDropdownComponent } from '../../widgets/widgets-dropdown/widgets
 import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
 import {RouterLink} from "@angular/router";
 import {Employe} from "../../../services/models/employe.model";
+import {Absence} from "../../../services/models/absence.model";
+import {AbsenceService} from "../../../services/services/absence.service";
+import {RetardService} from "../../../services/services/retard.service";
+import {Retard} from "../../../services/models/retard.model";
 
 interface IUser {
   name: string;
@@ -47,12 +51,57 @@ interface IUser {
   templateUrl: 'dashboard.component.html',
   styleUrls: ['dashboard.component.scss'],
   standalone: true,
-  imports: [WidgetsDropdownComponent, TextColorDirective, CardComponent, CardBodyComponent, RowComponent, ColComponent, ButtonDirective, IconDirective, ReactiveFormsModule, ButtonGroupComponent, FormCheckLabelDirective, ChartjsComponent, NgStyle, CardFooterComponent, GutterDirective, ProgressBarDirective, ProgressComponent, WidgetsBrandComponent, CardHeaderComponent, TableDirective, AvatarComponent, DropdownComponent, RouterLink, DropdownItemDirective, DropdownMenuDirective, DropdownToggleDirective]
+  imports: [WidgetsDropdownComponent, TextColorDirective, CardComponent, CardBodyComponent, RowComponent, ColComponent, ButtonDirective, IconDirective, ReactiveFormsModule, ButtonGroupComponent, FormCheckLabelDirective, ChartjsComponent, NgStyle, CardFooterComponent, GutterDirective, ProgressBarDirective, ProgressComponent, WidgetsBrandComponent, CardHeaderComponent, TableDirective, AvatarComponent, DropdownComponent, RouterLink, DropdownItemDirective, DropdownMenuDirective, DropdownToggleDirective, NgForOf]
 })
 export class DashboardComponent implements OnInit {
 
+  constructor(private absenceService:AbsenceService,
+              private retardService:RetardService) {
+  }
+
   // @ts-ignore
   authenticatedEmploye: Employe;
+
+  absencesAuj : Absence[] = [];
+  retardsAuj: Retard[] = [];
+
+  getAbsencesAujourdhui(): void {
+    this.absenceService.findAll().subscribe((absences: any[]) => {
+      // Filtrer les absences pour ne conserver que celles d'aujourd'hui
+      this.absencesAuj = absences.filter(absence => this.isToday(absence.dateAbsence));
+    });
+  }
+
+  getRetardsAujourdhui(): void {
+    this.retardService.findAll().subscribe((retards: any[]) => {
+      // Filtrer les absences pour ne conserver que celles d'aujourd'hui
+      this.retardsAuj = retards.filter(retard => this.isToday(retard.dateRetard));
+    });
+  }
+
+  // Fonction pour vérifier si une date est aujourd'hui
+  isToday(date: string): boolean {
+    const today = new Date();
+    const absenceDate = new Date(date);
+    return (
+      today.getFullYear() === absenceDate.getFullYear() &&
+      today.getMonth() === absenceDate.getMonth() &&
+      today.getDate() === absenceDate.getDate()
+    );
+  }
+
+  public calculerDureeRetard(heureDebutTravail: string, heureArrive: string): string {
+    const [heureDebut, minuteDebut] = heureDebutTravail.split(':').map(Number);
+    const [heureArrivee, minuteArrivee] = heureArrive.split(':').map(Number);
+
+    const debut = new Date(0, 0, 0, heureDebut, minuteDebut);
+    const arrivee = new Date(0, 0, 0, heureArrivee, minuteArrivee);
+
+    const diff = arrivee.getTime() - debut.getTime(); // Différence en millisecondes
+    const minutesRetard = Math.floor(diff / 60000); // Convertir en minutes
+
+    return minutesRetard > 0 ? `${minutesRetard} minutes` : 'Aucun retard';
+  }
 
   readonly #destroyRef: DestroyRef = inject(DestroyRef);
   readonly #document: Document = inject(DOCUMENT);
@@ -166,6 +215,8 @@ export class DashboardComponent implements OnInit {
     if (storedEmployee) {
       this.authenticatedEmploye = JSON.parse(storedEmployee);
     }
+    this.getAbsencesAujourdhui();
+    this.getRetardsAujourdhui();
   }
 
   initCharts(): void {

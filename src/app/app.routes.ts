@@ -78,8 +78,16 @@ export const routes: Routes = [
         loadChildren: () => import('./views/OurComponents/departement/departement-emp-sec/routes').then((m) => m.routes)
       },
       {
+        path: 'secretaire/departement',
+        loadChildren: () => import('./views/OurComponents/departement/departement-secretaire/routes').then((m) => m.routes)
+      },
+      {
         path: 'service',
         loadChildren: () => import('./views/OurComponents/service/service-list/routes').then((m) => m.routes)
+      },
+      {
+        path: 'secretaire/service',
+        loadChildren: () => import('./views/OurComponents/service/service-secretaire/routes').then((m) => m.routes)
       },
       {
         path: 'employe/service',
@@ -96,6 +104,11 @@ export const routes: Routes = [
       {
         path: 'employe/fonction',
         loadChildren: () => import('./views/OurComponents/fonction/fonction-emp-sec/routes').then((m) => m.routes)
+      },
+
+      {
+        path: 'secretaire/fonction',
+        loadChildren: () => import('./views/OurComponents/fonction/fonction-secretaire/routes').then((m) => m.routes)
       },
       {
         path: 'parametres',

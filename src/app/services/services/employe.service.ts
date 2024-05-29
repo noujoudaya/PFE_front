@@ -3,7 +3,13 @@ import {HttpClient} from "@angular/common/http";
 import {Employe} from "../models/employe.model";
 import {Observable} from "rxjs";
 import value from "*.json";
+
+import {Departement} from "../models/departement.model";
+import {Service} from "../models/service.model";
+import {Genre} from "../enums/genre.enum";
+
 import {BulletinPaie} from "../models/bulletin-paie.model";
+
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +52,21 @@ export class EmployeService {
   }
   public findByMatricule(matricule: number): Observable<Employe> {
     return this.http.get<Employe>(this.url + 'matricule/'+ matricule);
+  }
+
+  public findByDepartement(departement:Departement):Observable<Array<Employe>>{
+    return this.http.post<Array<Employe>>(this.url+'sup/employes/departement/',departement);
+  }
+
+  public countEmployeByService(service:Service):Observable<number>{
+    return this.http.post<number>(this.url+'count/service',service);
+  }
+
+  public countEmployeByDepartement(departement:Departement):Observable<number>{
+    return this.http.post<number>(this.url+'count/departement/',departement);
+  }
+  public countEmployeByGenre(genre:Genre):Observable<number>{
+    return this.http.get<number>(this.url+'count/genre/'+genre);
   }
 
   get employe(): Employe {

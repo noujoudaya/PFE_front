@@ -6,6 +6,7 @@ import {EmployeService} from "../../../../services/services/employe.service";
 import {Absence} from "../../../../services/models/absence.model";
 import {AbsenceService} from "../../../../services/services/absence.service";
 import {AlertComponent} from "@coreui/angular";
+import {debounceTime, distinctUntilChanged, Subject, switchMap} from "rxjs";
 
 @Component({
   selector: 'app-absence-secretaire',
@@ -20,20 +21,37 @@ import {AlertComponent} from "@coreui/angular";
 })
 export class AbsenceSecretaireComponent implements OnInit {
 
+  // @ts-ignore
+  authenticatedEmploye: Employe;
+
   employes: Employe[] = [];
   selectedAbsence: Absence = new Absence();
+
+  private searchTerms = new Subject<string>();
 
   constructor(private employeService: EmployeService,
               private absenceService: AbsenceService) {
   }
 
   ngOnInit(): void {
+    const storedEmployee = localStorage.getItem('authenticatedEmploye');
+    if (storedEmployee) {
+      // @ts-ignore
+      this.authenticatedEmploye = JSON.parse(storedEmployee);
+    }
     this.loadEmployes();
     this.findAll();
+    this.searchTerms.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((term: string) => this.absenceService.searchAbsences(term))
+    ).subscribe(demands => {
+      this.absencesSec = demands;
+    });
   }
 
   private loadEmployes(): void {
-    this.employeService.findAll().subscribe({
+    this.employeService.findByDepartement(this.authenticatedEmploye.departement).subscribe({
       next: (employes) => {
         this.employes = employes;
         console.log('Employés chargés:', this.employes);
@@ -75,6 +93,10 @@ export class AbsenceSecretaireComponent implements OnInit {
     this.absenceService.findAll().subscribe(data => {
       this.absencesSec = data;
     })
+  }
+
+  search(term: string): void {
+    this.searchTerms.next(term);
   }
 
   get absenceSec(): Absence {

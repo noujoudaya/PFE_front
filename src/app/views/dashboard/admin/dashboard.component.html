@@ -1,89 +1,6 @@
 <h1 class="display-6 mb-5"> Bonjour , {{ this.authenticatedEmploye.nom }} {{this.authenticatedEmploye.prenom}}</h1>
 
 <app-widgets-dropdown />
-<c-card class="my-4">
-  <c-card-body>
-    <c-row>
-      <c-col sm="5">
-        <h4 class="card-title mb-0" id="traffic">Absences</h4>
-      </c-col>
-      <c-col class="d-none d-md-block" sm="7">
-        <div class="d-inline-flex">
-         <!-- <c-dropdown>
-            <button cButton cDropdownToggle color="secondary">
-             departement
-            </button>
-            <ul cDropdownMenu>
-              <li><a [routerLink]="[]" cDropdownItem>Action</a></li>
-              <li><a [routerLink]="[]" cDropdownItem>Another action</a></li>
-              <li><a [routerLink]="[]" cDropdownItem>Something else here</a></li>
-            </ul>
-          </c-dropdown>-->
-        </div>
-        <form [formGroup]="trafficRadioGroup">
-          <c-button-group class="float-end me-3" role="group">
-            <input
-              class="btn-check"
-              formControlName="trafficRadio"
-              type="radio"
-              value="Day"
-            />
-            <label
-              (click)="setTrafficPeriod('Day')"
-              cButton
-              cFormCheckLabel
-              color="secondary"
-              variant="outline"
-            >
-              Day
-            </label>
-            <input
-              class="btn-check"
-              formControlName="trafficRadio"
-              type="radio"
-              value="Month"
-            />
-            <label
-              (click)="setTrafficPeriod('Month')"
-              cButton
-              cFormCheckLabel
-              color="secondary"
-              variant="outline"
-            >
-              Month
-            </label>
-            <input
-              class="btn-check"
-              formControlName="trafficRadio"
-              type="radio"
-              value="Year"
-            />
-            <label
-              (click)="setTrafficPeriod('Year')"
-              cButton
-              cFormCheckLabel
-              color="secondary"
-              variant="outline"
-            >
-              Year
-            </label>
-          </c-button-group>
-        </form>
-      </c-col>
-    </c-row>
-    <c-chart
-      [data]="mainChart.data"
-      [height]="300"
-      [ngStyle]="{ 'marginTop.px': 40 }"
-      [options]="mainChart.options"
-      [type]="mainChart.type"
-      (chartRef)="handleChartRef($event)"
-    >
-      Main chart
-    </c-chart>
-  </c-card-body>
-</c-card>
-
 <!--<app-widgets-brand [withCharts]="true" />-->
 <!--
 <c-row class="mt-4">
@@ -292,7 +209,7 @@
     </c-card>
   </c-col>
 </c-row>-->
-<c-row>
+<c-row class="mt-5">
   <c-col xs>
     <c-card class="mb-4">
       <c-card-header style="font-weight: bold;">Absences d'haujourd'hui</c-card-header>
@@ -316,22 +233,21 @@
           </tr>
           </thead>
           <tbody>
-            @for (user of users; track user.name; let i = $index) {
-              <tr>
+              <tr *ngFor="let abs of absencesAuj;index as i">
                 <td class="text-center">
-                  <c-avatar [size]="'md'" src="{{ user.avatar }}" status="{{ user.status }}" />
+                  <c-avatar [size]="'md'" src="{{ abs.employe.image }}" status="{{ abs.employe.image }}" />
                 </td>
                 <td>
-                  <div>{{ user.name }}</div>
+                  <div>{{ abs.employe.nom }} {{abs.employe.prenom}}</div>
                   <div class="small text-body-secondary text-nowrap">
                   </div>
                 </td>
                 <td>
-                  <div class="fw-regular text-nowrap">{{user.statusAbsence}}</div>
+                  <div class="fw-regular text-nowrap">{{abs.statutAbsence}}</div>
 
                 </td>
               </tr>
-            }
+
           </tbody>
         </table>
       </c-card-body>
@@ -357,35 +273,29 @@
               <svg cIcon name="cilPeople"></svg>
             </th>
             <th class="bg-body-tertiary">Employé</th>
-            <th class="bg-body-tertiary">Status</th>
+            <th class="bg-body-tertiary">Durée retard</th>
             <th class="bg-body-tertiary">Status</th>
           </tr>
           </thead>
           <tbody>
-            @for (user of users; track user.name; let i = $index) {
-              <tr>
+              <tr *ngFor="let retard of retardsAuj;index as i">
                 <td class="text-center">
-                  <c-avatar [size]="'md'" src="{{ user.avatar }}" status="{{ user.status }}" />
+                  <c-avatar [size]="'md'" src="{{ retard.employe.image }}" status="{{ retard.employe.image }}" />
                 </td>
                 <td>
-                  <div>{{ user.name }}</div>
+                  <div>{{ retard.employe.nom }} {{retard.employe.prenom}}</div>
                   <div class="small text-body-secondary text-nowrap">
                   </div>
                 </td>
+                <td>{{calculerDureeRetard(retard.heureDebutTravail,retard.heureArrivee)}}</td>
                 <td>
-                  <div class="fw-regular text-nowrap">{{user.statusAbsence}}</div>
-
-                </td>
-                <td>
-                  <div class="fw-regular text-nowrap">{{user.statusAbsence}}</div>
+                  <div class="fw-regular text-nowrap">{{retard.statutRetard}}</div>
 
                 </td>
               </tr>
-            }
           </tbody>
         </table>
       </c-card-body>
     </c-card>
   </c-col>
 </c-row>
-

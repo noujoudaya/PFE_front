@@ -42,6 +42,7 @@
   <tr>
     <th>Nom du Fonction</th>
     <th>Nom du Service</th>
+    <th>Nom du Département</th>
     <th>Actions</th>
   </tr>
   </thead>
@@ -51,6 +52,7 @@
       <tr >
         <td>{{fonction.libelle}}</td>
         <td>{{fonction.service.libelle}}</td>
+        <td>{{fonction.service.departement.libelle}}</td>
         <td>
           <button class="btn btn-info btn-sm m-1" data-bs-toggle="modal" [attr.data-bs-target]="'#exampleModal' + i"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></button>
           <div class="modal fade" [id]="'exampleModal' + i" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
