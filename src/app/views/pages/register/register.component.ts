@@ -8,6 +8,7 @@ import {RegistrationRequest} from "../../../services/models/registration-request
 import {AuthenticationService} from "../../../services/services/authentication.service";
 import {Router} from "@angular/router";
 import {Role} from "../../../services/models/role.model";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-register',
@@ -54,10 +55,15 @@ export class RegisterComponent {
     })
       .subscribe({
         next: () => {
-          this.userCreated = true;
-          setTimeout(() => {
-            this.userCreated = false; // Cacher l'alerte après quelques secondes
-          }, 4000);
+          Swal.fire({
+            title: 'Utilisateur enregistré !',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          });
+          //this.userCreated = true;
+          //setTimeout(() => {
+            //this.userCreated = false; // Cacher l'alerte après quelques secondes
+          //}, 4000);
         },
         error: (err) => {
          this.errorMsg = err;

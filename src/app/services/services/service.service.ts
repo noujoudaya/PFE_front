@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Service} from "../models/service.model";
 import {Observable} from "rxjs";
 import {Departement} from "../models/departement.model";
 import {Router} from "@angular/router";
+import {Page} from "../models/page.model";
+import {Fonction} from "../models/fonction.model";
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +45,13 @@ export class ServiceService {
     return this.http.delete<number>(this.url+'/departement/code/'+code);
   }
 
+  public getServices(page: number, size: number): Observable<Page<Service>> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<Page<Service>>(this.url+'admin/service/paginated', { params });
+  }
 
   get service(): Service {
     if (this._service.departement == null) {

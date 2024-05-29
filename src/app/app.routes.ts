@@ -115,6 +115,10 @@ export const routes: Routes = [
         loadChildren: () => import('./views/OurComponents/parametres/routes').then((m) => m.routes)
       },
       {
+        path: 'users/list',
+        loadChildren: () => import('./views/OurComponents/users-list/routes').then((m) => m.routes)
+      },
+      {
         path: 'theme',
         loadChildren: () => import('./views/theme/routes').then((m) => m.routes)
       },

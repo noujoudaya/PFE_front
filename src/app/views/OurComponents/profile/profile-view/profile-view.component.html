@@ -1,3 +1,6 @@
+<div *ngIf="showSuccessAlert" class="alert alert-success" role="alert">
+  Modification réussite! Les modifications seront visibles après la prochaine connexion.
+</div>
 <div class="card">
   <div class="card-body">
     <ul class="nav nav-tabs" id="Tab" role="tablist">
@@ -17,55 +20,63 @@
       <div class="tab-pane fade show active" id="onglet" role="tabpanel" aria-labelledby="onglet1">
         <!-- Contenu de l'onglet Informations personnelles -->
         <div class="row mt-2">
-          <div class="col-md-4"> <!-- Chaque colonne prend 4 unités sur 12, donc trois colonnes par ligne -->
+          <div class="col-md-4">
             <label for="No" class="form-label">Nom :</label>
-            <input disabled type="text" class="form-control form-control-sm" id="No" [(ngModel)]="authenticatedEmploye.nom">
+            <input [disabled]="!editMode" type="text" class="form-control form-control-sm" id="No" [(ngModel)]="authenticatedEmploye.nom">
           </div>
           <div class="col-md-4">
             <label for="prenomm" class="form-label">Prénom :</label>
-            <input disabled type="text" class="form-control form-control-sm" id="prenomm" [(ngModel)]="authenticatedEmploye.prenom">
+            <input [disabled]="!editMode" type="text" class="form-control form-control-sm" id="prenomm" [(ngModel)]="authenticatedEmploye.prenom">
           </div>
           <div class="col-md-4">
             <label for="gender" class="form-label">Genre :</label>
-            <input disabled type="text" class="form-control form-control-sm" id="gender" [(ngModel)]="authenticatedEmploye.genre">
+            <select [disabled]="!editMode" class="form-control form-control-sm" id="gender" [(ngModel)]="authenticatedEmploye.genre">
+              <option [ngValue]="null" disabled>Sélectionner le type</option>
+              <option *ngFor="let genre of genres" [ngValue]="genre">{{ genre }}</option>
+            </select>
           </div>
         </div>
         <div class="row mt-1">
-          <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+          <div class="col-md-4">
             <label for="telephonne" class="form-label">Téléphone :</label>
-            <input disabled type="text" class="form-control form-control-sm" id="telephonne" [(ngModel)]="authenticatedEmploye.telephone">
+            <input [disabled]="!editMode" type="text" class="form-control form-control-sm" id="telephonne" [(ngModel)]="authenticatedEmploye.telephone">
           </div>
-          <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+          <div class="col-md-4">
             <label for="adressse" class="form-label">Adresse :</label>
-            <input disabled type="text" class="form-control form-control-sm" id="adressse" [(ngModel)]="authenticatedEmploye.adresse">
+            <input [disabled]="!editMode" type="text" class="form-control form-control-sm" id="adressse" [(ngModel)]="authenticatedEmploye.adresse">
           </div>
-          <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+          <div class="col-md-4">
             <label for="cinn" class="form-label">CIN :</label>
-            <input disabled type="text" class="form-control form-control-sm" id="cinn" [(ngModel)]="authenticatedEmploye.cin">
+            <input [disabled]="!editMode" type="text" class="form-control form-control-sm" id="cinn" [(ngModel)]="authenticatedEmploye.cin">
           </div>
         </div>
         <div class="row mt-1">
-          <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+          <div class="col-md-4">
             <label for="villle" class="form-label">Ville :</label>
-            <input disabled type="text" class="form-control form-control-sm" id="villle" [(ngModel)]="authenticatedEmploye.ville">
+            <input [disabled]="!editMode" type="text" class="form-control form-control-sm" id="villle" [(ngModel)]="authenticatedEmploye.ville">
           </div>
-          <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
+          <div class="col-md-4">
             <label for="dateNaisssance" class="form-label">Date de naissance :</label>
-            <input disabled type="date" class="form-control form-control-sm" id="dateNaisssance" [(ngModel)]="authenticatedEmploye.dateNaissance">
+            <input [disabled]="!editMode" type="date" class="form-control form-control-sm" id="dateNaisssance" [(ngModel)]="authenticatedEmploye.dateNaissance">
           </div>
           <div class="col-md-4">
             <label for="situationn" class="form-label">Situation Familiale :</label>
-            <input disabled type="text" class="form-control form-control-sm" id="situationn" [(ngModel)]="authenticatedEmploye.situationFamiliale">
+            <select [disabled]="!editMode" class="form-control form-control-sm" id="situationn" [(ngModel)]="authenticatedEmploye.situationFamiliale">
+              <option [ngValue]="null" disabled>Sélectionner le type</option>
+              <option *ngFor="let situation of situations" [ngValue]="situation">{{ situation }}</option>
+            </select>
           </div>
         </div>
         <div class="row mt-1">
           <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
-            <label for="emaill" class="form-label">Email :</label>
-            <input disabled type="text" class="form-control form-control-sm" id="emaill" [(ngModel)]="authenticatedEmploye.email">
+            <label for="numeroo" class="form-label">Numéro compte bancaire :</label>
+            <input [disabled]="!editMode" type="text" class="form-control form-control-sm" id="numeroo" [(ngModel)]="authenticatedEmploye.numeroCompteBancaire">
           </div>
         </div><br>
         <div class="d-flex justify-content-center">
-          <button type="button" class="btn btn-primary text-white">Modifier</button>
+          <button *ngIf="!editMode" type="button" class="btn btn-primary text-white" (click)="toggleEditMode()">Modifier</button>
+          <button *ngIf="editMode" type="button" class="btn btn-success text-white m-1" (click)="modifier()">Enregistrer</button>
+          <button *ngIf="editMode" type="button" class="btn btn-danger text-white m-1" (click)="annuler()">Annuler</button>
         </div>
       </div>
       <div class="tab-pane fade" id="profi" role="tabpanel" aria-labelledby="profil">
@@ -94,8 +105,8 @@
             <input disabled type="text" class="form-control form-control-sm" id="statutt" [(ngModel)]="authenticatedEmploye.statutEmploye">
           </div>
           <div class="col-md-4"> <!-- Cette colonne prend toute la ligne pour l'email -->
-            <label for="numeroo" class="form-label">Numéro compte bancaire :</label>
-            <input disabled type="text" class="form-control form-control-sm" id="numeroo" [(ngModel)]="authenticatedEmploye.numeroCompteBancaire">
+            <label for="email" class="form-label">Email :</label>
+            <input disabled type="text" class="form-control form-control-sm" id="email" [(ngModel)]="authenticatedEmploye.email">
           </div>
         </div>
         <div class="row mt-2">

@@ -8,6 +8,9 @@ import {DemandeCongeService} from "../../../../services/services/demande-conge.s
 import {EmployeService} from "../../../../services/services/employe.service";
 import {Employe} from "../../../../services/models/employe.model";
 import {StatutConge} from "../../../../services/enums/statutConge.enum";
+import Swal from "sweetalert2";
+import {Page} from "../../../../services/models/page.model";
+import {DemandeAttestation} from "../../../../services/models/demande-attestation.model";
 
 @Component({
   selector: 'app-demande-conge-emp-sec',
@@ -21,6 +24,8 @@ import {StatutConge} from "../../../../services/enums/statutConge.enum";
   styleUrl: './demande-conge-emp-sec.component.scss'
 })
 export class DemandeCongeEmpSecComponent implements OnInit {
+
+  demandesPage: Page<DemandeConge> = new Page<DemandeConge>();
 
   typesConges: TypeConge[] = [];
   employes: Employe[] = [];
@@ -40,15 +45,32 @@ export class DemandeCongeEmpSecComponent implements OnInit {
     if (storedEmployee) {
       this.authenticatedEmploye = JSON.parse(storedEmployee);
     }
-    this.findByEmploye();
+    //this.findByEmploye();
+    this.getDemandesCongePage(this.authenticatedEmploye,0,5);
     this.calculateDaysDifference("2024-05-17", "2024-05-31");
-    this.joursRestants=this.authenticatedEmploye.soldeConge;
+    this.joursRestants = this.authenticatedEmploye.soldeConge;
   }
 
   constructor(private typesService: TypeCongeService,
               private demandeCongeService: DemandeCongeService,
               private employeService: EmployeService,
   ) {
+  }
+
+  getPageNumbers(): number[] {
+    const totalPages = this.demandesPage.totalPages;
+    return Array.from({ length: totalPages }, (_, i) => i);
+  }
+
+  getDemandesCongePage(employe:Employe,page: number, size: number): void {
+    this.demandeCongeService.getDemandesCongeByEmploye(this.authenticatedEmploye,page, size).subscribe({
+      next: (page) => {
+        this.demandesPage = page;
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des demandes paginés:', error);
+      }
+    });
   }
 
   private loadTypesConges(): void {
@@ -79,25 +101,68 @@ export class DemandeCongeEmpSecComponent implements OnInit {
     // Calculer la durée du congé demandé
     const joursDemandes = this.calculateDaysDifference(demandeConge.dateDebut, demandeConge.dateFin);
 
-    // Vérifier si la durée demandée est inférieure ou égale aux jours restants
-    if (joursDemandes <= this.joursRestants) {
-      // Si oui, enregistrer la demande de congé
-      demandeConge.employe=this.authenticatedEmploye;
-      this.demandeCongeService.save(demandeConge).subscribe(data => {
-        if (data > 0) {
-          alert("Demande enregistrée");
-          this.demandeEmploye = new DemandeConge();
-          // Actualiser les données après l'enregistrement de la demande
-          this.findByEmploye();
+    // Vérifier si c'est une demande de congé de maternité
+    if (demandeConge.typeConge.libelle === 'Congé de maternité') {
+      // Filtrer les demandes de congé de maternité acceptées
+      const demandesMaterniteAcceptees = this.authenticatedEmpDemandes.filter(demande =>
+        demande.statutConge.toString() === 'Acceptée' && demande.typeConge.libelle === 'Congé de maternité'
+      );
+
+      // Calculer la durée totale des congés de maternité déjà pris
+      const joursPrisMaternite = demandesMaterniteAcceptees.reduce((total, demande) => {
+        if (new Date(demande.dateFin) > new Date(demande.dateDebut)) {
+          return total + this.calculateDaysDifference(demande.dateDebut, demande.dateFin);
         } else {
-          alert("Erreur lors de la sauvegarde de la demande");
+          console.error("La date de fin est avant la date de début pour la demande:", demande);
+          return total;
         }
-      });
-    } else {
-      // Si non, afficher un message d'erreur
-      alert("La période demandée dépasse le solde de congé restant.");
+      }, 0);
+
+      // Vérifier si la durée totale des congés de maternité dépasse 98 jours
+      const joursRestantsMaternite = 98 - joursPrisMaternite;
+      if (joursDemandes > joursRestantsMaternite) {
+        Swal.fire({
+          title: `La période demandée dépasse la durée de congé de maternité restante de ${joursRestantsMaternite} jours.`,
+          icon: 'error',
+        });
+        return;
+      }
     }
+
+    // Vérifier si c'est une demande de congé annuel
+    if (demandeConge.typeConge.libelle === 'Congé annuel') {
+      // Vérifier si la durée demandée est inférieure ou égale aux jours restants
+      if (joursDemandes > this.joursRestants) {
+        // Si non, afficher un message d'erreur
+        Swal.fire({
+          title: 'La période demandée dépasse le solde de congé restant.',
+          icon: 'error',
+        });
+        return;
+      }
+    }
+
+    // Si oui, enregistrer la demande de congé
+    demandeConge.employe = this.authenticatedEmploye;
+    this.demandeCongeService.save(demandeConge).subscribe(data => {
+      if (data > 0) {
+        Swal.fire({
+          title: 'Demande enregistrée !',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+        this.demandeEmploye = new DemandeConge();
+        // Actualiser les données après l'enregistrement de la demande
+        this.findByEmploye();
+      } else {
+        Swal.fire({
+          title: 'Oops! Une erreur est survenue',
+          icon: 'error',
+        });
+      }
+    });
   }
+
 
 
   public findByEmploye(): void {
@@ -111,7 +176,7 @@ export class DemandeCongeEmpSecComponent implements OnInit {
 
   private calculateJoursPrisAndRestants(): void {
     // Filtrer les demandes acceptées
-    const demandesAcceptees = this.authenticatedEmpDemandes.filter(demande => demande.statutConge.toString() == "Acceptée");
+    const demandesAcceptees = this.authenticatedEmpDemandes.filter(demande => demande.statutConge.toString() == "Acceptée" && demande.typeConge.libelle == "Congé annuel");
 
     // Calculer les jours pris pour les demandes acceptées
     const joursPris = demandesAcceptees.reduce((total, demande) => {
@@ -160,31 +225,44 @@ export class DemandeCongeEmpSecComponent implements OnInit {
   }
 
 
-  public deleteConge(demande:DemandeConge, index: number): void {
-
-    if (demande.statutConge.toString() == 'Acceptée') {
-      alert("Cette demande de congé est déjà acceptée. Vous ne pouvez pas la supprimer.");
+  public deleteConge(demande: DemandeConge, index: number): void {
+    if (demande.statutConge.toString() === 'Acceptée') {
+      Swal.fire({
+        title: 'Cette demande de congé est déjà acceptée. Vous ne pouvez pas la supprimer.',
+        icon: 'error',
+      });
       return; // Quitter la fonction car l'utilisateur ne peut pas supprimer une demande acceptée
     }
+
     // Afficher une boîte de dialogue de confirmation
-    const confirmation = confirm("Voulez-vous vraiment supprimer cette demande de congé ?");
-
-    // Vérifier la réponse de l'utilisateur
-    if (confirmation) {
-      // Si l'utilisateur clique sur "OK", effectuer la suppression
-      this.demandeCongeService.deleteConge(demande.dateDemande, demande.employe.id, demande.typeConge.libelle).subscribe(data => {
-        if (data > 0) {
-          this.authenticatedEmpDemandes.splice(index, 1);
-        } else {
-          alert("Erreur suppression");
-        }
-      });
-    } else {
-      // Si l'utilisateur clique sur "Annuler", ne rien faire
-      console.log("Suppression annulée.");
-    }
+    Swal.fire({
+      title: 'Voulez-vous vraiment supprimer cette demande ?',
+      showDenyButton: true,
+      denyButtonText: 'Annuler',
+      confirmButtonText: 'Oui, supprimer'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Si l'utilisateur clique sur "OK", effectuer la suppression
+        this.demandeCongeService.deleteConge(demande.dateDemande, demande.employe.id, demande.typeConge.libelle).subscribe(data => {
+          if (data > 0) {
+            this.authenticatedEmpDemandes.splice(index, 1);
+            Swal.fire({
+              title: 'Demande supprimée !',
+              icon: 'success',
+              confirmButtonText: 'OK'
+            });
+          } else {
+            Swal.fire({
+              title: 'Oops! Une erreur est survenue',
+              icon: 'error',
+            });
+          }
+        });
+      } else if (result.isDenied) {
+        console.log('Suppression annulée');
+      }
+    });
   }
-
 
 
   get demandeEmploye(): DemandeConge {

@@ -6,6 +6,10 @@ import {Employe} from "../../../../services/models/employe.model";
 import {Retard} from "../../../../services/models/retard.model";
 import {RetardService} from "../../../../services/services/retard.service";
 import {debounceTime, distinctUntilChanged, Subject, switchMap} from "rxjs";
+import Swal from "sweetalert2";
+import {Page} from "../../../../services/models/page.model";
+import {Absence} from "../../../../services/models/absence.model";
+import {Departement} from "../../../../services/models/departement.model";
 
 @Component({
   selector: 'app-retard-secretaire',
@@ -20,6 +24,8 @@ import {debounceTime, distinctUntilChanged, Subject, switchMap} from "rxjs";
 })
 export class RetardSecretaireComponent implements OnInit {
 
+  retardsPage: Page<Retard> = new Page<Retard>();
+
   // @ts-ignore
   authenticatedEmploye: Employe;
   employes: Employe[] = [];
@@ -33,18 +39,36 @@ export class RetardSecretaireComponent implements OnInit {
       this.authenticatedEmploye = JSON.parse(storedEmployee);
     }
     this.loadEmployes();
-    this.findAll();
+    this.getRetardsPage(this.authenticatedEmploye.departement,0,5);
+   // this.findByEmployeDepartement();
+   // this.findAll();
     this.searchTerms.pipe(
       debounceTime(300),
       distinctUntilChanged(),
       switchMap((term: string) => this.retardService.searchRetards(term))
     ).subscribe(demands => {
-      this.retardsSec = demands;
+      this.retardsPage.content = demands;
     });
   }
 
   constructor(private employeService: EmployeService,
               private retardService: RetardService) {
+  }
+
+  getPageNumbers(): number[] {
+    const totalPages = this.retardsPage.totalPages;
+    return Array.from({ length: totalPages }, (_, i) => i);
+  }
+
+  getRetardsPage(departement:Departement,page: number, size: number): void {
+    this.retardService.getRetards(departement,page, size).subscribe({
+      next: (page) => {
+        this.retardsPage = page;
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des retards paginés:', error);
+      }
+    });
   }
 
   private loadEmployes(): void {
@@ -60,15 +84,22 @@ export class RetardSecretaireComponent implements OnInit {
   }
 
   public save(retard: Retard): void {
-    retard.dateRetard=new Date().toISOString().split('T')[0]; // Initialise avec la date actuelle
+    retard.dateRetard = new Date().toISOString().split('T')[0]; // Initialise avec la date actuelle
     this.retardService.save(retard).subscribe(data => {
       if (data > 0) {
         this.retardsSec.push({...this.retardSec});
-        alert("Retard enregistré !");
-        this.findAll();
+        Swal.fire({
+          title: 'Retard enregistré !',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+        this.findByEmployeDepartement();
         this.retardSec = new Retard();
       } else {
-        alert("Erreur");
+        Swal.fire({
+          title: 'Oops! Une erreur est survenue',
+          icon: 'error',
+        });
       }
     })
   }
@@ -80,15 +111,31 @@ export class RetardSecretaireComponent implements OnInit {
   }
 
   public deleteByDateAndEmploye(date: string, employe: Employe, index: number): void {
-    this.retardService.deleteByDateRetardAndEmploye(date, employe).subscribe(data => {
-      if (data > 0){
-        this.retardsSec.splice(index, 1);
-        alert("Retard supprimé !");
+    Swal.fire({
+      title: 'Voulez-vous vraiment supprimer ce retard ?',
+      showDenyButton: true,
+      denyButtonText: 'Annuler',
+      confirmButtonText: 'Supprimer'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.retardService.deleteByDateRetardAndEmploye(date, employe).subscribe(data => {
+          if (data > 0) {
+            this.retardsSec.splice(index, 1);
+            Swal.fire({
+              title: 'Retard supprimé !',
+              icon: 'success',
+              confirmButtonText: 'OK'
+            });
+            this.findAll();
+          } else {
+            Swal.fire({
+              title: 'Oops! Une erreur est survenue',
+              icon: 'error',
+            });
+          }
+        });
       }
-      else {
-        alert("erreur");
-      }
-    })
+    });
   }
 
   public calculerDureeRetard(heureDebutTravail: string, heureArrive: string): string {
@@ -102,6 +149,12 @@ export class RetardSecretaireComponent implements OnInit {
     const minutesRetard = Math.floor(diff / 60000); // Convertir en minutes
 
     return minutesRetard > 0 ? `${minutesRetard} minutes` : 'Aucun retard';
+  }
+
+  public findByEmployeDepartement():void{
+    this.retardService.findByEmployeDepartement(this.authenticatedEmploye.departement).subscribe(data=>{
+      this.retardsSec=data;
+    })
   }
 
   search(term: string): void {

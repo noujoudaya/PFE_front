@@ -6,6 +6,9 @@ import {FormsModule} from "@angular/forms";
 import {NgForOf} from "@angular/common";
 import {Departement} from "../../../../services/models/departement.model";
 import {ServiceService} from "../../../../services/services/service.service";
+import Swal from "sweetalert2";
+import {Page} from "../../../../services/models/page.model";
+import {Employe} from "../../../../services/models/employe.model";
 
 @Component({
   selector: 'app-fonction-list',
@@ -22,13 +25,32 @@ export class FonctionListComponent implements OnInit {
   updatedLibelle!: string;
   services: Service[] = [];
 
+  fonctionsPage: Page<Fonction> = new Page<Fonction>();
+
   constructor(private fonctionService: FonctionService,
               private serviceService: ServiceService) {
   }
 
   ngOnInit(): void {
-    this.findAll();
+    this.getFonctionPage(0,5);
+   // this.findAll();
     this.loadServices();
+  }
+
+  getPageNumbers(): number[] {
+    const totalPages = this.fonctionsPage.totalPages;
+    return Array.from({ length: totalPages }, (_, i) => i);
+  }
+
+  getFonctionPage(page: number, size: number): void {
+    this.fonctionService.getFonctions(page, size).subscribe({
+      next: (page) => {
+        this.fonctionsPage = page;
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des fonctions paginés:', error);
+      }
+    });
   }
 
   public findAll(): void {
@@ -52,7 +74,10 @@ export class FonctionListComponent implements OnInit {
       if (data > 0) {
         this.fonctions.splice(index, 1);
       } else {
-        alert('error accured');
+        Swal.fire({
+          title: 'Oops ! Une erreur est survenue',
+          icon: 'error',
+        });
       }
     });
   }
@@ -67,13 +92,23 @@ export class FonctionListComponent implements OnInit {
         if (index !== -1) {
           this.fonctions[index].libelle = this.fonction.libelle;
           // Update any other properties as needed
-          alert('UPDATE SUCCESS');
+          Swal.fire({
+            title: 'Fonction modifié !',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          });
           this.updatedLibelle = '';
         } else {
-          alert('Service not found');
+          Swal.fire({
+            title: 'Service non trouvé !',
+            icon: 'error',
+          });
         }
       } else {
-        alert('Error occurred');
+        Swal.fire({
+          title: 'Oops ! Une erreur est survenue',
+          icon: 'error',
+        });
       }
       this.fonctionService.fonction = new Fonction();
     });
@@ -85,21 +120,46 @@ export class FonctionListComponent implements OnInit {
     this.fonctionService.save().subscribe(data => {
       if (data > 0) {
         this.fonctions.push({...this.fonction});
-        alert('SAVE SUCCESS');
+        Swal.fire({
+          title: 'Fonction enregistré !',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
       } else if (data === 0){
-        alert('Fonction existe déjà');
+        Swal.fire({
+          title: 'Fonction existe déja !',
+          icon: 'error',
+        });
       }
       else {
-        alert('service nexiste pas');
+        Swal.fire({
+          title: 'Veuillez sélectionner un service !',
+          icon: 'error',
+        });
       }
       this.fonctionService.fonction = new Fonction();
     });
   }
 
   public confirmDelete(fonction: Fonction, index: number): void {
-    if (confirm('Are you sure you want to delete this fonction?')) {
+    Swal.fire({
+      title: 'Voulez-vous vraiment supprimer cette fonction ?',
+      showDenyButton: true,
+      denyButtonText: 'Annuler',
+      confirmButtonText: 'Oui, supprimer'
+    }).then((result) => {
+      if (result.isConfirmed) {
       this.deleteByCode(fonction, index);
-    }
+        Swal.fire({
+          title: 'Fonction supprimée !',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+      } else if (result.isDenied) {
+        console.log('Supression annulée');
+      }
+    });
+
   }
 
 

@@ -1,9 +1,11 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Fonction} from "../models/fonction.model";
 import {Observable} from "rxjs";
 import {Service} from "../models/service.model";
 import {Router} from "@angular/router";
+import {Page} from "../models/page.model";
+import {Departement} from "../models/departement.model";
 
 
 
@@ -45,6 +47,14 @@ export class FonctionService {
   public deleteByServiceCode(code: string) : Observable<number>{
     return this.http.delete<number>(this.url+'/service/code/'+code);
 
+  }
+
+  public getFonctions(page: number, size: number): Observable<Page<Fonction>> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<Page<Fonction>>(this.url+'admin/fonction/paginated', { params });
   }
 
 

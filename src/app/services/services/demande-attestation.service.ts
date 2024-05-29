@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {DemandeAttestation} from "../models/demande-attestation.model";
 import {Observable} from "rxjs";
 import {DemandeConge} from "../models/demande-conge.model";
 import value from "*.json";
 import {Employe} from "../models/employe.model";
+import {Page} from "../models/page.model";
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +51,22 @@ export class DemandeAttestationService {
   }
   public findByEmploye(employe:Employe):Observable<Array<DemandeAttestation>>{
     return this.http.post<Array<DemandeAttestation>>(this.url+'employe-secretaire/demandesAttestation/employe',employe);
+  }
+
+  public getDemandesAttest(page: number, size: number): Observable<Page<DemandeAttestation>> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<Page<DemandeAttestation>>(this.url+'admin/demandesAttestation/paginated', { params });
+  }
+
+  public getDemandesAttestByEmploye(employe:Employe,page: number, size: number): Observable<Page<DemandeAttestation>> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.post<Page<DemandeAttestation>>(this.url+'employe-secretaire/demandesAttestation/employe/paginated',employe, { params });
   }
 
   get demandeAttestation(): DemandeAttestation {

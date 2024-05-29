@@ -17,7 +17,13 @@ import {Fonction} from "../../../../services/models/fonction.model";
 import {FonctionService} from "../../../../services/services/fonction.service";
 import {Subject, debounceTime, distinctUntilChanged, switchMap} from 'rxjs';
 import {HttpClient} from "@angular/common/http";
+
+import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
+import Swal from 'sweetalert2';
+import { Page } from 'src/app/services/models/page.model';
+
 import {modePaiement} from "../../../../services/enums/modePaiement.enum";
+
 
 
 @Component({
@@ -26,7 +32,8 @@ import {modePaiement} from "../../../../services/enums/modePaiement.enum";
   imports: [
     NgForOf,
     FormsModule,
-    NgIf
+    NgIf,
+    SweetAlert2Module
   ],
   templateUrl: './employes-list.component.html',
   styleUrl: './employes-list.component.scss'
@@ -87,8 +94,10 @@ export class EmployesListComponent implements OnInit {
   fonctions: Fonction[] = [];
 
 
+  employesPage: Page<Employe> = new Page<Employe>();
+
   ngOnInit(): void {
-    this.findAll();
+    //this.findAll();
     this.loadDepartements();
     this.loadServices();
     this.loadFonctions();
@@ -97,8 +106,9 @@ export class EmployesListComponent implements OnInit {
       distinctUntilChanged(),
       switchMap((term: string) => this.service.searchEmployes(term))
     ).subscribe(employes => {
-      this.employes = employes;
+      this.employesPage.content = employes;
     });
+    this.getEmployesPage(0, 5);
   }
 
   constructor(private service: EmployeService,
@@ -107,6 +117,24 @@ export class EmployesListComponent implements OnInit {
               private serviceService: ServiceService,
               private fonctionService: FonctionService) {
   }
+
+
+  getPageNumbers(): number[] {
+    const totalPages = this.employesPage.totalPages;
+    return Array.from({ length: totalPages }, (_, i) => i);
+  }
+
+  getEmployesPage(page: number, size: number): void {
+    this.service.getEmployes(page, size).subscribe({
+      next: (page) => {
+        this.employesPage = page;
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des employés paginés:', error);
+      }
+    });
+  }
+
 
   private loadDepartements(): void {
     this.departementService.findAll().subscribe({
@@ -156,7 +184,13 @@ export class EmployesListComponent implements OnInit {
     this.service.findAll().subscribe(data => {
         this.employes = data;
         for (let employe of this.employes) {
+
+          this.base64Data = employe.image.picByte;
+          employe.image = 'data:image/jpeg;base64,' + this.base64Data;
+
+
           this.getImage(employe);
+
         }
       }
     );
@@ -196,9 +230,15 @@ export class EmployesListComponent implements OnInit {
       });
   }
 
+
+  getImage() {
+    //Make a call to Sprinf Boot to get the Image Bytes.
+    this.httpClient.get('http://localhost:8088/api/v1/image/get/' + this.selectedFile.name)
+
   getImage(employe: Employe) {
 
     this.httpClient.get('http://localhost:8088/api/v1/image/get/' + employe.image.id)
+
       .subscribe(
         res => {
           this.retrieveResponse = res;
@@ -220,9 +260,12 @@ export class EmployesListComponent implements OnInit {
       if (data > 0) {
         this.employes.push({...this.employe});
         this.employe = new Employe();
-        alert("Employé enregisté avec succès");
-      } else {
-        alert("Erreur");
+        Swal.fire({
+          title: 'Employé enregistré !',
+          icon: 'success',
+          confirmButtonText: 'OK'
+
+        });
       }
     })
   }
@@ -231,29 +274,87 @@ export class EmployesListComponent implements OnInit {
     this.employe = this.selectedEmployee;
     this.service.update().subscribe(data => {
       if (data > 0) {
+
+        this.employe = new Employe();
+        Swal.fire({
+          title: 'Modifications enregistrées !',
+          icon: 'success',
+          confirmButtonText: 'OK'
+
+        });
+      } else {
+        Swal.fire({
+          title: 'Oops , une erreur est survenue !',
+          icon: 'error',
+        });
+
         alert("Employé modifié");
         this.employe = new Employe();
       } else {
         alert("erreur")
+
       }
     })
   }
-
   public deleteByCin(employe: Employe, index: number): void {
     if (employe.cin != null) {
-      const confirmation = confirm("Êtes-vous sûr de vouloir supprimer cet employé ?");
-      if (confirmation) {
-        this.service.deleteByCin(employe.cin).subscribe(data => {
-            if (data > 0) {
-              this.employes.splice(index, 1);
-            } else {
-              alert("Erreur suppression");
-            }
-          }
-        );
-      }
+      this.service.deleteByCin(employe.cin).subscribe(data => {
+        if (data > 0) {
+          this.employes.splice(index, 1);
+          this.showThirdAlert(); // Appel du troisième alerte si la suppression est réussie
+        }
+      });
+    } else {
+      Swal.fire({
+        title: 'Oops, une erreur est survenue !',
+        icon: 'error',
+      });
     }
   }
+
+
+
+  confirmDelete(employe: Employe, index: number) {
+    Swal.fire({
+      title: 'Voulez-vous vraiment supprimer cet employé ?',
+      showDenyButton: true,
+      denyButtonText: 'Annuler',
+      confirmButtonText: 'Oui, supprimer'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.showSecondAlert(employe, index);
+      } else if (result.isDenied) {
+        console.log('Supression annulée');
+      }
+    });
+  }
+
+  showSecondAlert(employe: Employe, index: number) {
+    Swal.fire({
+      title: 'Cet employé sera supprimé de façon définitive , poursuivre ?',
+      showDenyButton: true,
+      denyButtonText: 'Annuler',
+      confirmButtonText: 'Supprimer',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.deleteByCin(employe,index);
+      } else if (result.isDenied) {
+        console.log("supression annulée");
+      }
+    });
+
+  }
+
+  showThirdAlert(): void {
+    Swal.fire({
+      title: 'Opération réussite !',
+      icon: 'success',
+      confirmButtonText: 'OK'
+
+    })
+
+  }
+
 
   get employe(): Employe {
     return this.service.employe;

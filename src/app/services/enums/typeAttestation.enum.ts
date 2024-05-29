@@ -1,4 +1,4 @@
 export enum TypeAttestation{
-  Travail,
-  Salaire
+  Travail="Travail",
+  Salaire="Salaire"
 }

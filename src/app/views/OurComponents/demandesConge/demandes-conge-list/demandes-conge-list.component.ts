@@ -1,11 +1,17 @@
 import {Component, OnInit} from '@angular/core';
 import {DemandeCongeService} from "../../../../services/services/demande-conge.service";
 import {DemandeConge} from "../../../../services/models/demande-conge.model";
-import {NgClass, NgForOf} from "@angular/common";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {StatutConge} from "../../../../services/enums/statutConge.enum";
 import {debounceTime, distinctUntilChanged, Subject, switchMap} from "rxjs";
 import {FormsModule} from "@angular/forms";
 import {EnumToStringPipe} from "../../../../services/enums/enum-to-string.pipe";
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import Swal from "sweetalert2";
+import {Page} from "../../../../services/models/page.model";
+import {Employe} from "../../../../services/models/employe.model";
+
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-demandes-conge-list',
@@ -14,23 +20,30 @@ import {EnumToStringPipe} from "../../../../services/enums/enum-to-string.pipe";
     NgForOf,
     NgClass,
     FormsModule,
-    EnumToStringPipe
+    EnumToStringPipe,
+    NgIf,
   ],
   templateUrl: './demandes-conge-list.component.html',
   styleUrl: './demandes-conge-list.component.scss'
 })
-export class DemandesCongeListComponent implements OnInit{
+export class DemandesCongeListComponent implements OnInit {
 
-  constructor(private demandeService: DemandeCongeService) {
+  constructor(private demandeService: DemandeCongeService, private modalService: NgbModal) {
   }
 
-  private selectedDemande : DemandeConge | null = null;
+  demandesPage: Page<DemandeConge> = new Page<DemandeConge>();
+
+  protected selectedDemande: DemandeConge = new DemandeConge();
 
   private searchTerms = new Subject<string>();
 
+  public motifRefus: string = '';
+
+  public StatutConge = StatutConge;
 
   ngOnInit(): void {
-    this.findAll();
+   // this.findAll();
+    this.getDemandesCongesPage(0,6);
     this.searchTerms.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -40,65 +53,144 @@ export class DemandesCongeListComponent implements OnInit{
     });
   }
 
-  public findAll():void{
-    this.demandeService.findAll().subscribe(data=>{
-      this.demandes=data;
+  getPageNumbers(): number[] {
+    const totalPages = this.demandesPage.totalPages;
+    return Array.from({ length: totalPages }, (_, i) => i);
+  }
+
+  getDemandesCongesPage(page: number, size: number): void {
+    this.demandeService.getDemandesConge(page, size).subscribe({
+      next: (page) => {
+        this.demandesPage = page;
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des demandes paginés:', error);
+      }
+    });
+  }
+
+
+  public findAll(): void {
+    this.demandeService.findAll().subscribe(data => {
+      this.demandes = data;
     })
   }
 
-  public accepter(demande:DemandeConge):void{
+  public accepter(demande: DemandeConge): void {
     if (demande.statutConge.toString() == 'Refusée') {
-      alert("Cette demande de congé est déjà refusée. Elle ne peut pas être acceptée.");
-      return;
-    }
-    this.selectedDemande = demande;
-    this.demandeService.accepter(this.selectedDemande).subscribe(data=>{
-      console.log(data);
-      alert("Demande acceptée")
-      this.findAll();
-      this.selectedDemande = new DemandeConge();
-      }
-    )
-  }
+      Swal.fire({
+        title: 'Cette demande est déja refusée !',
+        icon: 'error',
+        confirmButtonText: 'OK'
 
-  public refuser(demande:DemandeConge):void{
-    if (demande.statutConge.toString() == 'Acceptée') {
-      alert("Cette demande de congé est déjà acceptée. Elle ne peut pas être refusée.");
+      });
       return;
     }
     this.selectedDemande = demande;
-    this.demandeService.refuser(this.selectedDemande).subscribe(data=>{
+    this.demandeService.accepter(this.selectedDemande).subscribe(data => {
         console.log(data);
-        alert("Demande refusée")
-      this.findAll();
+      Swal.fire({
+        title: 'Demande acceptée !',
+        icon: 'success',
+        confirmButtonText: 'OK'
+
+      });
+        //alert("Demande acceptée")
+        this.findAll();
         this.selectedDemande = new DemandeConge();
       }
     )
   }
 
-  public supprimer(demande:DemandeConge,index:number):void{
+  public openRefusModal(demande: DemandeConge): void {
+    if (demande.statutConge.toString() === 'Acceptée') {
+      Swal.fire({
+        title: 'Cette demande est déja acceptée !',
+        icon: 'error',
+        confirmButtonText: 'OK'
+
+      });
+      return;
+    }
+    this.selectedDemande = demande;
+    this.motifRefus = '';
+
+
+    const modalElement = document.getElementById('refusModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
+
+  showDetailsDemande(demande: DemandeConge): void {
+    this.selectedDemande = demande;
+    console.log(this.selectedDemande.statutConge);
+  }
+
+  public enregistrerRefus(): void {
+    if (this.selectedDemande) {
+      this.selectedDemande.motifRefus = this.motifRefus;
+      this.selectedDemande.statutConge = StatutConge.Refusée;
+      this.demandeService.refuser(this.selectedDemande).subscribe(data => {
+        console.log(data);
+        Swal.fire({
+          title: 'Demande refusée !',
+          icon: 'success',
+          confirmButtonText: 'OK'
+
+        });
+        this.findAll();
+        this.selectedDemande = new DemandeConge();
+      });
+    }
+    const modalElement = document.getElementById('refusModal');
+    if (modalElement) {
+      const modal = bootstrap.Modal.getInstance(modalElement);
+      modal.hide();
+    }
+  }
+
+  public supprimer(demande: DemandeConge, index: number): void {
     if (demande.statutConge.toString() == 'Acceptée') {
-      alert("Cette demande de congé est déjà acceptée. Vous ne pouvez pas la supprimer.");
+      Swal.fire({
+        title: 'Cette demande est déjà acceptée ! Vous ne pouvez pas la supprimer',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
       return; // Quitter la fonction car l'utilisateur ne peut pas supprimer une demande acceptée
     }
     // Afficher une boîte de dialogue de confirmation
-    const confirmation = confirm("Voulez-vous vraiment supprimer cette demande de congé ?");
-
-    // Vérifier la réponse de l'utilisateur
-    if (confirmation) {
-      // Si l'utilisateur clique sur "OK", effectuer la suppression
-      this.demandeService.deleteConge(demande.dateDemande, demande.employe.id, demande.typeConge.libelle).subscribe(data => {
-        if (data > 0) {
-          this.demandes.splice(index, 1);
-        } else {
-          alert("Erreur suppression");
-        }
-      });
-    } else {
-      // Si l'utilisateur clique sur "Annuler", ne rien faire
-      console.log("Suppression annulée.");
-    }
+    Swal.fire({
+      title: 'Voulez-vous vraiment supprimer cette demande ?',
+      showDenyButton: true,
+      denyButtonText: 'Annuler',
+      confirmButtonText: 'Oui, supprimer'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Si l'utilisateur clique sur "OK", effectuer la suppression
+        this.demandeService.deleteConge(demande.dateDemande, demande.employe.id, demande.typeConge.libelle).subscribe(data => {
+          if (data > 0) {
+            Swal.fire({
+              title: 'Demande supprimée !',
+              icon: 'success',
+              confirmButtonText: 'OK'
+            });
+            this.demandes.splice(index, 1);
+          } else {
+            Swal.fire({
+              title: 'Oops ! Une erreur est survenue',
+              icon: 'error',
+            });
+          }
+        });
+      } else {
+        // Si l'utilisateur clique sur "Annuler", ne rien faire
+        console.log("Suppression annulée.");
+      }
+    });
   }
+
 
   search(term: string): void {
     this.searchTerms.next(term);
@@ -120,5 +212,4 @@ export class DemandesCongeListComponent implements OnInit{
     this.demandeService.demandes = value;
   }
 
-  protected readonly StatutConge = StatutConge;
 }

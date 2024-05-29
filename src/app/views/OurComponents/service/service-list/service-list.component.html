@@ -44,7 +44,7 @@
   </tr>
   </thead>
   <tbody>
-    @for (service of services; track service; let i = $index) {
+    @for (service of servicesPage.content; track service; let i = $index) {
 
       <tr>
         <td>{{ service.libelle }}</td>
@@ -87,5 +87,12 @@
     }
   </tbody>
 </table>
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end">
+    <li class="page-item" [class.disabled]="servicesPage.first"><a class="page-link" (click)="getServicePage(servicesPage.number - 1, servicesPage.size)">&laquo; Précédent</a></li>
+    <li class="page-item" *ngFor="let pageNumber of getPageNumbers()" [class.active]="pageNumber === servicesPage.number"><a class="page-link" (click)="getServicePage(pageNumber, servicesPage.size)">{{ pageNumber + 1 }}</a></li>
+    <li class="page-item" [class.disabled]="servicesPage.last"><a class="page-link" (click)="getServicePage(servicesPage.number + 1, servicesPage.size)">Suivant &raquo;</a></li>
+  </ul>
+</nav>
 
 

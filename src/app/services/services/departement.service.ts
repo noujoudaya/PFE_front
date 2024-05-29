@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Departement} from "../models/departement.model";
 import {Observable} from "rxjs";
 import {Router} from "@angular/router";
 import {Fonction} from "../models/fonction.model";
+import {Page} from "../models/page.model";
+import {DemandeConge} from "../models/demande-conge.model";
 
 
 @Injectable({
@@ -42,6 +44,14 @@ export class DepartementService {
 
   public deleteByCode(code: string): Observable<number> {
     return this.http.delete<number>(this.url + 'admin/departement/code/' + code);
+  }
+
+  public getDepartements(page: number, size: number): Observable<Page<Departement>> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<Page<Departement>>(this.url+'admin/departement/paginated', { params });
   }
 
   get departement(): Departement {

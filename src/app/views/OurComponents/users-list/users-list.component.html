@@ -1,0 +1,53 @@
+<button (click)="redirectToRegister()" type="button" class="btn btn-primary text-white"><i class="fa fa-plus fa-lg"></i> Nouveau Utilisateur</button>
+
+
+<br><br>
+<table class="table table-bordered table-hover">
+  <thead>
+  <tr>
+    <th>Employé</th>
+    <th>Login</th>
+    <th>Compte activé</th>
+    <th>Compte bloqué</th>
+    <th>Date Création</th>
+    <th>Rôles</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let user of usersPage.content; index as i">
+    <td>{{ user.firstname }} {{ user.lastname }}</td>
+    <td>{{ user.login }}</td>
+    <td>
+      <i *ngIf="user.enabled" class="fas fa-check" style="color: green;"></i>
+      <i *ngIf="!user.enabled" class="fas fa-times" style="color: red;"></i>
+    </td>
+    <td>
+      <i *ngIf="user.accountLocked" class="fas fa-check" style="color: green;"></i>
+      <i *ngIf="!user.accountLocked" class="fas fa-times" style="color: red;"></i>
+    </td>
+    <td>{{ user.createdDate | date: 'dd/MM/yyyy' }}</td>
+    <td>
+      <ul style="padding-left: 0; list-style: none;">
+        <li *ngFor="let role of user.roles">{{role.name}}</li>
+      </ul>
+    </td>
+    <td>
+      <button class="btn btn-warning btn-sm m-1" >
+        <i class="fas fa-lock" style="color: #ffffff;"></i>
+      </button>
+      <button class="btn btn-danger btn-sm m-1" (click)="confirmDelete(user,i)">
+        <i class="fas fa-trash" style="color: #ffffff;"></i>
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end">
+    <li class="page-item" [class.disabled]="usersPage.first"><a class="page-link" (click)="getPureUsersPage(usersPage.number - 1, usersPage.size)">&laquo; Précédent</a></li>
+    <li class="page-item" *ngFor="let pageNumber of getPageNumbers()" [class.active]="pageNumber === usersPage.number"><a class="page-link" (click)="getPureUsersPage(pageNumber, usersPage.size)">{{ pageNumber + 1 }}</a></li>
+    <li class="page-item" [class.disabled]="usersPage.last"><a class="page-link" (click)="getPureUsersPage(usersPage.number + 1, usersPage.size)">Suivant &raquo;</a></li>
+  </ul>
+</nav>
+

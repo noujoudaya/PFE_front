@@ -12,4 +12,6 @@ export class DemandeConge {
   statutConge: StatutConge;
   // @ts-ignore
   typeConge: TypeConge;
+  // @ts-ignore
+  motifRefus:string;
 }

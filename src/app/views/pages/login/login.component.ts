@@ -9,6 +9,7 @@ import {AuthenticationService} from "../../../services/services/authentication.s
 import {TokenService} from "../../../services/token/token.service";
 import {EmployeService} from "../../../services/services/employe.service";
 import {JwtHelperService} from "@auth0/angular-jwt";
+import Swal from "sweetalert2";
 
 @Component({
     selector: 'app-login',
@@ -60,13 +61,42 @@ export class LoginComponent {
       error: (err) => {
         console.log(err);
         if (err.error.validationErrors) {
+          // Affichage des erreurs avec SweetAlert
           this.errorMsg = err.error.validationErrors;
+          this.showSweetAlertErrors(this.errorMsg);
         } else {
+          // Affichage de l'erreur générale avec SweetAlert
           this.errorMsg.push(err.error.businessExceptionDescription);
+          this.showSweetAlertError(this.errorMsg[0]);
         }
       }
     });
   }
+
+  showSweetAlertErrors(errors: Array<string>) {
+    let errorMessage = '<ul>';
+    errors.forEach(error => {
+      errorMessage += `<li>${error}</li>`;
+    });
+    errorMessage += '</ul>';
+
+    Swal.fire({
+      title: 'Erreurs de validation',
+      html: errorMessage,
+      icon: 'error',
+      confirmButtonText: 'OK'
+    });
+  }
+
+  showSweetAlertError(error: string) {
+    Swal.fire({
+      title: 'Erreur',
+      text: error,
+      icon: 'error',
+      confirmButtonText: 'OK'
+    });
+  }
+
   register() {
     this.router.navigate(['register']);
   }

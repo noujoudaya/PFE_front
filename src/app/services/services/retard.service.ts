@@ -1,10 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Retard} from "../models/retard.model";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Absence} from "../models/absence.model";
 import value from "*.json";
 import {Employe} from "../models/employe.model";
+import {Departement} from "../models/departement.model";
+import {Page} from "../models/page.model";
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +42,18 @@ export class RetardService {
 
   public justifier(retard: Retard): Observable<string> {
     return this.http.post<string>(this.url + 'admin/retards/justifier', retard,{ responseType: 'text' as 'json' });
+  }
+
+  public findByEmployeDepartement(departement:Departement):Observable<Array<Retard>>{
+    return this.http.post<Array<Retard>>(this.url+'sup/retards/departement',departement);
+  }
+
+  public getRetards(departement:Departement,page: number, size: number): Observable<Page<Retard>> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.post<Page<Retard>>(this.url+'sup/retards/paginated',departement, { params });
   }
 
   get retard(): Retard {

@@ -15,10 +15,15 @@ import { routes } from './app.routes';
 import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi} from "@angular/common/http";
 import {HttpTokenInterceptor} from "./services/interceptor/http-token.interceptor";
 
+import { BrowserModule } from '@angular/platform-browser';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+
 import {
   provideCharts,
   withDefaultRegisterables,
 } from 'ng2-charts';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -34,7 +39,7 @@ export const appConfig: ApplicationConfig = {
       withViewTransitions(),
       withHashLocation()
     ),
-    importProvidersFrom(SidebarModule, DropdownModule),
+    importProvidersFrom(SidebarModule, DropdownModule,SweetAlert2Module.forRoot()),
     IconSetService,
     provideAnimations(),
     provideHttpClient(withInterceptorsFromDi()),
@@ -44,6 +49,7 @@ export const appConfig: ApplicationConfig = {
       multi:true
     },
     provideCharts(withDefaultRegisterables()),
-
+    FullCalendarModule,
+    SweetAlert2Module
   ]
 };

@@ -7,6 +7,8 @@ import {EmployeService} from "../../../../services/services/employe.service";
 import {Employe} from "../../../../services/models/employe.model";
 import {DemandeAttestationService} from "../../../../services/services/demande-attestation.service";
 import {DemandeAttestation} from "../../../../services/models/demande-attestation.model";
+import Swal from "sweetalert2";
+import {Page} from "../../../../services/models/page.model";
 
 @Component({
   selector: 'app-demande-attestation-emp-sec',
@@ -20,6 +22,8 @@ import {DemandeAttestation} from "../../../../services/models/demande-attestatio
 })
 export class DemandeAttestationEmpSecComponent implements OnInit {
 
+  demandesPage: Page<DemandeAttestation> = new Page<DemandeAttestation>();
+
   // @ts-ignore
   authenticatedEmploye: Employe;
   authenticatedEmpAttest: DemandeAttestation[] = [];
@@ -30,16 +34,34 @@ export class DemandeAttestationEmpSecComponent implements OnInit {
     if (storedEmployee) {
       this.authenticatedEmploye = JSON.parse(storedEmployee);
     }
-    this.findByEmploye();
+   // this.findByEmploye();
+    this.getDemandesAttestPage(this.authenticatedEmploye,0,5);
   }
 
   constructor(private employeService: EmployeService,
               private demandeService: DemandeAttestationService) {
   }
 
-  typesAttest = Object.values(TypeAttestation);
+  // @ts-ignore
+  typesAttest: string[] = Object.keys(TypeAttestation).filter(key => typeof TypeAttestation[key] === 'string');
+
   employes: Employe[] = [];
 
+  getPageNumbers(): number[] {
+    const totalPages = this.demandesPage.totalPages;
+    return Array.from({ length: totalPages }, (_, i) => i);
+  }
+
+  getDemandesAttestPage(employe:Employe,page: number, size: number): void {
+    this.demandeService.getDemandesAttestByEmploye(this.authenticatedEmploye,page, size).subscribe({
+      next: (page) => {
+        this.demandesPage = page;
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des demandes paginés:', error);
+      }
+    });
+  }
 
   private loadEmployes(): void {
     this.employeService.findAll().subscribe({
@@ -57,11 +79,18 @@ export class DemandeAttestationEmpSecComponent implements OnInit {
     demande.employe=this.authenticatedEmploye;
     this.demandeService.save(demande).subscribe(data => {
       if (data > 0) {
-        alert("Demande enregistrée");
+        Swal.fire({
+          title: 'Demande enregistrée !',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
         this.findByEmploye();
         this.demandeEmploye = new DemandeAttestation();
       } else {
-        alert("Erreur");
+        Swal.fire({
+          title: 'Oops! Une erreur est survenue',
+          icon: 'error',
+        });
       }
     });
   }
@@ -75,29 +104,45 @@ export class DemandeAttestationEmpSecComponent implements OnInit {
 
   public deleteAttest(demande: DemandeAttestation, index: number): void {
     if (demande.statutAttestation.toString() == 'En_Cours') {
-      alert("Cette demande est au cours de traitement. Vous ne pouvez pas la supprimer.");
+      Swal.fire({
+        title: 'Cette demande est au cours de traitement. Vous ne pouvez pas la supprimer.',
+        icon: 'error',
+      });
       return; // Quitter la fonction car l'utilisateur ne peut pas supprimer une demande acceptée
     } else if (demande.statutAttestation.toString() == 'Prête') {
-      alert("Cette demande est déja traitée. Vous ne pouvez pas la supprimer.");
+      Swal.fire({
+        title: 'Cette demande est déja traitée. Vous ne pouvez pas la supprimer.',
+        icon: 'error',
+      });
       return;
     }
-    const confirmation = confirm("Voulez-vous vraiment supprimer cette demande d'attestation ?");
-
-    // Vérifier la réponse de l'utilisateur
-    if (confirmation) {
-      this.demandeService.deleteAttest(demande.employe.id, demande.dateDemande).subscribe(data => {
-        if (data > 0) {
-          this.authenticatedEmpAttest.splice(index, 1);
-        }
-        else {
-          alert("Erreur suppression");
-        }
-      });
-    }
-    else {
-      // Si l'utilisateur clique sur "Annuler", ne rien faire
-      console.log("Suppression annulée.");
-    }
+    Swal.fire({
+      title: 'Voulez-vous vraiment supprimer cette demande ?',
+      showDenyButton: true,
+      denyButtonText: 'Annuler',
+      confirmButtonText: 'Oui, supprimer'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.demandeService.deleteAttest(demande.employe.id, demande.dateDemande).subscribe(data => {
+          if (data > 0) {
+            this.authenticatedEmpAttest.splice(index, 1);
+            Swal.fire({
+              title: 'Demande supprimée !',
+              icon: 'success',
+              confirmButtonText: 'OK'
+            });
+          } else {
+            Swal.fire({
+              title: 'Oops! Une erreur est survenue',
+              icon: 'error',
+            });
+          }
+        });
+      } else {
+        // Si l'utilisateur clique sur "Annuler", ne rien faire
+        console.log("Suppression annulée.");
+      }
+    });
   }
 
   get demandeEmploye(): DemandeAttestation {

@@ -31,6 +31,7 @@ import {Absence} from "../../../services/models/absence.model";
 import {AbsenceService} from "../../../services/services/absence.service";
 import {RetardService} from "../../../services/services/retard.service";
 import {Retard} from "../../../services/models/retard.model";
+import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
 
 interface IUser {
   name: string;
@@ -51,7 +52,7 @@ interface IUser {
   templateUrl: 'dashboard.component.html',
   styleUrls: ['dashboard.component.scss'],
   standalone: true,
-  imports: [WidgetsDropdownComponent, TextColorDirective, CardComponent, CardBodyComponent, RowComponent, ColComponent, ButtonDirective, IconDirective, ReactiveFormsModule, ButtonGroupComponent, FormCheckLabelDirective, ChartjsComponent, NgStyle, CardFooterComponent, GutterDirective, ProgressBarDirective, ProgressComponent, WidgetsBrandComponent, CardHeaderComponent, TableDirective, AvatarComponent, DropdownComponent, RouterLink, DropdownItemDirective, DropdownMenuDirective, DropdownToggleDirective, NgForOf]
+  imports: [WidgetsDropdownComponent, TextColorDirective, CardComponent, CardBodyComponent, RowComponent, ColComponent, ButtonDirective, IconDirective, ReactiveFormsModule, ButtonGroupComponent, FormCheckLabelDirective, ChartjsComponent, NgStyle, CardFooterComponent, GutterDirective, ProgressBarDirective, ProgressComponent, WidgetsBrandComponent, CardHeaderComponent, TableDirective, AvatarComponent, DropdownComponent, RouterLink, DropdownItemDirective, DropdownMenuDirective, DropdownToggleDirective, NgForOf, SweetAlert2Module]
 })
 export class DashboardComponent implements OnInit {
 

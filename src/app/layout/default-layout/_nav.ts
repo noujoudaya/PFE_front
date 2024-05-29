@@ -12,7 +12,7 @@ export const navItems: INavData[] = [
     iconComponent: {name: 'cil-user'}
   },
   {
-    name: 'Employees',
+    name: 'Employés',
     url: '/employee-list',
     iconComponent: {name: 'cil-people'},
 
@@ -81,16 +81,21 @@ export const navItems: INavData[] = [
 
   },
   {
-    name: 'Users',
-    url: 'users',
+    name: 'Utilisateurs',
+    url: '/users/list',
     iconComponent: {name: 'cil-user'},
-    children: [
-      {
-        name: 'Ajouter',
-        url: '/register',
-        icon: 'nav-icon-bullet'
-      }
-    ]
+    //children: [
+      //{
+        //name: 'Ajouter',
+        //url: '/register',
+        //icon: 'nav-icon-bullet'
+      //},
+      //{
+        //name: 'Liste utilisateurs',
+        //url: '/users/list',
+        //icon: 'nav-icon-bullet'
+      //}
+    //]
 
   },
   {
